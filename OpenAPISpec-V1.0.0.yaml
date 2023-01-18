@@ -1,0 +1,3676 @@
+openapi: 3.0.0
+info:
+  description: |
+    This is the API spec sheet for accessing Baby Galago endpoints
+  version: "1.0.0"
+  title: Baby Galago API
+  contact:
+    email: support@galago.tech
+    name: Galago Tech Support
+  license:
+    name: GPL V3
+    url: 'https://www.gnu.org/licenses/gpl-3.0.en.html'
+servers:
+  - url: 'http://alpha.galago.tech'
+  - url: 'http://localhost'
+tags:
+  - name: general
+    description: All endpoints for general functions
+  - name: tasks
+    description: All endpoints for scheduled tasks
+  - name: settings
+    description: All endpoints for settings
+  - name: queue
+    description: All endpoints for queue
+  - name: notifications
+    description: All endpoints for notifications
+  - name: news
+    description: All endpoints for news
+  - name: login
+    description: All endpoints for logging in
+  - name: user
+    description: All endpoints for user accounts
+  - name: ratings
+    description: All endpoints for ratings
+  - name: play
+    description: Plays media
+  - name: mediaType
+    description: All endpoints for media
+paths:
+  /v1/version:
+    get:
+      tags:
+        - general
+      summary: Get server version
+      operationId: version
+      parameters:
+        - name: authorization
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Returns the servers version
+          content:
+            text/plain:
+              schema:
+                type: string
+    options:
+      tags:
+        - general
+      summary: Get options
+      description: Show all options for the version endpoint
+      operationId: optionsVersion
+      responses:
+        '200':
+          description: Returns with the allow header, which outlines the available methods
+  /v1/version/latest:
+    get:
+      tags:
+        - general
+      summary: Get latest available server version
+      operationId: version
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Returns the latest available servers version
+          content:
+            text/plain:
+              schema:
+                type: string
+    options:
+      tags:
+        - general
+      summary: Get options
+      description: Show all options for the latest version endpoint
+      operationId: optionsVersionLatest
+      responses:
+        '200':
+          description: Displays available options
+  /v1/update:
+    put:
+      tags:
+        - general
+      summary: Attempts to update the server
+      operationId: update
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The server is going to update
+        '204':
+          description: The server is already at the latest version
+      security:
+        - Authorization: [ ]
+    options:
+      tags:
+        - general
+      summary: Get options
+      description: Show all options for the update endpoint
+      operationId: optionsUpdate
+      responses:
+        '200':
+          description: Displays available options
+  /v1/upload:
+    post:
+      tags:
+        - general
+      summary: Upload files
+      description: Upload files to the server
+      operationId: uploadFile
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: mediaType
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/UploadMediaTypeEnum'
+        - name: uploadType
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/UploadTypeEnum'
+      requestBody:
+        $ref: '#/components/requestBodies/UploadRequestBody'
+      responses:
+        '200':
+          description: Upload successful. It will return whatever has been uploaded as JSON (movie, tv, game, song, book)
+        '400':
+          description: Invalid upload
+        '401':
+          description: Your authorization token is invalid
+        '503':
+          description: Upload has been disabled by the admin
+      security:
+        - Authorization: [ ]
+    options:
+      tags:
+        - general
+      summary: Get options
+      description: Show all options for the upload endpoint
+      operationId: optionsUpload
+      responses:
+        '200':
+          description: Returns the allow header with available methods
+  /v1/search:
+    get:
+      tags:
+        - general
+      summary: Search the database
+      operationId: search
+      parameters:
+        - name: query
+          in: query
+          description: The exact name of the entity
+          required: true
+          schema:
+            type: string
+        - name: type
+          in: query
+          description: The type of media
+          required: true
+          schema:
+            $ref: '#/components/schemas/MediaTypeEnum'
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        '404':
+          description: No entries matching your terms were found in the database
+        '200':
+          description: Returns the search page results
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageSearchEntity'
+        '501':
+          description: You are not authorized to access this
+      security:
+        - Authorization: [ ]
+    options:
+      tags:
+        - general
+      summary: Get options
+      description: Show all options for the search endpoint
+      operationId: optionsSearch
+      responses:
+        '200':
+          description: Returns allow header with available methods
+
+  /v1/tasks/{taskType}:
+    get:
+      tags:
+        - tasks
+      summary: Get task status
+      operationId: getTask
+      parameters:
+        - name: taskType
+          in: path
+          description: The task type (eg. book, game, etc)
+          required: true
+          schema:
+            $ref: '#/components/schemas/BaseMediaTypeEnum'
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Returns the task status
+          content:
+            application/json:
+              schema:
+                type: string
+      security:
+        - Authorization: [ ]
+    put:
+      tags:
+        - tasks
+      summary: Turns on the task
+      description: This can only be done by admins
+      operationId: putTask
+      parameters:
+        - name: taskType
+          in: path
+          description: The task type (eg. book, game, etc)
+          required: true
+          schema:
+            $ref: '#/components/schemas/BaseMediaTypeEnum'
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The task has been turned on
+        '500':
+          description: The task failed to start
+      security:
+        - Authorization: [ ]
+    delete:
+      tags:
+        - tasks
+      summary: Turns the task off
+      description: This can only be done by admins
+      operationId: deleteTask
+      parameters:
+        - name: taskType
+          in: path
+          description: The task type (eg. book, game, etc)
+          required: true
+          schema:
+            $ref: '#/components/schemas/BaseMediaTypeEnum'
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The task was turned off
+        '500':
+          description: Failed to turn the task off
+      security:
+        - Authorization: [ ]
+    options:
+      tags:
+        - tasks
+      summary: Get options
+      description: Show all options for the task endpoint
+      operationId: optionsTask
+      parameters:
+        - name: taskType
+          in: path
+          description: The task type (eg. book, game, etc)
+          required: true
+          schema:
+            $ref: '#/components/schemas/BaseMediaTypeEnum'
+      responses:
+        '200':
+          description: Displays available options
+
+  /v1/settings:
+    get:
+      tags:
+        - settings
+      summary: Get all settings
+      operationId: getSettings
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Operation successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SettingsEntity'
+      security:
+        - Authorization: [ ]
+    post:
+      tags:
+        - settings
+      summary: Save the settings
+      description: This can only be done by admins and only updates the properties that have changed
+      operationId: postSettings
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Settings successfully saved
+        '400':
+          description: Invalid setting supplied
+      requestBody:
+        $ref: '#/components/requestBodies/SettingsRequestBody'
+      security:
+        - Authorization: [ ]
+    patch:
+      tags:
+        - settings
+      summary: Patch the settings
+      description: This can only be done by admins and only updates the properties that have changed
+      operationId: patchSettings
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Settings successfully patched
+        '400':
+          description: Invalid setting supplied
+      requestBody:
+        $ref: '#/components/requestBodies/SettingsRequestBody'
+      security:
+        - Authorization: [ ]
+    options:
+      tags:
+        - settings
+      summary: Get options
+      description: Show all options for the settings endpoint
+      operationId: optionsSettings
+      responses:
+        '200':
+          description: Displays available options
+  /v1/settings/{settingsId}:
+    get:
+      tags:
+        - settings
+      summary: Get all settings
+      operationId: getUserSettings
+      parameters:
+        - name: settingsId
+          in: path
+          description: The id of the settings
+          required: true
+          schema:
+            type: string
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Operation successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserSettingsEntity'
+      security:
+        - Authorization: [ ]
+    patch:
+      tags:
+        - settings
+      summary: Patch the user settings
+      description: This only updates the properties that have changed
+      operationId: patchUserSettings
+      parameters:
+        - name: settingsId
+          in: path
+          description: The id of the settings
+          required: true
+          schema:
+            type: string
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Settings successfully patched
+        '400':
+          description: Invalid setting supplied
+      requestBody:
+        $ref: '#/components/requestBodies/UserSettingsRequestBody'
+      security:
+        - Authorization: [ ]
+    delete:
+      tags:
+        - settings
+      summary: Delete user settings
+      description: This can only be done by admins or the user
+      operationId: deleteSettingsForUser
+      parameters:
+        - name: settingsId
+          in: path
+          description: The id of the settings that are to be deleted
+          required: true
+          schema:
+            type: string
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: User settings have been deleted
+        '400':
+          description: Invalid id supplied
+        '404':
+          description: Settings not found
+      security:
+        - Authorization: [ ]
+    options:
+      tags:
+        - settings
+      summary: Get options
+      description: Show all options for the user settings endpoint
+      operationId: optionsSettingsUser
+      responses:
+        '200':
+          description: Displays available options
+
+  /v1/queue:
+    put:
+      tags:
+        - queue
+      summary: Add an item to the queue
+      description: This can only be done by admins
+      operationId: putQueue
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The queue item has been added
+        '400':
+          description: Invalid queue item supplied
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QueueEntity'
+        required: true
+      security:
+        - Authorization: [ ]
+    post:
+      tags:
+        - queue
+      summary: Create queue item
+      description: This can only be done by admins
+      operationId: createQueue
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Operation successful
+        '400':
+          description: Invalid content provided
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QueueEntity'
+        description: Created queue item
+        required: true
+      security:
+        - Authorization: [ ]
+    get:
+      tags:
+        - queue
+      summary: Get all queue items
+      operationId: getQueue
+      parameters:
+        - name: page
+          in: query
+          required: false
+          schema:
+            type: integer
+        - name: pageSize
+          in: query
+          required: false
+          schema:
+            type: integer
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Operation successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageQueueEntity'
+        '404':
+          description: Nothing in the queue
+      security:
+        - Authorization: [ ]
+    options:
+      tags:
+        - queue
+      summary: Get options
+      description: Show all options for the queue endpoint
+      operationId: optionsQueue
+      responses:
+        '200':
+          description: Displays available options
+  '/v1/queue/{queueId}':
+    delete:
+      tags:
+        - queue
+      summary: Delete a queue item
+      description: This can only be done by admins
+      operationId: deleteQueueById
+      parameters:
+        - name: queueId
+          in: path
+          description: The id of the queue item that needs to be deleted
+          required: true
+          schema:
+            type: string
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Queue item has been deleted
+        '400':
+          description: Invalid id supplied
+        '404':
+          description: Queue item not found
+      security:
+        - Authorization: [ ]
+    options:
+      tags:
+        - queue
+      summary: Get options
+      description: Show all options for the queue id endpoint
+      operationId: optionsQueueById
+      responses:
+        '200':
+          description: Displays available options
+
+  /v1/notifications:
+    put:
+      tags:
+        - notifications
+      summary: Add a notification
+      description: This can only be done by admins
+      operationId: putNotification
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The notification has been added
+        '400':
+          description: Invalid notification supplied
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NotificationEntity'
+        required: true
+      security:
+        - Authorization: [ ]
+    post:
+      tags:
+        - notifications
+      summary: Create a notification
+      description: This can only be done by admins
+      operationId: createNotification
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Operation successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationEntity'
+        '400':
+          description: Invalid content provided
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NotificationEntity'
+        description: Created news object
+        required: true
+      security:
+        - Authorization: [ ]
+    get:
+      tags:
+        - notifications
+      summary: Gets all notifications for the user
+      operationId: getNotifications
+      parameters:
+        - name: page
+          in: query
+          required: false
+          schema:
+            type: integer
+        - name: pageSize
+          in: query
+          required: false
+          schema:
+            type: integer
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageNotificationEntity'
+        '404':
+          description: No notifications exist
+      security:
+        - Authorization: [ ]
+    options:
+      tags:
+        - notifications
+      summary: Get options
+      description: Show all options for the notifications endpoint
+      operationId: optionsNotifications
+      responses:
+        '200':
+          description: Displays available options
+  '/v1/notifications/{notificationId}':
+    delete:
+      tags:
+        - notifications
+      summary: Delete a notification
+      description: This can only be done by admins
+      operationId: deleteNotificationById
+      parameters:
+        - name: notificationId
+          in: path
+          description: The id of the notification that needs to be deleted
+          required: true
+          schema:
+            type: string
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Notification has been deleted
+        '400':
+          description: Invalid id supplied
+        '404':
+          description: Queue item not found
+      security:
+        - Authorization: [ ]
+    get:
+      tags:
+        - notifications
+      summary: Gets all notifications for the user
+      operationId: getNotificationById
+      parameters:
+        - name: notificationId
+          in: path
+          description: The id of the notification that needs to be deleted
+          required: true
+          schema:
+            type: string
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationEntity'
+        '404':
+          description: No notifications exist
+      security:
+        - Authorization: [ ]
+    options:
+      tags:
+        - notifications
+      summary: Get options
+      description: Show all options for the notification endpoint
+      operationId: optionsNotification
+      responses:
+        '200':
+          description: Displays available options
+
+  /v1/news:
+    put:
+      tags:
+        - news
+      summary: Add a news article
+      description: This can only be done by admins
+      operationId: putNews
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The news article has been updated
+        '400':
+          description: Invalid news supplied
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewsArticleEntity'
+        description: Updated news object
+        required: true
+      security:
+        - Authorization: [ ]
+    post:
+      tags:
+        - news
+      summary: Create news
+      description: This can only be done by admins
+      operationId: createNews
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Operation successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NewsArticleEntity'
+        '400':
+          description: Invalid content provided
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewsArticleEntity'
+        description: Created news object
+        required: true
+      security:
+        - Authorization: [ ]
+    patch:
+      tags:
+        - news
+      summary: Patch a news article
+      description: This can only be done by admins and only updates the properties that have changed
+      operationId: patchNews
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The article has been patched
+        '400':
+          description: Invalid article supplied
+        '404':
+          description: Article not found
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewsArticleEntity'
+        description: Updated news object
+        required: true
+      security:
+        - Authorization: [ ]
+    get:
+      tags:
+        - news
+      summary: Get news articles
+      operationId: getNews
+      parameters:
+        - name: page
+          in: query
+          required: false
+          schema:
+            type: integer
+        - name: pageSize
+          in: query
+          required: false
+          schema:
+            type: integer
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Operation successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageNewsArticleEntity'
+        '400':
+          description: Invalid id supplied
+        '404':
+          description: No news articles to show
+      security:
+        - Authorization: [ ]
+    options:
+      tags:
+        - news
+      summary: Get options
+      description: Show all options for the news endpoint
+      operationId: optionsNews
+      responses:
+        '200':
+          description: Displays available options
+  '/v1/news/{newsId}':
+    get:
+      tags:
+        - news
+      summary: Get news by news id
+      operationId: getNewsById
+      parameters:
+        - name: newsId
+          in: path
+          description: The id of the article
+          required: true
+          schema:
+            type: string
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Operation successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NewsArticleEntity'
+        '400':
+          description: Invalid id supplied
+        '404':
+          description: News not found
+      security:
+        - Authorization: [ ]
+    delete:
+      tags:
+        - news
+      summary: Delete news
+      description: This can only be done by admins
+      operationId: deleteNewsById
+      parameters:
+        - name: newsId
+          in: path
+          description: The id of the news articles that needs to be deleted
+          required: true
+          schema:
+            type: string
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: News article has been deleted
+        '400':
+          description: Invalid id supplied
+        '404':
+          description: News not found
+      security:
+        - Authorization: [ ]
+    options:
+      tags:
+        - news
+      summary: Get options
+      description: Show all options for the news by id endpoint
+      operationId: optionsNewsById
+      responses:
+        '200':
+          description: Displays available options
+
+  /v1/login:
+    get:
+      tags:
+        - login
+      summary: Logs user into the system
+      operationId: loginUser
+      parameters:
+        - name: username
+          in: query
+          description: The user name for login
+          required: true
+          schema:
+            type: string
+        - name: password
+          in: query
+          description: The password for login in clear text
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserAPIEntity'
+        '400':
+          description: Invalid credentials
+    options:
+      tags:
+        - login
+      summary: Get options
+      description: Show all options for the login endpoint
+      operationId: optionsLogin
+      responses:
+        '200':
+          description: Displays available options
+
+  /v1/user:
+    get:
+      tags:
+        - user
+      summary: Get all users
+      operationId: getUsers
+      parameters:
+        - name: page
+          in: query
+          required: false
+          schema:
+            type: integer
+        - name: pageSize
+          in: query
+          required: false
+          schema:
+            type: integer
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Operation successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageUserEntity'
+        '400':
+          description: Invalid id supplied
+        '404':
+          description: No users to show
+      security:
+        - Authorization: [ ]
+    post:
+      tags:
+        - user
+      summary: Create user
+      description: Creates a new user and generates an API key
+      operationId: createUser
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: User successfully created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserEntity'
+        '400':
+          description: Failed to create user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserEntity'
+        description: Created user object
+        required: true
+      security:
+        - Authorization: [ ]
+    put:
+      tags:
+        - user
+      summary: Adds a user
+      description: This can only be done by the logged in user.
+      operationId: putUser
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successfully added the user
+        '400':
+          description: Invalid user supplied
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserEntity'
+        description: Updated user object
+        required: true
+      security:
+        - Authorization: [ ]
+    patch:
+      tags:
+        - user
+      summary: Patch a user
+      description: This can only be done by the logged in user. It only updates that properties that have changed
+      operationId: patchUser
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: User successfully patched
+        '400':
+          description: Invalid user supplied
+        '404':
+          description: User not found
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserEntity'
+        description: Updated user object
+        required: true
+      security:
+        - Authorization: [ ]
+    options:
+      tags:
+        - user
+      summary: Get options
+      description: Show all options for the users endpoint
+      operationId: optionsUsers
+      responses:
+        '200':
+          description: Displays available options
+  '/v1/user/{userId}':
+    get:
+      tags:
+        - user
+      summary: Get user by id
+      operationId: getUserById
+      parameters:
+        - name: userId
+          in: path
+          description: The id of the user that needs to be fetched
+          required: true
+          schema:
+            type: string
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserEntity'
+        '400':
+          description: Invalid username supplied
+        '404':
+          description: User not found
+      security:
+        - Authorization: [ ]
+    delete:
+      tags:
+        - user
+      summary: Delete user
+      description: This can only be done by the logged in user.
+      operationId: deleteUser
+      parameters:
+        - name: userId
+          in: path
+          description: The id of the user that needs to be deleted
+          required: true
+          schema:
+            type: string
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        '400':
+          description: Invalid username supplied
+        '404':
+          description: User not found
+      security:
+        - Authorization: [ ]
+    post:
+      tags:
+        - user
+      summary: Generate api key
+      description: Generates a new API key
+      operationId: generateKey
+      parameters:
+        - name: userId
+          in: path
+          description: The id of the user that needs to be deleted
+          required: true
+          schema:
+            type: string
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The new api key
+          content:
+            text/plain:
+              schema:
+                type: string
+        '400':
+          description: Failed to generate a new api key
+      security:
+        - Authorization: [ ]
+    options:
+      tags:
+        - user
+      summary: Get options
+      description: Show all options for the user endpoint
+      operationId: optionsUser
+      responses:
+        '200':
+          description: Displays available options
+
+  '/v1/ratings/{ratingId}':
+    get:
+      tags:
+        - ratings
+      summary: Media rating
+      description: Gets a media rating
+      operationId: getMediaRatingById
+      parameters:
+        - name: ratingId
+          in: path
+          description: ID of the media rating to patch
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Operation successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RatingEntity'
+        '400':
+          description: Supplied ID is invalid
+        '404':
+          description: Media rating was not found
+      security:
+        - Authorization: [ ]
+    patch:
+      tags:
+        - ratings
+      summary: Patch an existing media rating
+      operationId: patchMediaRating
+      parameters:
+        - name: ratingId
+          in: path
+          description: ID of the media rating to patch
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successfully updated
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Media rating not found
+      requestBody:
+        $ref: '#/components/requestBodies/RatingRequestBody'
+      description: Takes in a media rating object as a JSON body, then modifies the entry in the database
+      security:
+        - Authorization: [ ]
+    delete:
+      tags:
+        - ratings
+      summary: Deletes a media rating
+      operationId: deleteMediaRating
+      parameters:
+        - name: mediaId
+          in: path
+          description: ID of the media
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: ratingId
+          in: path
+          description: ID of the rating to delete
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '400':
+          description: Supplied ID is invalid
+        '404':
+          description: Media or rating not found
+        '200':
+          description: The media rating has been found and was successfully deleted
+      security:
+        - Authorization: [ ]
+    put:
+      tags:
+        - ratings
+      summary: Add new media rating to the database
+      operationId: putMediaRating
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successfully added
+        '400':
+          description: Invalid input
+      requestBody:
+        $ref: '#/components/requestBodies/RatingRequestBody'
+      description: Takes in a media rating object as a JSON body, then adds it to the database
+      security:
+        - Authorization: [ ]
+    post:
+      tags:
+        - ratings
+      summary: Add new media rating to the database
+      operationId: postMediaRating
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successfully added
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RatingEntity'
+        '400':
+          description: Invalid input
+      requestBody:
+        $ref: '#/components/requestBodies/RatingRequestBody'
+      description: Takes in a media rating object as a JSON body, then adds it to the database
+      security:
+        - Authorization: [ ]
+    options:
+      tags:
+        - ratings
+      summary: Get options
+      description: Show all options for the ratings endpoint
+      operationId: optionsRatings
+      responses:
+        '200':
+          description: Displays available options
+
+  /v1/{mediaType}/{mediaId}/play:
+    get:
+      tags:
+        - play
+      summary: Plays media
+      operationId: playMediaById
+      parameters:
+        - name: mediaType
+          in: path
+          description: The type of media you wish to play / view / download
+          required: true
+          schema:
+            type: string
+        - name: mediaId
+          in: path
+          description: The id of media you wish to play / view / download
+          required: true
+          schema:
+            type: string
+      responses:
+        '404':
+          description: No there is no media found with that id
+        '200':
+          description: The media was found
+          content:
+            image/*:
+              schema:
+                type: string
+                format: binary
+            video/*:
+              schema:
+                type: string
+                format: binary
+            audio/*:
+              schema:
+                type: string
+                format: binary
+      security:
+        - Authorization: [ ]
+
+  /v1/{mediaType}:
+    get:
+      tags:
+        - mediaType
+      summary: Browse the media database
+      operationId: getMedia
+      parameters:
+        - name: mediaType
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: page
+          in: query
+          required: false
+          schema:
+            type: integer
+        - name: pageSize
+          in: query
+          required: false
+          schema:
+            type: integer
+        - name: type
+          in: query
+          description: The type of browsing (new, popular). Default is to browse alphabetically
+          required: false
+          schema:
+            $ref: '#/components/schemas/BrowseTypeEnum'
+        - name: startYear
+          in: query
+          description: Items created AFTER this year
+          required: false
+          schema:
+            type: string
+        - name: endYear
+          in: query
+          description: Items created BEFORE this year
+          required: false
+          schema:
+            type: string
+        - name: genre
+          in: query
+          description: Items with this genre
+          required: false
+          schema:
+            type: string
+        - name: rating
+          in: query
+          description: Items with this rating or higher
+          required: false
+          schema:
+            type: integer
+        - name: sortBy
+          in: query
+          description: Sort the results by
+          required: false
+          schema:
+            $ref: '#/components/schemas/SortByEnum'
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        '404':
+          description: Media not found
+        '200':
+          description: Operation successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageMediaEntity'
+      security:
+        - Authorization: [ ]
+    post:
+      tags:
+        - mediaType
+      summary: Add new media type to the database
+      operationId: addMedia
+      parameters:
+        - name: mediaType
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successfully added
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MediaEntity'
+        '400':
+          description: Invalid input
+      requestBody:
+        $ref: '#/components/requestBodies/MediaRequestBody'
+      description: Takes in a media object as a JSON body, then adds it to the database
+      security:
+        - Authorization: [ ]
+    put:
+      tags:
+        - mediaType
+      summary: Update existing media
+      description: Takes in a media type as a JSON body, then modifies the entry in the database with that which has been provided
+      operationId: updateMedia
+      parameters:
+        - name: mediaType
+          in: path
+          description: The type of media you wish to load
+          required: true
+          schema:
+            $ref: '#/components/schemas/MediaTypeEnum'
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successfully updated
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Media not found
+      requestBody:
+        $ref: '#/components/requestBodies/MediaRequestBody'
+      security:
+        - Authorization: [ ]
+    patch:
+      tags:
+        - mediaType
+      summary: Patch existing media
+      operationId: patchMedia
+      parameters:
+        - name: mediaType
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successfully update
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Media not found
+      requestBody:
+        $ref: '#/components/requestBodies/MediaRequestBody'
+      description: Takes in a media object as a JSON body, then modifies the entry in the database
+      security:
+        - Authorization: [ ]
+    options:
+      tags:
+        - mediaType
+      summary: Get options
+      description: Show all options for the mediaType endpoint
+      operationId: optionsMediaType
+      responses:
+        '200':
+          description: Displays available options
+  /v1/{mediaType}/sample:
+    get:
+      tags:
+        - mediaType
+      summary: Get a sample JSON of the media
+      operationId: getMediaSample
+      parameters:
+        - name: mediaType
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Sends a sample of the requested media
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MediaEntity'
+  /v1/{mediaType}/deleteindex:
+    put:
+      tags:
+        - mediaType
+      summary: Deletes all indexes for media type
+      description: This deletes all indexes for the provided media type
+      operationId: mediaTypeDeleteIndex
+      parameters:
+        - name: mediaType
+          in: path
+          description: The type of media you wish to load
+          required: true
+          schema:
+            $ref: '#/components/schemas/MediaTypeEnum'
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successfully updated
+        '404':
+          description: Media type not found
+      security:
+        - Authorization: [ ]
+    options:
+      tags:
+        - mediaType
+      summary: Get options
+      description: Show all options for the mediaType delete index endpoint
+      operationId: optionsMediaTypeDeleteIndex
+      responses:
+        '200':
+          description: Displays available options
+  /v1/{mediaType}/reindex:
+    put:
+      tags:
+        - mediaType
+      summary: Indexes all entries in the database
+      description: Loads all entries from the database and reindexes them
+      operationId: mediaTypeReIndex
+      parameters:
+        - name: mediaType
+          in: path
+          description: The type of media you wish to load
+          required: true
+          schema:
+            $ref: '#/components/schemas/MediaTypeEnum'
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successfully updated
+        '404':
+          description: Media type not found
+      security:
+        - Authorization: [ ]
+    options:
+      tags:
+        - mediaType
+      summary: Get options
+      description: Show all options for the mediaType reindex endpoint
+      operationId: optionsMediaTypeReIndex
+      responses:
+        '200':
+          description: Displays available options
+  '/v1/{mediaType}/{mediaId}':
+    get:
+      tags:
+        - mediaType
+      summary: Find media by its ID
+      description: Returns a single media type
+      operationId: getMediaById
+      parameters:
+        - name: mediaType
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: mediaId
+          in: path
+          description: ID of the movie to return
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Operation successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MediaEntity'
+        '400':
+          description: Supplied ID is invalid
+        '404':
+          description: Media not found
+      security:
+        - Authorization: [ ]
+    delete:
+      tags:
+        - mediaType
+      summary: Deletes media
+      operationId: deleteMedia
+      parameters:
+        - name: mediaType
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: mediaId
+          in: path
+          description: ID of the media to delete
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '400':
+          description: Supplied ID is invalid
+        '404':
+          description: Media not found
+        '200':
+          description: The media has been found and was successfully deleted
+      security:
+        - Authorization: [ ]
+    options:
+      tags:
+        - mediaType
+      summary: Get options
+      description: Show all options for the mediaType by id endpoint
+      operationId: optionsMediaTypeById
+      responses:
+        '200':
+          description: Displays available options
+  '/v1/{mediaType}/{mediaId}/ratings':
+    get:
+      tags:
+        - mediaType
+      summary: Media rating
+      description: Gets media ratings
+      operationId: getMediaRatings
+      parameters:
+        - name: mediaType
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: mediaId
+          in: path
+          description: ID of the movie to return
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Operation successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageRatingEntity'
+        '400':
+          description: Supplied ID is invalid
+        '404':
+          description: Media rating was not found
+      security:
+        - Authorization: [ ]
+    options:
+      tags:
+        - mediaType
+      summary: Get options
+      description: Show all options for the mediaType ratings by id endpoint
+      operationId: optionsMediaTypeRatingsById
+      responses:
+        '200':
+          description: Displays available options
+components:
+  schemas:
+    ArtistEntity:
+      description: A music artist
+      properties:
+        created:
+          description: The time when the entity was created
+          type: string
+          format: date
+        updated:
+          description: The time when the entity was last updated
+          type: string
+          format: date
+        id:
+          description: The numeric identifier of the artist
+          type: integer
+          format: int64
+        name:
+          description: The name of the artist
+          type: string
+        primaryImage:
+          $ref: '#/components/schemas/ImageEntity'
+        otherImages:
+          type: array
+          items:
+            $ref: '#/components/schemas/ImageEntity'
+        members:
+          description: The people that make up the band
+          type: array
+          items:
+            $ref: '#/components/schemas/PersonEntity'
+        albums:
+          description: The albums created by the artist
+          type: array
+          items:
+            $ref: '#/components/schemas/AlbumEntity'
+        views:
+          description: The number of views
+          type: integer
+          format: int64
+    AlbumEntity:
+      description: A music album
+      properties:
+        created:
+          description: The time when the entity was created
+          type: string
+          format: date
+        updated:
+          description: The time when the entity was last updated
+          type: string
+          format: date
+        id:
+          description: The numeric identifier for the album
+          type: integer
+          format: int64
+        name:
+          description: The name of the album
+          type: string
+        poster:
+          $ref: '#/components/schemas/ImageEntity'
+        otherImages:
+          type: array
+          items:
+            $ref: '#/components/schemas/ImageEntity'
+        releaseDate:
+          description: The date when the album was released
+          type: string
+          format: date
+        artists:
+          description: The artist(s) that made the album
+          type: array
+          items:
+            $ref: '#/components/schemas/ArtistEntity'
+        songs:
+          description: The songs on the album
+          type: array
+          items:
+            $ref: '#/components/schemas/SongEntity'
+        views:
+          description: The number of views
+          type: integer
+          format: int64
+    BookEntity:
+      description: A book
+      properties:
+        created:
+          description: The time when the entity was created
+          type: string
+          format: date
+        updated:
+          description: The time when the entity was last updated
+          type: string
+          format: date
+        id:
+          description: The numeric identifier of the book
+          type: integer
+          format: int64
+        poster:
+          $ref: '#/components/schemas/ImageEntity'
+        otherImages:
+          description: The lcoation of other images on the disk
+          type: array
+          items:
+            $ref: '#/components/schemas/ImageEntity'
+        title:
+          description: The title of the book
+          type: string
+        description:
+          description: The description / short summary of the book
+          type: string
+        file:
+          $ref: '#/components/schemas/FileEntity'
+        pageCount:
+          description: The number of pages in the book
+          type: integer
+        authors:
+          description: The person(s) who wrote the book
+          type: array
+          items:
+            $ref: '#/components/schemas/PersonEntity'
+        views:
+          description: The number of views
+          type: integer
+          format: int64
+    CharacterEntity:
+      description: A character played by a person
+      properties:
+        created:
+          description: The time when the entity was created
+          type: string
+          format: date
+        updated:
+          description: The time when the entity was last updated
+          type: string
+          format: date
+        id:
+          description: The numeric identifier of the character
+          type: integer
+          format: int64
+        title:
+          description: The title of the character (eg. doctor, sir, lord, etc)
+          type: string
+        firstName:
+          description: The characters first name
+          type: string
+        middleName:
+          description: The characters middle name(s)
+          type: string
+        lastName:
+          description: The characters last name
+          type: string
+        birthday:
+          description: The birthday of the character
+          type: string
+          format: date
+        alias:
+          description: Another name that the character is known by (eg. nickname)
+          type: string
+        playedBy:
+          $ref: '#/components/schemas/PersonEntity'
+        views:
+          description: The number of views
+          type: integer
+          format: int64
+    CompanyEntity:
+      description: A company
+      properties:
+        created:
+          description: The time when the entity was created
+          type: string
+          format: date
+        updated:
+          description: The time when the entity was last updated
+          type: string
+          format: date
+        id:
+          description: The numeric identifier of the company
+          type: integer
+          format: int64
+        name:
+          description: The name of the company
+          type: string
+        views:
+          description: The number of views
+          type: integer
+          format: int64
+    EpisodeEntity:
+      description: A TV show
+      properties:
+        created:
+          description: The time when the entity was created
+          type: string
+          format: date
+        updated:
+          description: The time when the entity was last updated
+          type: string
+          format: date
+        id:
+          description: The numeric identifier of the tv show
+          type: integer
+          format: int64
+        name:
+          description: The name of the show
+          type: string
+        description:
+          description: A brief description of the show
+          type: string
+        firstAired:
+          description: When the show first aired
+          type: string
+          format: date
+        runtime:
+          description: How long the episodes usually are
+          type: integer
+          format: int32
+        genres:
+          description: The genre of the show
+          type: array
+          items:
+            $ref: '#/components/schemas/TvShowGenreEnum'
+        filmLocations:
+          description: Where the show was filmed
+          type: array
+          items:
+            $ref: '#/components/schemas/LocationEntity'
+        languages:
+          description: The native language of the show
+          type: string
+        seasons:
+          description: The list of seasons
+          type: array
+          items:
+            $ref: '#/components/schemas/SeasonEntity'
+        trailer:
+          $ref: '#/components/schemas/VideoEntity'
+        otherVideos:
+          description: Other relevant videos
+          type: array
+          items:
+            $ref: '#/components/schemas/VideoEntity'
+        primaryImage:
+          $ref: '#/components/schemas/ImageEntity'
+        otherImages:
+          description: Other relevant images
+          type: array
+          items:
+            $ref: '#/components/schemas/ImageEntity'
+        views:
+          description: The number of views
+          type: integer
+          format: int64
+    FileEntity:
+      description: A TV show
+      properties:
+        created:
+          description: The time when the entity was created
+          type: string
+          format: date
+        updated:
+          description: The time when the entity was last updated
+          type: string
+          format: date
+        id:
+          description: The numeric identifier of the tv show
+          type: integer
+          format: int64
+        views:
+          description: The number of views
+          type: integer
+          format: int64
+        path:
+          description: The path on disk
+          type: string
+    GameEngineEntity:
+      description: A game
+      properties:
+        created:
+          description: The time when the entity was created
+          type: string
+          format: date
+        updated:
+          description: The time when the entity was last updated
+          type: string
+          format: date
+        id:
+          description: The numeric identifier of the game
+          type: integer
+          format: int64
+        name:
+          description: The name of the game
+          type: string
+        views:
+          description: The number of views
+          type: integer
+          format: int64
+    GamePlatformReleaseEntity:
+      description: The date that the game was released for the platform
+      properties:
+        created:
+          description: The time when the entity was created
+          type: string
+          format: date
+        updated:
+          description: The time when the entity was last updated
+          type: string
+          format: date
+        id:
+          description: The numeric identifier of the release
+          type: integer
+          format: int64
+        platform:
+          $ref: '#/components/schemas/GamePlatformEnum'
+        releaseDate:
+          description: The date that it was released
+          type: string
+          format: date
+        views:
+          description: The number of views
+          type: integer
+          format: int64
+    GameSeriesEntity:
+      description: The game series (eg. Diablo)
+      properties:
+        created:
+          description: The time when the entity was created
+          type: string
+          format: date
+        updated:
+          description: The time when the entity was last updated
+          type: string
+          format: date
+        id:
+          description: The numeric identifier of the series
+          type: integer
+          format: int64
+        name:
+          description: The name of the series
+          type: string
+        views:
+          description: The number of views
+          type: integer
+          format: int64
+    GameEntity:
+      description: A game
+      properties:
+        created:
+          description: The time when the entity was created
+          type: string
+          format: date
+        updated:
+          description: The time when the entity was last updated
+          type: string
+          format: date
+        id:
+          description: The id of the game
+          type: integer
+          format: int64
+        name:
+          description: The name of the game
+          type: string
+        description:
+          description: A description of what the game is
+          type: string
+        file:
+          $ref: '#/components/schemas/FileEntity'
+        poster:
+          $ref: '#/components/schemas/ImageEntity'
+        otherImages:
+          description: Other relevant images
+          type: array
+          items:
+            $ref: '#/components/schemas/ImageEntity'
+        trailer:
+          $ref: '#/components/schemas/VideoEntity'
+        otherVideos:
+          description: Other relevant videos
+          type: array
+          items:
+            $ref: '#/components/schemas/VideoEntity'
+        genres:
+          description: The games genre(s)
+          type: array
+          items:
+            $ref: '#/components/schemas/GameGenreEnum'
+        esrbRating:
+          $ref: '#/components/schemas/ESRBRatingEnum'
+        contentWarnings:
+          description: What types of content the player should expect (eg. smoking, nudity)
+          type: array
+          items:
+            $ref: '#/components/schemas/GameContentWarningEnum'
+        platforms:
+          description: Platforms that the game has been released for
+          type: array
+          items:
+            $ref: '#/components/schemas/GamePlatformEnum'
+        platformReleaseDates:
+          description: The date that the game was released on the platform
+          type: array
+          items:
+            $ref: '#/components/schemas/GamePlatformReleaseEntity'
+        developers:
+          description: The company that has created the game
+          type: array
+          items:
+            $ref: '#/components/schemas/CompanyEntity'
+        publishers:
+          description: The company that helped publish the game
+          type: array
+          items:
+            $ref: '#/components/schemas/CompanyEntity'
+        gameModes:
+          description: The modes that the game can be played (eg. single player, multiplayer)
+          type: array
+          items:
+            $ref: '#/components/schemas/GameModeEnum'
+        gameSeries:
+          $ref: '#/components/schemas/GameSeriesEntity'
+        gameEngine:
+          $ref: '#/components/schemas/GameEngineEntity'
+        gamePlayerPerspective:
+          description: The game characters perspective (eg. isometric, first person)
+          type: array
+          items:
+            $ref: '#/components/schemas/GamePlayerPerspectiveEnum'
+        gameUserRating:
+          description: What users have rated the game
+          type: integer
+        inAppPurchases:
+          description: Whether there are in-game purchases (eg. buying a subscription / membership)
+          type: boolean
+        microTransactions:
+          description: Whether there are in-game micro transactions (eg. buying an item or skin)
+          type: boolean
+        expectedCompletionTime:
+          description: On average, how long a player should take to complete the game
+          type: integer
+          format: int32
+        views:
+          description: The number of views
+          type: integer
+          format: int64
+    ImageEntity:
+      description: An image
+      properties:
+        created:
+          description: The time when the entity was created
+          type: string
+          format: date
+        updated:
+          description: The time when the entity was last updated
+          type: string
+          format: date
+        id:
+          description: The numeric identifier of the image
+          type: integer
+          format: int64
+        title:
+          description: The title
+          type: string
+        file:
+          $ref: '#/components/schemas/FileEntity'
+        description:
+          description: What is in the image (used for accessibility)
+          type: string
+        views:
+          description: The number of views
+          type: integer
+          format: int64
+    LocationEntity:
+      description: A specific location on earth
+      properties:
+        created:
+          description: The time when the entity was created
+          type: string
+          format: date
+        updated:
+          description: The time when the entity was last updated
+          type: string
+          format: date
+        id:
+          description: The numeric identifier of the location
+          type: integer
+          format: int64
+        name:
+          description: The name of where it is
+          type: string
+        latitude:
+          description: The latitude co-ordinates
+          type: string
+        longitude:
+          description: The longitude co-ordinates
+          type: string
+        views:
+          description: The number of views
+          type: integer
+          format: int64
+    LyricsEntity:
+      description: Lyrics to a song
+      properties:
+        created:
+          description: The time when the entity was created
+          type: string
+          format: date
+        updated:
+          description: The time when the entity was last updated
+          type: string
+          format: date
+        id:
+          description: The numeric identifier of the lyrics
+          type: integer
+          format: int64
+        data:
+          description: The lyrics
+          type: string
+        views:
+          description: The number of views
+          type: integer
+          format: int64
+        language:
+          $ref: '#/components/schemas/LanguagesEnum'
+    MediaEntity:
+      oneOf:
+        - $ref: '#/components/schemas/MovieEntity'
+        - $ref: '#/components/schemas/TvShowEntity'
+        - $ref: '#/components/schemas/GameEntity'
+        - $ref: '#/components/schemas/SongEntity'
+        - $ref: '#/components/schemas/BookEntity'
+        - $ref: '#/components/schemas/EpisodeEntity'
+    MovieEntity:
+      description: A movie
+      properties:
+        created:
+          description: The time when the entity was created
+          type: string
+          format: date
+        updated:
+          description: The time when the entity was last updated
+          type: string
+          format: date
+        id:
+          description: The numeric identifier of the movie
+          type: integer
+          format: int64
+        title:
+          description: The title
+          type: string
+        files:
+          type: array
+          items:
+            $ref: '#/components/schemas/VideoEntity'
+        primaryImage:
+          $ref: '#/components/schemas/ImageEntity'
+        otherImages:
+          description: Other relevant images
+          type: array
+          items:
+            $ref: '#/components/schemas/ImageEntity'
+        trailer:
+          $ref: '#/components/schemas/VideoEntity'
+        otherVideos:
+          description: Other relevant videos
+          type: array
+          items:
+            $ref: '#/components/schemas/VideoEntity'
+        subtitles:
+          description: Subtitles
+          type: array
+          items:
+            $ref: '#/components/schemas/SubtitleEntity'
+        releaseDate:
+          description: The date when the movie came out
+          type: string
+          format: date
+        runtime:
+          description: How many minutes the movie is
+          type: integer
+          format: int32
+        mpaaRatings:
+          description: The rating given by the MPAA
+          items:
+            $ref: '#/components/schemas/MPAARatingEnum'
+        userRating:
+          description: What the users have rated the movie
+          type: integer
+          format: int32
+          minimum: 1
+          maximum: 5
+        genre:
+          description: The genre of the movie
+          items:
+            $ref: '#/components/schemas/MovieGenreEnum'
+        directors:
+          description: Who directed the movie
+          type: array
+          items:
+            $ref: '#/components/schemas/PersonEntity'
+        writers:
+          description: Who wrote the movie
+          type: array
+          items:
+            $ref: '#/components/schemas/PersonEntity'
+        cast:
+          description: Who stared in the movie
+          type: array
+          items:
+            $ref: '#/components/schemas/CharacterEntity'
+        productionCompany:
+          description: The company that produced the movie
+          type: array
+          items:
+            $ref: '#/components/schemas/CompanyEntity'
+        storyLine:
+          description: What happens in the movie
+          type: string
+        languages:
+          description: The native language that the movie was filmed in
+          type: string
+        budget:
+          description: How much money was supposed to be spent to produce the movie
+          type: integer
+          format: int32
+        americasGross:
+          description: How much money was made in the American continent market
+          type: integer
+          format: int32
+        worldWideGross:
+          description: How much money was made in the whole world
+          type: integer
+          format: int32
+        americasOpeningWeekend:
+          description: How much money was made on opening weekend in the contentinent of America
+          type: integer
+          format: int32
+        aspectRatio:
+          description: The aspect ratio that the movie was filmed in
+          type: string
+        countryOfOrigin:
+          $ref: '#/components/schemas/CountryEnum'
+        views:
+          description: The number of views
+          type: integer
+          format: int64
+    NewsArticleEntity:
+      description: News articles published by TRG
+      properties:
+        created:
+          description: The time when the entity was created
+          type: string
+          format: date
+        updated:
+          description: The time when the entity was last updated
+          type: string
+          format: date
+        id:
+          description: The numeric identifier of the article
+          type: integer
+          format: int64
+        unread:
+          description: Whether or not the article has been seen
+          type: boolean
+        title:
+          description: The title of the article
+          type: string
+        preview:
+          description: The first few words of the article
+          type: string
+        body:
+          description: The entire article
+          type: string
+    NotificationEntity:
+      description: A notification from the system
+      properties:
+        created:
+          description: The time when the entity was created
+          type: string
+          format: date
+        updated:
+          description: The time when the entity was last updated
+          type: string
+          format: date
+        id:
+          description: The numeric identifier of the notification
+          type: integer
+          format: int64
+        messageType:
+          description: The type of notification (error, info, etc)
+          type: string
+        timestamp:
+          description: When the system generated the notification
+          type: string
+          format: date-time
+        name:
+          description: The title of the notification
+          type: string
+        body:
+          description: The message
+          type: string
+    PersonEntity:
+      description: A person
+      properties:
+        created:
+          description: The time when the entity was created
+          type: string
+          format: date
+        updated:
+          description: The time when the entity was last updated
+          type: string
+          format: date
+        id:
+          description: The numeric identifier of the person
+          type: integer
+          format: int64
+        primaryImage:
+          $ref: '#/components/schemas/ImageEntity'
+        title:
+          description: Their formal title (eg. lord, sir, doctor)
+          type: string
+        firstName:
+          description: The persons first name
+          type: string
+        middleName:
+          description: The persons middle name(s)
+          type: string
+        lastName:
+          description: The persons last name
+          type: string
+        birthday:
+          description: When the person was born
+          type: string
+          format: date
+        birthPlace:
+          $ref: '#/components/schemas/LocationEntity'
+        alias:
+          description: Other names that the person goes by / is known for
+          type: string
+        views:
+          description: The number of views
+          type: integer
+          format: int64
+    QueueEntity:
+      description: The list of things that the server is doing
+      properties:
+        created:
+          description: The time when the entity was created
+          type: string
+          format: date
+        updated:
+          description: The time when the entity was last updated
+          type: string
+          format: date
+        id:
+          description: The number of the task in the list
+          type: integer
+          format: int64
+        running:
+          description: Whether the system is currently running the task
+          type: boolean
+        added:
+          description: When the system added the task to the list
+          type: string
+          format: date-time
+        location:
+          description: The place on disk where the system is working
+          type: string
+        fileName:
+          description: The name of the file that the system is using
+          type: string
+        title:
+          description: The title of the task
+          type: string
+    RatingEntity:
+      description: The list of things that the server is doing
+      properties:
+        created:
+          description: The time when the entity was created
+          type: string
+          format: date
+        updated:
+          description: The time when the entity was last updated
+          type: string
+          format: date
+        id:
+          description: The number of the task in the list
+          type: integer
+          format: int64
+        user:
+          $ref: '#/components/schemas/UserEntity'
+        mediaType:
+          $ref: '#/components/schemas/MediaTypeEnum'
+        mediaId:
+          type: integer
+          format: int64
+        value:
+          type: integer
+        views:
+          description: The number of views
+          type: integer
+          format: int64
+    SubtitleEntity:
+      description: Subtitles
+      properties:
+        created:
+          description: The time when the entity was created
+          type: string
+          format: date
+        updated:
+          description: The time when the entity was last updated
+          type: string
+          format: date
+        id:
+          description: The numeric identifier of the subtitle
+          type: integer
+          format: int64
+        language:
+          description: The language that the subtitles are in
+          type: string
+        data:
+          type: string
+        views:
+          description: The number of views
+          type: integer
+          format: int64
+    SettingsEntity:
+      description: The global system settings
+      properties:
+        interfaceMethod:
+          $ref: '#/components/schemas/InterfaceMethodEnum'
+        defaultPlaybackQuality:
+          $ref: '#/components/schemas/PlaybackQualityEnum'
+        debug:
+          type: boolean
+        maintenanceMode:
+          type: boolean
+        enableSecurity:
+          type: boolean
+        compressionMethod:
+          $ref: '#/components/schemas/CompressionMethodEnum'
+        issuer:
+          type: string
+        secretKey:
+          type: string
+        searchHost:
+          type: string
+        searchKey:
+          type: string
+        displayMode:
+          $ref: '#/components/schemas/DisplayModeEnum'
+        encoderProgram:
+          $ref: '#/components/schemas/EncoderProgramEnum'
+        inspectorProgram:
+          $ref: '#/components/schemas/InspectorProgramEnum'
+        audioCodec:
+          $ref: '#/components/schemas/AudioCodecEnum'
+        audioRate:
+          $ref: '#/components/schemas/AudioRateEnum'
+        audioPreset:
+          $ref: '#/components/schemas/EncoderPresetEnum'
+        videoContainer:
+          $ref: '#/components/schemas/VideoContainerEnum'
+        videoCodec:
+          $ref: '#/components/schemas/VideoCodecEnum'
+        videoPreset:
+          $ref: '#/components/schemas/EncoderPresetEnum'
+        videoTuneFilm:
+          type: boolean
+        videoTuneAnimation:
+          type: boolean
+        videoTuneGrain:
+          type: boolean
+        videoTuneStillImage:
+          type: boolean
+        videoTuneFastDecode:
+          type: boolean
+        videoTuneZeroLatency:
+          type: boolean
+        videoFastStart:
+          type: boolean
+        videoTunePsnr:
+          type: boolean
+        videoTuneSsnr:
+          type: boolean
+        videoCrf:
+          type: integer
+        videoBlackBorder:
+          type: boolean
+        videoCudaAcceleration:
+          type: boolean
+        oneFourFourVideoTranscodeBitrate:
+          type: integer
+        twoFourZeroVideoTranscodeBitrate:
+          type: integer
+        threeSixZeroVideoTranscodeBitrate:
+          type: integer
+        fourEightZeroVideoTranscodeBitrate:
+          type: integer
+        sevenTwoZeroVideoTranscodeBitrate:
+          type: integer
+        oneZeroEightZeroVideoTranscodeBitrate:
+          type: integer
+        twoKVideoTranscodeBitrate:
+          type: integer
+        fourKVideoTranscodeBitrate:
+          type: integer
+        eightKVideoTranscodeBitrate:
+          type: integer
+        tableShowPoster:
+          description: Whether to show the poster in the table view
+          type: boolean
+        tableShowName:
+          description: Whether to show the name in the table view
+          type: boolean
+        tableShowRuntime:
+          description: Whether to show runtime in the table view
+          type: boolean
+        tableShowGenre:
+          description: Whether to show genres in the table view
+          type: boolean
+        tableShowMpaaRating:
+          description: Whether to show MPAA ratings in the table view
+          type: boolean
+        tableShowUserRating:
+          description: Whether to show user ratings in the table view
+          type: boolean
+        tableShowLanguage:
+          description: Whether to show languages in the table view
+          type: boolean
+        tableShowReleaseDate:
+          description: Whether to show release date in the table view
+          type: boolean
+        tableShowActions:
+          description: Whether to show available actions in the table view
+          type: boolean
+        bookLibraryEnable:
+          type: boolean
+        bookLibraryPath:
+          description: The location of the books directory
+          type: string
+        bookScanEnable:
+          description: Whether the system should routinely scan the book library
+          type: boolean
+        bookScanFrequencyTime:
+          description: How often the server will read the books on disk
+          type: integer
+          format: int32
+        bookScanFrequencyType:
+          $ref: '#/components/schemas/ScanFrequencyEnum'
+        gameLibraryEnable:
+          type: boolean
+        gameLibraryPath:
+          description: The location of the games directory
+          type: string
+        gameScanEnable:
+          description: Whether the system should routinely scan the game library
+          type: boolean
+        gameScanFrequencyTime:
+          description: How often the server will read the movies on disk
+          type: integer
+          format: int32
+        gameScanFrequencyType:
+          $ref: '#/components/schemas/ScanFrequencyEnum'
+        movieLibraryPath:
+          description: The location of the movie directory
+          type: string
+        movieScanEnable:
+          description: Whether the system should routinely scan the movie library
+          type: boolean
+        moviePreTranscodeEnable:
+          description: Whether to enable the server to pre-transcode movies
+          type: boolean
+        moviePreTranscode144p:
+          description: Whether to pre-transcode music to 144p
+          type: boolean
+        moviePreTranscode240p:
+          description: Whether to pre-transcode music to 240p
+          type: boolean
+        moviePreTranscode360p:
+          description: Whether to pre-transcode music to 360p
+          type: boolean
+        moviePreTranscode480p:
+          description: Whether to pre-transcode music to 480p
+          type: boolean
+        moviePreTranscode720p:
+          description: Whether to pre-transcode music to 720p
+          type: boolean
+        moviePreTranscode1080p:
+          description: Whether to pre-transcode music to 1080p
+          type: boolean
+        moviePreTranscode2k:
+          description: Whether to pre-transcode music to 2k
+          type: boolean
+        moviePreTranscode4k:
+          description: Whether to pre-transcode music to 4k
+          type: boolean
+        moviePreTranscode8k:
+          description: Whether to pre-transcode music to 8k
+          type: boolean
+        movieScanFrequencyTime:
+          description: How often the server will read the movies on disk
+          type: integer
+          format: int32
+        movieScanFrequencyType:
+          $ref: '#/components/schemas/ScanFrequencyEnum'
+        moviePreTranscodeLibraryPath:
+          type: string
+        musicLibraryPath:
+          description: The location of the music directory
+          type: string
+        musicScanEnable:
+          description: Whether the system should routinely scan the music library
+          type: boolean
+        musicPreTranscodeEnable:
+          description: Whether to enable the server to pre-transcode music
+          type: boolean
+        musicPreTranscode64k:
+          description: Whether to pre-transcode music to 64k
+          type: boolean
+        musicPreTranscode96k:
+          description: Whether to pre-transcode music to 96k
+          type: boolean
+        musicPreTranscode128k:
+          description: Whether to pre-transcode music to 128k
+          type: boolean
+        musicPreTranscode320k:
+          description: Whether to pre-transcode music to 320k
+          type: boolean
+        musicPreTranscode1411k:
+          description: Whether to pre-transcode music to 1411k
+          type: boolean
+        musicScanFrequencyTime:
+          description: How often the server will read the tv shows on disk
+          type: integer
+          format: int32
+        musicScanFrequencyType:
+          $ref: '#/components/schemas/ScanFrequencyEnum'
+        musicPreTranscodeLibraryPath:
+          type: string
+        tvShowLibraryPath:
+          description: The location of the tv show directory
+          type: string
+        tvShowScanEnable:
+          description: Whether the system should routinely scan the tv show library
+          type: boolean
+        tvShowPreTranscodeEnable:
+          description: Whether to enable the server to pre-transcode tv shows
+          type: boolean
+        tvShowPreTranscode144p:
+          description: Whether to pre-transocde tv shows to 144p
+          type: boolean
+        tvShowPreTranscode240p:
+          description: Whether to pre-transcode tv shows to 240p
+          type: boolean
+        tvShowPreTranscode360p:
+          description: Whether to pre-transcode tv shows to 360p
+          type: boolean
+        tvShowPreTranscode480p:
+          description: Whether to pre-transcode tv shows to 480p
+          type: boolean
+        tvShowPreTranscode720p:
+          description: Whether to pre-transcode tv shows to 720p
+          type: boolean
+        tvShowPreTranscode1080p:
+          description: Whether to pre-transcode tv shows to 1080p
+          type: boolean
+        tvShowPreTranscode2k:
+          description: Whether to pre-transcode tv shows to 2k
+          type: boolean
+        tvShowPreTranscode4k:
+          description: Whether to pre-transcode tv shows to 4k
+          type: boolean
+        tvShowPreTranscode8k:
+          description: Whether to pre-transcode tv shows to 8k
+          type: boolean
+        tvShowScanFrequencyTime:
+          description: How often the server will read the tv shows on disk
+          type: integer
+          format: int32
+        tvShowScanFrequencyType:
+          $ref: '#/components/schemas/ScanFrequencyEnum'
+        tvShowPreTranscodeLibraryPath:
+          type: string
+        serverName:
+          description: The name of the server
+          type: string
+        allowRegistration:
+          description: Whether users will be able to register an account
+          type: boolean
+        homePageShowNewMovie:
+          description: Whether to show new movies on the main page
+          type: boolean
+        homePageShowNewTvShow:
+          description: Whether to show new tv shows on the main page
+          type: boolean
+        homePageShowNewGame:
+          description: Whether to show new games on the main page
+          type: boolean
+        homePageShowNewBook:
+          description: Whether to show new books on the main page
+          type: boolean
+        homePageShowNewMusic:
+          description: Whether to show new music on the main page
+          type: boolean
+        homePageShowPopularMovie:
+          description: Whether to show popular movies on the main page
+          type: boolean
+        homePageShowPopularTvShow:
+          description: Whether to show popular tv shows on the main page
+          type: boolean
+        homePageShowPopularGame:
+          description: Whether to show popular games on the main page
+          type: boolean
+        homePageShowPopularBook:
+          description: Whether to show popular books on the main page
+          type: boolean
+        homePageShowPopularMusic:
+          description: Whether to show popular music on the main page
+          type: boolean
+        searchMethod:
+          $ref: '#/components/schemas/SearchMethodEnum'
+        maxSearchResults:
+          description: The number of results per media type when searching
+          type: integer
+          format: int32
+        maxBrowseResults:
+          description: The number of results per page when browsing
+          type: integer
+          format: int32
+        fontSize:
+          description: The global size of the font
+          type: integer
+        fontType:
+          description: The font that you wish to use
+          type: string
+        fontColor:
+          description: The global color of the font (in hex)
+          type: string
+        cardWidth:
+          description: The width of the cards in the grid view
+          type: integer
+        stickyTopMenu:
+          description: Whether the top menu bar should stick to the top (true) or disappear when you scroll down (false)
+          type: boolean
+        cacheEnable:
+          description: Globally enables caching data from the database for faster delivery
+          type: boolean
+        albumCacheEnable:
+          description: Enables caching albums in memory
+          type: boolean
+        albumCacheSize:
+          description: The number of entities to store in the album cache
+          type: integer
+        artistCacheEnable:
+          description: Enables caching artists in memory
+          type: boolean
+        artistCacheSize:
+          description: The number of entities to store in the artist cache
+          type: integer
+        bookCacheEnable:
+          description: Enables caching books in memory
+          type: boolean
+        bookCacheSize:
+          description: The number of entities to store in the book cache
+          type: integer
+        characterCacheEnable:
+          description: Enables caching characters in memory
+          type: boolean
+        characterCacheSize:
+          description: The number of entities to store in the character cache
+          type: integer
+        companyCacheEnable:
+          description: Enables caching companies in memory
+          type: boolean
+        companyCacheSize:
+          description: The number of entities to store in the company cache
+          type: integer
+        episodeCacheEnable:
+          description: Enables caching games in memory
+          type: boolean
+        episodeCacheSize:
+          description: The number of entities to store in the game cache
+          type: integer
+        gameCacheEnable:
+          description: Enables caching games in memory
+          type: boolean
+        gameCacheSize:
+          description: The number of entities to store in the game cache
+          type: integer
+        gameEngineCacheEnable:
+          description: Enables caching game engines in memory
+          type: boolean
+        gameEngineCacheSize:
+          description: The number of entities to store in the game engine cache
+          type: integer
+        gamePlatformReleaseCacheEnable:
+          description: Enables caching game platform releases in memory
+          type: boolean
+        gamePlatformReleaseCacheSize:
+          description: The number of entities to store in the game platform release cache
+          type: integer
+        gameSeriesCacheEnable:
+          description: Enables caching game series in memory
+          type: boolean
+        gameSeriesCacheSize:
+          description: The number of entities to store in the game series cache
+          type: integer
+        imageCacheEnable:
+          description: Enables caching images in memory
+          type: boolean
+        imageCacheSize:
+          description: The number of entities to store in the image cache
+          type: integer
+        languageCacheEnable:
+          description: Enables caching languages in memory
+          type: boolean
+        languageCacheSize:
+          description: The number of entities to store in the language cache
+          type: integer
+        locationCacheEnable:
+          description: Enables caching location in memory
+          type: boolean
+        locationCacheSize:
+          description: The number of entities to store in the location cache
+          type: integer
+        lyricsCacheEnable:
+          description: Enables caching lyrics in memory
+          type: boolean
+        lyricsCacheSize:
+          description: The number of entities to store in the lyrics cache
+          type: integer
+        movieCacheEnable:
+          description: Enables caching movies in memory
+          type: boolean
+        movieCacheSize:
+          description: The number of entities to store in the movie cache
+          type: integer
+        newsArticleCacheEnable:
+          description: Enables caching news articles in memory
+          type: boolean
+        newsArticleCacheSize:
+          description: The number of entities to store in the news article cache
+          type: integer
+        notificationsCacheEnable:
+          description: Enables caching notifications in memory
+          type: boolean
+        notificationsCacheSize:
+          description: The number of entities to store in the notifications cache
+          type: integer
+        personCacheEnable:
+          description: Enables caching people in memory
+          type: boolean
+        personCacheSize:
+          description: The number of entities to store in the person cache
+          type: integer
+        queueCacheEnable:
+          description: Enables caching queue items in memory
+          type: boolean
+        queueCacheSize:
+          description: The number of entities to store in the queue cache
+          type: integer
+        ratingsCacheEnable:
+          description: Enables caching ratings in memory
+          type: boolean
+        ratingsCacheSize:
+          description: The number of entities to store in the ratings cache
+          type: integer
+        seasonCacheEnable:
+          description: Enables caching seasons in memory
+          type: boolean
+        seasonCacheSize:
+          description: The number of entities to store in the season cache
+          type: integer
+        songCacheEnable:
+          description: Enables caching songs in memory
+          type: boolean
+        songCacheSize:
+          description: The number of entities to store in the song cache
+          type: integer
+        subtitleCacheEnable:
+          description: Enables caching subtitles in memory
+          type: boolean
+        subtitleCacheSize:
+          description: The number of entities to store in the subtitle cache
+          type: integer
+        tvShowCacheEnable:
+          description: Enables caching tv shows in memory
+          type: boolean
+        tvShowCacheSize:
+          description: The number of entities to store in the tv show cache
+          type: integer
+        userCacheEnable:
+          description: Enables caching users in memory
+          type: boolean
+        userCacheSize:
+          description: The number of entities to store in the user cache
+          type: integer
+        userSettingsCacheEnable:
+          description: Enables caching user settings in memory
+          type: boolean
+        userSettingsCacheSize:
+          description: The number of entities to store in the user settings cache
+          type: integer
+        videoCacheEnable:
+          description: Enables caching videos in memory
+          type: boolean
+        videoCacheSize:
+          description: The number of entities to store in the video cache
+          type: integer
+    SeasonEntity:
+      description: Television season
+      properties:
+        created:
+          description: The time when the entity was created
+          type: string
+          format: date
+        updated:
+          description: The time when the entity was last updated
+          type: string
+          format: date
+        id:
+          description: The numeric identifier of the season
+          type: integer
+          format: int64
+        name:
+          description: The name of the season (eg. Season 1)
+          type: string
+        episodeCount:
+          description: How many episodes in the season
+          type: integer
+          format: int32
+        views:
+          description: The number of views
+          type: integer
+          format: int64
+    SongEntity:
+      description: A song
+      properties:
+        created:
+          description: The time when the entity was created
+          type: string
+          format: date
+        updated:
+          description: The time when the entity was last updated
+          type: string
+          format: date
+        id:
+          description: The numeric identifier of the song
+          type: integer
+          format: int64
+        name:
+          description: The name of the song
+          type: string
+        file:
+          $ref: '#/components/schemas/FileEntity'
+        inAlbums:
+          description: The albums that the song is on
+          type: array
+          items:
+            $ref: '#/components/schemas/AlbumEntity'
+        releaseDate:
+          description: When the song was released
+          type: string
+          format: date
+        lyrics:
+          type: array
+          items:
+            $ref: '#/components/schemas/LyricsEntity'
+        views:
+          description: The number of views
+          type: integer
+          format: int64
+    TvShowEntity:
+      description: A TV show
+      properties:
+        created:
+          description: The time when the entity was created
+          type: string
+          format: date
+        updated:
+          description: The time when the entity was last updated
+          type: string
+          format: date
+        id:
+          description: The numeric identifier of the tv show
+          type: integer
+          format: int64
+        name:
+          description: The name of the show
+          type: string
+        description:
+          description: A brief description of the show
+          type: string
+        files:
+          type: array
+          items:
+            $ref: '#/components/schemas/VideoEntity'
+        showStatus:
+          $ref: '#/components/schemas/ShowStatusEnum'
+        firstAired:
+          description: When the show first aired
+          type: string
+          format: date
+        airsOn:
+          description: When the episodes usually air (eg. every thursday at 1pm)
+          type: string
+          format: date-time
+        runtime:
+          description: How long the episodes usually are
+          type: integer
+          format: int32
+        genres:
+          description: The genre of the show
+          type: array
+          items:
+            $ref: '#/components/schemas/TvShowGenreEnum'
+        languages:
+          description: The native language of the show
+          type: string
+        seasons:
+          description: The list of seasons
+          type: array
+          items:
+            $ref: '#/components/schemas/SeasonEntity'
+        trailer:
+          $ref: '#/components/schemas/VideoEntity'
+        otherVideos:
+          description: Other relevant videos
+          type: array
+          items:
+            $ref: '#/components/schemas/VideoEntity'
+        primaryImage:
+          $ref: '#/components/schemas/ImageEntity'
+        otherImages:
+          description: Other relevant images
+          type: array
+          items:
+            $ref: '#/components/schemas/ImageEntity'
+        views:
+          description: The number of views
+          type: integer
+          format: int64
+    UserAPIEntity:
+      description: The API key for a user
+      properties:
+        apiKey:
+          description: The API key for the user
+          type: string
+    UserEntity:
+      description: A users account
+      properties:
+        created:
+          description: The time when the entity was created
+          type: string
+          format: date
+        updated:
+          description: The time when the entity was last updated
+          type: string
+          format: date
+        id:
+          description: The numeric identifier of the user
+          type: integer
+          format: int64
+        group:
+          $ref: '#/components/schemas/PermissionGroupEnum'
+        username:
+          description: The users username
+          type: string
+        firstName:
+          description: The users first name
+          type: string
+        lastName:
+          description: The users last name
+          type: string
+        email:
+          description: The email of the user
+          type: string
+          format: email
+        password:
+          description: The password used to login
+          type: string
+          format: password
+        apiKey:
+          description: The key used to access the API
+          type: string
+    UserSettingsEntity:
+      description: The user system settings
+      properties:
+        created:
+          description: The time when the entity was created
+          type: string
+          format: date
+        updated:
+          description: The time when the entity was last updated
+          type: string
+          format: date
+        interfaceMethod:
+          $ref: '#/components/schemas/InterfaceMethodEnum'
+        defaultPlaybackQuality:
+          $ref: '#/components/schemas/PlaybackQualityEnum'
+        displayMode:
+          $ref: '#/components/schemas/DisplayModeEnum'
+        tableShowPoster:
+          description: Whether to show the poster in the table view
+          type: boolean
+        tableShowName:
+          description: Whether to show the name in the table view
+          type: boolean
+        tableShowRuntime:
+          description: Whether to show runtime in the table view
+          type: boolean
+        tableShowGenre:
+          description: Whether to show genres in the table view
+          type: boolean
+        tableShowMpaaRating:
+          description: Whether to show MPAA ratings in the table view
+          type: boolean
+        tableShowUserRating:
+          description: Whether to show user ratings in the table view
+          type: boolean
+        tableShowLanguage:
+          description: Whether to show languages in the table view
+          type: boolean
+        tableShowReleaseDate:
+          description: Whether to show release date in the table view
+          type: boolean
+        tableShowActions:
+          description: Whether to show available actions in the table view
+          type: boolean
+        homePageShowNewMovie:
+          description: Whether to show new movies on the main page
+          type: boolean
+        homePageShowNewTvShow:
+          description: Whether to show new tv shows on the main page
+          type: boolean
+        homePageShowNewGame:
+          description: Whether to show new games on the main page
+          type: boolean
+        homePageShowNewBook:
+          description: Whether to show new books on the main page
+          type: boolean
+        homePageShowNewMusic:
+          description: Whether to show new music on the main page
+          type: boolean
+        homePageShowPopularMovie:
+          description: Whether to show popular movies on the main page
+          type: boolean
+        homePageShowPopularTvShow:
+          description: Whether to show popular tv shows on the main page
+          type: boolean
+        homePageShowPopularGame:
+          description: Whether to show popular games on the main page
+          type: boolean
+        homePageShowPopularBook:
+          description: Whether to show popular books on the main page
+          type: boolean
+        homePageShowPopularMusic:
+          description: Whether to show popular music on the main page
+          type: boolean
+        maxSearchResults:
+          description: The number of results per media type when searching
+          type: integer
+          format: int32
+        maxBrowseResults:
+          description: The number of results per page when browsing
+          type: integer
+          format: int32
+        fontSize:
+          description: The global size of the font
+          type: integer
+        fontType:
+          description: The font that you wish to use
+          type: string
+        fontColor:
+          description: The global color of the font (in hex)
+          type: string
+        cardWidth:
+          description: The width of the cards in the grid view
+          type: integer
+        stickyTopMenu:
+          description: Whether the top menu bar should stick to the top (true) or disappear when you scroll down (false)
+          type: boolean
+    VideoEntity:
+      description: A video
+      properties:
+        created:
+          description: The time when the entity was created
+          type: string
+          format: date
+        updated:
+          description: The time when the entity was last updated
+          type: string
+          format: date
+        id:
+          description: The numeric identifier of the video
+          type: integer
+          format: int64
+        title:
+          description: The title of the video
+          type: string
+        views:
+          description: The number of views
+          type: integer
+          format: int64
+
+    AudioCodecEnum:
+      type: string
+      enum: [ AAC, MP3, FLAC, OGG, ALAC, AC3, WAV ]
+    AudioRateEnum:
+      type: string
+      enum: [ fourEightK ]
+    BaseMediaTypeEnum:
+      type: string
+      enum: [ BOOK, GAME, MOVIE, MUSIC, TVSHOW ]
+    BrowseTypeEnum:
+      type: string
+      enum: [ NEW, POPULAR ]
+    CountryEnum:
+      description: Country of origin
+      type: string
+      enum: [ AFGHANISTAN, ALBANIA, ALGERIA, ANDORRA, ANGOLA, ANTIGUA_AND_BARBUDA, ARGENTINA, ARMENIA, AUSTRALIA, AUSTRIA, AZERBAIJAN, BAHAMAS, BAHRAIN, BANGLADESH, BARBADOS, BELARUS, BELGIUM, BELIZE, BENIN, BHUTAN, BOLIVIA, BOSNIA_AND_HERZEGOVINA, BOTSWANA, BRAZIL, BRUNEI, BULGARIA, BURKINA_FASO, BURUNDI, COTE_DIVOIRE, CABO_VERDE, CAMBODIA, CAMEROON, CANADA, CENTRAL_AFRICAN_REPUBLIC, CHAD, CHILE, CHINA, COLOMBIA, COMOROS, CONGO, COSTA_RICA, CROATIA, CUBA, CYPRUS, CZECHIA, DEMOCRATIC_REPUBLIC_OF_THE_CONGO, DENMARK, DJIBOUTI, DOMINICA, DOMINICAN_REPUBLIC, ECUADOR, EGYPT, EL_SALVADOR, EQUATORIAL_GUINEA, ERITREA, ESTONIA, ESWATINI, ETHIOPIA, FIJI, FINLAND, FRANCE, GABON, GAMBIA, GEORGIA, GERMANY, GHANA, GREECE, GRENADA, GUATEMALA, GUINEA, GUYANA, HAITI, HOLY_SEE, HONDURAS, HUNGARY, ICELAND, INDIA, INDONESIA, IRAN, IRAQ, IRELAND, ISRAEL, ITALY, JAMAICA, JAPAN, JORDAN, KAZAKHSTAN, KENYA, KIRIBATI, KUWAIT, KYRGYZSTAN, LAOS, LATVIA, LEBANON, LESOTHO, LIBERIA, LIBYA, LIECHTENSTEIN, LITHUANIA, LUXEMBOURG, MADAGASCAR, MALAWI, MALAYSIA, MALDIVES, MALI, MALTA, MARSHALL_ISLANDS, MAURITANIA, MAURITIUS, MEXICO, MICRONESIA, MOLDOVA, MONACO, MONGOLIA, MONTENEGRO, MOROCCO, MOZAMBIQUE, MYANMAR, NAMIBIA, NAURU, NEPAL, NETHERLANDS, NEW_ZEALAND, NICARAGUA, NIGER, NIGERIA, NORTH_KOREA, NORTH_MACEDONIA, NORWAY, OMAN, PAKISTAN, PALAU, PALESTINE_STATE, PANAMA, PAPUA_NEW_GUINEA, PARAGUAY, PERU, PHILIPPINES, POLAND, PORTUGAL, QATAR, ROMANIA, RUSSIA, RWANDA, SAINT_KITTS_AND_NEVIS, SAINT_LUCIA, SAINT_VINCENT_AND_THE_GRENADINES, SAMOA, SAN_MARINO, SAO_TOME_AND_PRINCIPE, SAUDI_ARABIA, SENEGAL, SERBIA, SEYCHELLES, SIERRA_LEONE, SINGAPORE, SLOVAKIA, SLOVENIA, SOLOMON_ISLANDS, SOMALIA, SOUTH_AFRICA, SOUTH_KOREA, SOUTH_SUDAN, SPAIN, SRI_LANKA, SUDAN, SURINAME, SWEDEN, SWITZERLAND, SYRIA, TAJIKISTAN, TANZANIA, THAILAND, TOGO, TONGA, TRINIDAD_AND_TOBAGO, TUNISIA, TURKEY, TURKMENISTAN, TUVALU, UGANDA, UKRAINE, UNITED_ARAB_EMIRATES, UNITED_KINGDOM, UNITED_STATES_OF_AMERICA, URUGUAY, UZBEKISTAN, VANUATU, VENEZUELA, VIETNAM, YEMEN, ZAMBIA, ZIMBABWE ]
+    CompressionMethodEnum:
+      description: Which compression algorithm
+      type: string
+      enum: [ BROTLI, GZIP ]
+    PlaybackQualityEnum:
+      type: string
+      enum: [ ORIGINAL, eightK, fourK, twoK, oneZeroEightZeroP, sevenTwoZeroP, fourEightZeroP, threeSixZeroP, twoFourZeroP, oneFourFourP ]
+    DisplayModeEnum:
+      type: string
+      enum: [ GRID, TABLE ]
+    EncoderProgramEnum:
+      type: string
+      enum: [ FFMPEG, HANDBRAKE ]
+    EncoderPresetEnum:
+      type: string
+      enum: [ ULTRAFAST, SUPERFAST, VERYFAST, FASTER, FAST, MEDIUM, SLOW, SLOWER, VERYSLOW, PLACEBO ]
+    ESRBRatingEnum:
+      type: string
+      enum: [ EVERYONE, EVERYONE_10, TEEN, MATURE_17, ADULTS_ONLY ]
+    GameGenreEnum:
+      type: string
+      enum: [ ADVENTURE, POINT_AND_CLICK, PUZZLE, ROLE_PLAYING, SHOOTER, STRATEGY, FIGHTING ]
+    GamePlatformEnum:
+      type: string
+      enum: [ PC, MAC, LINUX, XBOX, XBOX_360, XBOX_ONE, PLAYSTATION_1, PLAYSTATION_2, PLAYSTATION_3, PLAYSTATION_4, NES, N64, SNES, SWITCH, WII, WII_U ]
+    GamePlayerPerspectiveEnum:
+      type: string
+      enum: [ FIRST_PERSON, THIRD_PERSON ]
+    GameContentWarningEnum:
+      type: string
+      enum: [ VIOLENCE, GORE, SEXUALITY, NUDITY, LANGUAGE, SUBSTANCES, GAMBLING, HUMOR ]
+    GameModeEnum:
+      type: string
+      enum: [ SINGLE_PLAYER, MULTI_PLAYER ]
+    InterfaceMethodEnum:
+      type: string
+      enum: [ MODAL, REDIRECT ]
+    InspectorProgramEnum:
+      type: string
+      enum: [ MEDIAINFO, FFPROBE ]
+    LanguagesEnum:
+      type: string
+      enum: [ AFRIKAANS, ALBANIAN, AMHARIC, ARABIC, ARMENIAN, ASSAMESE, AYMARA, AZERBAIJANI, BAMBARA, BASQUE, BELARUSIAN, BENGALI, BHOJPURI, BOSNIAN, BULGARIAN, CATALAN, CEBUANO, CHICHEQA, CHINESE_SIMLIFIED, CHINESE_TRADITIONAL, CORSICAN, CROATIAN, CZECH, DANISH, DHIVEHI, DOGRI, DUTCH, ENGLISH, ESPERANTO, ESTONIAN, EWE, FILIPINO, FINNISH, FRENCH, FRISIAN, GALACIAN, GEORGIAN, GERMAN, GREEK, GUARANI, HAITIAN_CREOLE, HAUSA, HAWAIIAN, HEBREW, HINDI, HMONG, HUNGARIAN, ICELANDIC, IGBO, ILOCANO, INDONESIAN, IRISH, ITALIAN, JAPANESE, JAVANESE, KANNADA, KAZAKH, KHMER, KINYARWANDA, KONKANI, KOREAN, KRIO, KURDISH_KURMANJI, KURDISH_SORANI, KYRGYZ, LAO, LATIN, LATVIAN, LINGALA, LITHUANIAN, LUGANDA, LUXEMBOURGISH, MACEDONIAN, MAITHILI, MALAGASY, MALAY, MALAYALAM, MALTESE, MAORI, MARATHI, MEITEILON, MIZO, MONGOLIAN, MYANMAR, NEPALI, NORWEGIAN, ODIA, OROMO, PASHTO, PERSIAN, POLISH, PORTUGUESE, PUNJABI, QUECHUA, ROMANIAN, RUSSIAN, SAMOAN, SANSKRIT, SCOTS_GAELIC, SEPEDI, SERBIAN, SESOTHO, SHONA, SINDHI, SINHALA, SLOVAK, SLOVENIAN, SOMALI, SPANISH, SUNDANESE, SWAHLILI, SWEDISH, TAJIK, TAMIL, TATAR, TELUGU, THAI, TIGRINYA, TSONGA, TURKISH, TURKMEN, TWI, UKRAINIAN, URDU, UYGHUR, UZBEK, VIETNAMESE, WELSH, XHOSA, YIDDISH, YORUBA, ZULU ]
+    MediaTypeEnum:
+      type: string
+      enum: [ ALBUM, ARTIST, BOOK, CHARACTER, COMPANY, GAME_ENGINE, GAME, GAME_PLATFORM_RELEASE, GAME_SERIES, IMAGE, LANGUAGE, LOCATION, LYRICS, MOVIE, PERSON, RATING, SEASON, SONG, SUBTITLE, TVSHOW, VIDEO ]
+    MPAARatingEnum:
+      type: string
+      enum: [ G, PG, PG13, R, X, NC17 ]
+    MovieGenreEnum:
+      type: string
+      enum: [ ACTION, ADVENTURE, ANIMATION, COMEDY, CRIME, DRAMA, FANTASY, FICTION, HISTORIC, HORROR, INDIE, MYSTERY, ROMANCE, ROMANTIC_COMEDY, SCIENCE_FICTION, SPORTS, THRILLER, WAR, WESTERN ]
+    PermissionGroupEnum:
+      type: string
+      enum: [ OPERATOR, ADMINISTRATOR, MODERATOR, USER, ALL ]
+    SearchMethodEnum:
+      type: string
+      enum: [ DATABASE_SEARCH, SEARCH_SERVER ]
+    SortByEnum:
+      type: string
+      enum: [ NAME_ASC, NAME_DESC, RATING_ASC, RATING_DESC, POPULARITY_ASC, POPULARITY_DESC, YEAR_ASC, YEAR_DESC ]
+    ScanFrequencyEnum:
+      type: string
+      enum: [ MINUTES, HOURS, DAYS ]
+    ShowStatusEnum:
+      description: Show status
+      type: string
+      enum: [ RUNNING, CANCELLED, PAUSED ]
+    TvShowGenreEnum:
+      description: TV show genres
+      type: string
+      enum: [ ACTION, ADVENTURE, ANIMATION, COMEDY, CRIME, DRAMA, FANTASY, FICTION, HISTORIC, HORROR, INDIE, MYSTERY, ROMANCE, ROMANTIC_COMEDY, SCIENCE_FICTION, SPORTS, THRILLER, WAR, WESTERN ]
+    UploadMediaTypeEnum:
+      type: string
+      enum: [ MOVIE, TVSHOW, GAME, MUSIC, BOOK ]
+    UploadTypeEnum:
+      type: string
+      enum: [ IMAGE, VIDEO ]
+    VideoCodecEnum:
+      type: string
+      enum: [ H264, H265, FLV, DIVX, MPEG4 ]
+    VideoContainerEnum:
+      type: string
+      enum: [ FLV, MP4, WMV, AVI, MKV, OGV, TS, M2TS, WEBM ]
+
+    PageSearchEntity:
+      description: A page of all media types returned by search
+      properties:
+        movies:
+          $ref: '#/components/schemas/MovieSearchEntity'
+        tvShows:
+          $ref: '#/components/schemas/TvShowSearchEntity'
+        books:
+          $ref: '#/components/schemas/BookSearchEntity'
+        games:
+          $ref: '#/components/schemas/GameSearchEntity'
+        music:
+          $ref: '#/components/schemas/MusicSearchEntity'
+    MovieSearchEntity:
+      type: array
+      items:
+        $ref: '#/components/schemas/MovieEntity'
+    TvShowSearchEntity:
+      type: array
+      items:
+        $ref: '#/components/schemas/TvShowEntity'
+    BookSearchEntity:
+      type: array
+      items:
+        $ref: '#/components/schemas/BookEntity'
+    GameSearchEntity:
+      type: array
+      items:
+        $ref: '#/components/schemas/GameEntity'
+    MusicSearchEntity:
+      type: array
+      items:
+        $ref: '#/components/schemas/SongEntity'
+
+    PageQueueEntity:
+      type: array
+      items:
+        $ref: '#/components/schemas/QueueEntity'
+    PageMediaEntity:
+      description: A page of media
+      type: array
+      items:
+        oneOf:
+          - $ref: '#/components/schemas/AlbumEntity'
+          - $ref: '#/components/schemas/ArtistEntity'
+          - $ref: '#/components/schemas/BookEntity'
+          - $ref: '#/components/schemas/CharacterEntity'
+          - $ref: '#/components/schemas/CompanyEntity'
+          - $ref: '#/components/schemas/GameEntity'
+          - $ref: '#/components/schemas/GameEngineEntity'
+          - $ref: '#/components/schemas/GamePlatformReleaseEntity'
+          - $ref: '#/components/schemas/GameSeriesEntity'
+          - $ref: '#/components/schemas/ImageEntity'
+          - $ref: '#/components/schemas/LocationEntity'
+          - $ref: '#/components/schemas/LyricsEntity'
+          - $ref: '#/components/schemas/MovieEntity'
+          - $ref: '#/components/schemas/PersonEntity'
+          - $ref: '#/components/schemas/SeasonEntity'
+          - $ref: '#/components/schemas/SongEntity'
+          - $ref: '#/components/schemas/SubtitleEntity'
+          - $ref: '#/components/schemas/TvShowEntity'
+          - $ref: '#/components/schemas/VideoEntity'
+    PageNotificationEntity:
+      description: A page of Notification
+      properties:
+        pageNotification:
+          type: array
+          items:
+            $ref: '#/components/schemas/NotificationEntity'
+    PageNewsArticleEntity:
+      description: A page of NewsArticle
+      properties:
+        pageNewsArticle:
+          type: array
+          items:
+            $ref: '#/components/schemas/NewsArticleEntity'
+    PageUserEntity:
+      description: A page of User
+      properties:
+        pageUsers:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserEntity'
+    PageRatingEntity:
+      description: A page of ratings
+      properties:
+        pageNewsArticle:
+          type: array
+          items:
+            $ref: '#/components/schemas/RatingEntity'
+  requestBodies:
+    UploadRequestBody:
+      content:
+        application/octet-stream:
+          schema:
+            type: object
+            properties:
+              fileName:
+                type: string
+                format: binary
+      description: The file you wish to upload
+      required: true
+    RatingRequestBody:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/RatingEntity'
+      description: Movie rating object that needs to be added to the database
+      required: true
+
+    MediaRequestBody:
+      content:
+        application/json:
+          schema:
+            oneOf:
+              - $ref: '#/components/schemas/MovieEntity'
+              - $ref: '#/components/schemas/TvShowEntity'
+              - $ref: '#/components/schemas/GameEntity'
+              - $ref: '#/components/schemas/SongEntity'
+              - $ref: '#/components/schemas/BookEntity'
+    MovieRequestBody:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/MovieEntity'
+      description: Movie object that needs to be added to the database
+      required: true
+    TvShowRequestBody:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/TvShowEntity'
+      description: TvShow object that needs to be added to the database
+      required: true
+    GameRequestBody:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GameEntity'
+      description: Game object that needs to be added to the database
+      required: true
+    MusicRequestBody:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/SongEntity'
+      description: Music object that needs to be added to the database
+      required: true
+    BookRequestBody:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/BookEntity'
+      description: Book object that needs to be added to the database
+      required: true
+
+    SettingsRequestBody:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/SettingsEntity'
+      description: The settings that you want applied to the server
+      required: true
+    UserSettingsRequestBody:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/UserSettingsEntity'
+      description: The settings that you want applied to the server
+      required: true
+
+  securitySchemes:
+    Authorization:
+      type: apiKey
+      name: Authorization
+      in: header

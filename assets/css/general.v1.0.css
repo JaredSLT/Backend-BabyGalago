@@ -1,0 +1,218 @@
+.card {
+    width: 240px;
+    margin: 10px;
+    display: inline-block;
+    background-color: rgb(211, 211, 211);
+}
+
+.card-title {
+    overflow-x: hidden;
+    overflow-wrap: break-word;
+}
+
+.scrolling-wrapper {
+    overflow-x: scroll;
+    overflow-y: hidden;
+    white-space: nowrap;
+    margin: 15px;
+}
+
+.card-image {
+    display: inline-block;
+    position: relative;
+}
+
+.play-button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 40px;
+}
+
+.edit-button {
+    position: absolute;
+    top: 10%;
+    left: 85%;
+    transform: translate(-10%, -85%);
+    font-size: 20px;
+}
+
+.delete-button {
+    position: absolute;
+    top: 90%;
+    left: 15%;
+    transform: translate(-90%, -15%);
+    font-size: 20px;
+}
+
+.browseSelectCheckbox {
+    top: 5%;
+    left: 7%;
+    transform: translate(-10%, -10%);
+}
+
+.selectCheckbox {
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    background-color: rgb(255, 255, 255);
+    border-radius: 50%;
+    vertical-align: middle;
+    border: 1px solid rgb(221, 221, 221);
+    appearance: none;
+    -webkit-appearance: none;
+    outline: none;
+    cursor: pointer;
+}
+
+.selectCheckbox:checked {
+    background-color: rgb(0, 100, 0);
+}
+
+.modal {
+    text-align: center;
+}
+
+.card-title {
+    font-weight: bold;
+}
+
+.card-release-date {
+    font-size: 12px;
+    float: left;
+}
+
+.card-runtime {
+    font-size: 12px;
+    float: left;
+}
+
+.card-mpaa-rating {
+    font-size: 12px;
+    float: right;
+}
+
+.card-user-rating {
+    font-size: 12px;
+    float: right;
+}
+
+.pagination {
+    justify-content: center;
+}
+
+tr {
+    background-color: rgb(211, 211, 211);
+    font-weight: bold;
+}
+
+td {
+    background-color: rgb(169, 169, 169);
+}
+
+.table-image {
+    width: 100px;
+    height: 150px;
+}
+
+.overviewLabel {
+    font-size: 35px;
+    font-weight: bold;
+    text-decoration: underline;
+    color: rgb(255, 250, 240);
+}
+
+.topicLabel {
+    font-size: 25px;
+    font-weight: bold;
+    text-decoration: underline;
+    color: rgb(255, 250, 240);
+}
+
+.subLabel {
+    font-size: 15px;
+    font-weight: bold;
+    color: rgb(255, 250, 240);
+}
+
+#sortByForm {
+    float: right;
+    margin-right: 15px;
+}
+
+.leftForms {
+    float: left;
+    display: inline-flex;
+    margin-left: 20px;
+    z-index: 0;
+}
+
+#bulkActions {
+    margin-left: 10px;
+}
+
+i {
+    color: rgb(105, 105, 105);
+}
+
+.menu-item {
+    font-size: 18px;
+}
+
+a:link {
+    font-weight: bold;
+    color: rgb(105, 105, 105);
+}
+
+a:visited {
+    color: rgb(105, 105, 105);
+}
+
+a:hover {
+    color: rgb(0, 0, 255);
+}
+
+a:active {
+    color: rgb(255, 255, 255);
+}
+
+.pagination .page-item.active a {
+    background-color: rgb(169, 169, 169);
+}
+
+.pagination .page-item:hover a {
+    color: rgb(169, 169, 169);
+}
+
+.btn.btn-link {
+    color: rgb(105, 105, 105);
+}
+
+label {
+    color: rgb(105, 105, 105);
+}
+
+progress {
+    width: 50%;
+}
+
+.viewMore {
+    float: right;
+    padding-right: 20px;
+    font-size: 20px;
+}
+
+.verticalCenter {
+    padding-left: 200px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+.floatRight {
+    float: right;
+    margin-right: 15px;
+}

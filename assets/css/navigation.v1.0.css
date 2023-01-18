@@ -1,0 +1,111 @@
+.navbar {
+    background-color: rgb(51, 51, 51);
+    height: 60px;
+    width: -webkit-calc(100% - 200px);
+    width:    -moz-calc(100% - 200px);
+    width:         calc(100% - 200px);
+    position: fixed;
+    z-index: 1;
+}
+
+.btn {
+    color: rgb(169, 169, 169);
+    font-size: 22px;
+    border-color: rgb(128, 128, 128);
+    background-color: rgb(51, 51, 51);
+}
+
+.nav-btn {
+    width: 100%;
+}
+
+.btn:focus {
+    color: rgb(169, 169, 169);
+    border-color: rgb(128, 128, 128);
+    background-color: rgb(51, 51, 51);
+}
+
+.btn:hover {
+    color: rgb(169, 169, 169);
+    border-color: rgb(51, 51, 51);
+    background-color: rgb(128, 128, 128);
+}
+
+.form-input {
+    color: rgb(255, 255, 255);
+    border-color: rgb(128, 128, 128);
+    background-color: rgb(51, 51, 51);
+}
+
+.form-input:focus {
+    border-color: rgb(128, 128, 128);
+}
+
+.input-group-btn {
+    background-color: rgb(211, 211, 211);
+    margin-right: 10px;
+}
+
+.menu {
+    color: rgb(255, 255, 255);
+    background-color: rgb(51, 51, 51);
+}
+
+.sidebar {
+    color: rgb(211, 211, 211);
+    height: 100%;
+    background: rgb(51, 51, 51);
+    width: 200px;
+    position: fixed;
+    z-index: 2;
+    top: 0;
+    left: 0;
+}
+
+.sidebar-logo {
+    width: 50px;
+    height: 50px;
+}
+
+.sidebar-footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    font-size: 12px;
+}
+
+.avatar {
+    height: 60px;
+}
+
+.divider {
+    border-top: 0.1rem solid rgb(105, 105, 105);
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
+.settings-divider {
+    border-top: 0.1rem solid rgb(105, 105, 105);
+    margin-left: 30%;
+    margin-right: 30%;
+}
+
+body {
+    height: 100%;
+    background-color: rgb(24, 24, 24);
+    padding-left: 200px;
+    text-align: center;
+}
+
+.body {
+    padding-top: 60px;
+}
+
+.popover-container {
+    background-color: rgb(255, 255, 255);
+}
+
+.accordion-header {
+    font-size: 35px;
+    font-weight: bold;
+}

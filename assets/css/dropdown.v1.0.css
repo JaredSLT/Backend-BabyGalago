@@ -1,0 +1,64 @@
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}
+
+.multidropdown {
+    background-color: rgb(128, 128, 128);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    width: 100px;
+    z-index: 1;
+}
+
+.multidropdown li {
+    min-width: 100px;
+    position: relative;
+    z-index: 1;
+    color: rgb(255, 255, 255);
+    text-align: center;
+    text-decoration: none;
+    display: block;
+    padding: 10px;
+}
+
+.multidropdown li ul {
+    position: absolute;
+    top: 100%;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: none;
+    line-height: normal;
+    background-color: rgb(51, 51, 51);
+}
+
+.multidropdown li ul li {
+    text-align: left;
+    color: rgb(204, 204, 204);
+    font-size: 14px;
+    padding: 10px;
+    display: block;
+    white-space: nowrap;
+}
+
+.multidropdown li ul li ul {
+    left: 100%;
+    top: 0;
+}
+
+.end {
+    align-content: end;
+}
+
+ul li:hover > ul {
+    display: block;
+}
+
+.dropdownIcon {
+    float: right;
+    margin-right: 10px;
+}

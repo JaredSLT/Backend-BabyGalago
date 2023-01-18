@@ -1,0 +1,1723 @@
+{
+	"info": {
+		"_postman_id": "70c4a699-07b8-4d53-9135-dfa3717324a7",
+		"name": "BabyGalago",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "user",
+			"item": [
+				{
+					"name": "login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"123\",\n    \"password\": \"1234567890\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/v1/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"v1",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getUsers",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqdGhvcm5lOTQiLCJpc3MiOiJiYWJ5Z2FsYWdvIiwiaWF0IjoxNjU2NTI5NDMxfQ.E-o_3Y213byDyPmxaD2I6Vtq0I2lRJvRm4IboqxGoIY",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost/v1/user",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"v1",
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "optionsUsers",
+					"request": {
+						"method": "OPTIONS",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/v1/user",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"v1",
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getUserById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/v1/user/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"v1",
+								"user",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "postUser",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqdGhvcm5lOTQiLCJpc3MiOiJiYWJ5Z2FsYWdvIiwiaWF0IjoxNjU2NTI5NDMxfQ.E-o_3Y213byDyPmxaD2I6Vtq0I2lRJvRm4IboqxGoIY",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"123\",\n    \"password\": \"1234567890\",\n    \"email\": \"123@123.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/v1/user",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"v1",
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "putUser",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqdGhvcm5lOTQiLCJpc3MiOiJiYWJ5Z2FsYWdvIiwiaWF0IjoxNjU2NTI5NDMxfQ.E-o_3Y213byDyPmxaD2I6Vtq0I2lRJvRm4IboqxGoIY",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"jthorne211\",\n    \"password\": \"9f83d1d1f48ae353a849e987ec03f3914d3952c3c324353b\",\n    \"email\": \"jthorne@tresearchgroup.tech\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:60842/v1/user",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "60842",
+							"path": [
+								"v1",
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "patchUser",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 1,\n    \"username\": \"jthorne95\",\n    \"email\": \"jthorne@tresearchgroup.tech\",\n    \"password\": \"9f83d1d1f48ae353a849e987ec03f3914d3952c3c324353b\",\n    \"apiKey\": \"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqdGhvcm5lOTQiLCJpc3MiOiJiYWJ5Z2FsYWdvIiwiaWF0IjoxNjU1MzE3MjExfQ.QW3ntD45b0UonvQpdO5Y1SislouOOLkdpKzxd6y5080\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:60842/v1/user",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "60842",
+							"path": [
+								"v1",
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteUserById",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:60842/v1/user/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "60842",
+							"path": [
+								"v1",
+								"user",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "postUserById",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:60842/v1/user/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "60842",
+							"path": [
+								"v1",
+								"user",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "optionsUserById",
+					"request": {
+						"method": "OPTIONS",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/v1/user/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"v1",
+								"user",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "general",
+			"item": [
+				{
+					"name": "getVersion",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/v1/version",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"v1",
+								"version"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "optionsVersion",
+					"request": {
+						"method": "OPTIONS",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/v1/version",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"v1",
+								"version"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getLatest",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/v1/version/latest",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"v1",
+								"version",
+								"latest"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "optionsLatest",
+					"request": {
+						"method": "OPTIONS",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/v1/version/latest",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"v1",
+								"version",
+								"latest"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "putUpdate",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqdGhvcm5lOTQiLCJpc3MiOiJiYWJ5Z2FsYWdvIiwiaWF0IjoxNjU2NTI5NDMxfQ.E-o_3Y213byDyPmxaD2I6Vtq0I2lRJvRm4IboqxGoIY",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost/v1/update",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"v1",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "optionsUpdate",
+					"request": {
+						"method": "OPTIONS",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:60842/v1/update",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "60842",
+							"path": [
+								"v1",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "postUpload",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:60842/v1/upload",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "60842",
+							"path": [
+								"v1",
+								"upload"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "optionsUpload",
+					"request": {
+						"method": "OPTIONS",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/v1/upload",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"v1",
+								"upload"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getSearch",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiaXNzIjoiQ0hBTkdFTUUiLCJpYXQiOjE2NjUxNjk5ODV9.jbveVCKAzIB03McfvlVaivSDm7BOrOU3DhVqpdCjCyQ",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost/v1/search?type=movieentity&query=12",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"v1",
+								"search"
+							],
+							"query": [
+								{
+									"key": "type",
+									"value": "movieentity"
+								},
+								{
+									"key": "query",
+									"value": "12"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "optionsSearch",
+					"request": {
+						"method": "OPTIONS",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/v1/search",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"v1",
+								"search"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getImageById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/v1/image/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"v1",
+								"image",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "optionsImageById",
+					"request": {
+						"method": "OPTIONS",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:60842/v1/image/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "60842",
+							"path": [
+								"v1",
+								"image",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getVideoByIdAndFileName",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:60842/v1/video/1/1.ts",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "60842",
+							"path": [
+								"v1",
+								"video",
+								"1",
+								"1.ts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "optionsVideoByIdAndName",
+					"request": {
+						"method": "OPTIONS",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:60842/v1/video/1/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "60842",
+							"path": [
+								"v1",
+								"video",
+								"1",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "settings",
+			"item": [
+				{
+					"name": "getSettings",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqdGhvcm5lOTQiLCJpc3MiOiJiYWJ5Z2FsYWdvIiwiaWF0IjoxNjU2NTI5NDMxfQ.E-o_3Y213byDyPmxaD2I6Vtq0I2lRJvRm4IboqxGoIY",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:60842/v1/settings",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "60842",
+							"path": [
+								"v1",
+								"settings"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "patchSettings",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:60842/v1/settings",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "60842",
+							"path": [
+								"v1",
+								"settings"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "optionsSettings",
+					"request": {
+						"method": "OPTIONS",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:60842/v1/settings",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "60842",
+							"path": [
+								"v1",
+								"settings"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getSettingsByUserId",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:60842/v1/settings/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "60842",
+							"path": [
+								"v1",
+								"settings",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "patchSettingsByUserId",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:60842/v1/settings/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "60842",
+							"path": [
+								"v1",
+								"settings",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteSettingsByUserId",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:60842/v1/settings/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "60842",
+							"path": [
+								"v1",
+								"settings",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "optionsSettingsById",
+					"request": {
+						"method": "OPTIONS",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:60842/v1/settings/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "60842",
+							"path": [
+								"v1",
+								"settings",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "queue",
+			"item": [
+				{
+					"name": "putQueue",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/v1/queue",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"v1",
+								"queue"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "postQueue",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/v1/queue",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"v1",
+								"queue"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getQueue",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/v1/queue",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"v1",
+								"queue"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "optionsQueue",
+					"request": {
+						"method": "OPTIONS",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/v1/queue",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"v1",
+								"queue"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteQueueById",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/v1/queue/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"v1",
+								"queue",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "optionsQueueById",
+					"request": {
+						"method": "OPTIONS",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/v1/queue/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"v1",
+								"queue",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "notifications",
+			"item": [
+				{
+					"name": "putNotification",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"messageType\": \"error\",\n    \"timestamp\": \"2022-06-27T18:59:53.821Z\",\n    \"name\": \"Some kind of error\",\n    \"body\": \"The library failed to scan\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:60842/v1/notifications",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "60842",
+							"path": [
+								"v1",
+								"notifications"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "postNotification",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"messageType\": \"error\",\n    \"timestamp\": \"2022-06-27T18:59:53.821Z\",\n    \"name\": \"Some kind of error2\",\n    \"body\": \"The library failed to scan\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:60842/v1/notifications",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "60842",
+							"path": [
+								"v1",
+								"notifications"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getNotifications",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/v1/notifications",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"v1",
+								"notifications"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "optionsNotifications",
+					"request": {
+						"method": "OPTIONS",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/v1/notifications",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"v1",
+								"notifications"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteNotificationById",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/v1/notifications/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"v1",
+								"notifications",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getNotificationById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/v1/notifications/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"v1",
+								"notifications",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "optionsNotificationsById",
+					"request": {
+						"method": "OPTIONS",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:60842/v1/notifications/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "60842",
+							"path": [
+								"v1",
+								"notifications",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "news",
+			"item": [
+				{
+					"name": "putNews",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"unread\": true,\n    \"addedTimestamp\": \"2022-06-27T19:21:41.274Z\",\n    \"title\": \"Title\",\n    \"preview\": \"Small preview\",\n    \"body\": \"This is the main section of the news article. This should be MarkDown\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:60842/v1/news",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "60842",
+							"path": [
+								"v1",
+								"news"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "postNews",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"unread\": true,\n    \"addedTimestamp\": \"2022-06-27T19:21:41.274Z\",\n    \"title\": \"Title2\",\n    \"preview\": \"Small preview\",\n    \"body\": \"This is the main section of the news article. This should be MarkDown\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:60842/v1/news",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "60842",
+							"path": [
+								"v1",
+								"news"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getNews",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqdGhvcm5lOTQiLCJpc3MiOiJiYWJ5Z2FsYWdvIiwiaWF0IjoxNjU2NTI5NDMxfQ.E-o_3Y213byDyPmxaD2I6Vtq0I2lRJvRm4IboqxGoIY",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:60842/v1/news",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "60842",
+							"path": [
+								"v1",
+								"news"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "optionsNews",
+					"request": {
+						"method": "OPTIONS",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:60842/v1/news",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "60842",
+							"path": [
+								"v1",
+								"news"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getNewsById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:60842/v1/news/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "60842",
+							"path": [
+								"v1",
+								"news",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "patchNewsById",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:60842/v1/news/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "60842",
+							"path": [
+								"v1",
+								"news",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteNewsById",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:60842/v1/news/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "60842",
+							"path": [
+								"v1",
+								"news",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "optionsNewsById",
+					"request": {
+						"method": "OPTIONS",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:60842/v1/news/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "60842",
+							"path": [
+								"v1",
+								"news",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "mediaType",
+			"item": [
+				{
+					"name": "getMedia",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqdGhvcm5lOTQiLCJpc3MiOiJiYWJ5Z2FsYWdvIiwiaWF0IjoxNjU2NTI5NDMxfQ.E-o_3Y213byDyPmxaD2I6Vtq0I2lRJvRm4IboqxGoIY",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost/v1/gameentity",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"v1",
+								"gameentity"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getMediaSample",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiaXNzIjoiQ0hBTkdFTUUiLCJpYXQiOjE2NjUxNjk5ODV9.jbveVCKAzIB03McfvlVaivSDm7BOrOU3DhVqpdCjCyQ",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "http://localhost/v1/movieentity/sample",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"v1",
+								"movieentity",
+								"sample"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "postMedia",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqdGhvcm5lOTQiLCJpc3MiOiJiYWJ5Z2FsYWdvIiwiaWF0IjoxNjU2NTI5NDMxfQ.E-o_3Y213byDyPmxaD2I6Vtq0I2lRJvRm4IboqxGoIY",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"The Movie\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:60842/v1/album",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "60842",
+							"path": [
+								"v1",
+								"album"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "putMedia",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:60842/v1/book",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "60842",
+							"path": [
+								"v1",
+								"book"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "optionsMediaType",
+					"request": {
+						"method": "OPTIONS",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:60842/v1/book",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "60842",
+							"path": [
+								"v1",
+								"book"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getMediaById",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiaXNzIjoiQ0hBTkdFTUUiLCJpYXQiOjE2NjUxNjk5ODV9.jbveVCKAzIB03McfvlVaivSDm7BOrOU3DhVqpdCjCyQ",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "http://localhost/v1/movieentity/9",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"v1",
+								"movieentity",
+								"9"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "patchMediaById",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:60842/v1/book/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "60842",
+							"path": [
+								"v1",
+								"book",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteMediaById",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiaXNzIjoiQ0hBTkdFTUUiLCJpYXQiOjE2NjUxNjk5ODV9.jbveVCKAzIB03McfvlVaivSDm7BOrOU3DhVqpdCjCyQ",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost/v1/movieentity/9",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"v1",
+								"movieentity",
+								"9"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "optionsMediaTypeById",
+					"request": {
+						"method": "OPTIONS",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/v1/movieentity/11",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"v1",
+								"movieentity",
+								"11"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getMediaRatings",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/v1/movieentity/11/ratings",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"v1",
+								"movieentity",
+								"11",
+								"ratings"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "optionsMediaTypeRatingsById",
+					"request": {
+						"method": "OPTIONS",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/v1/movieentity/11/ratings",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"v1",
+								"movieentity",
+								"11",
+								"ratings"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "ratings",
+			"item": [
+				{
+					"name": "getRating",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:60842/v1/ratings/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "60842",
+							"path": [
+								"v1",
+								"ratings",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "patchRating",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:60842/v1/ratings/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "60842",
+							"path": [
+								"v1",
+								"ratings",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteRating",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:60842/v1/ratings/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "60842",
+							"path": [
+								"v1",
+								"ratings",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "putRating",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"user\": \"2\",\n    \"mediaType\": \"ALBUM\",\n    \"mediaId\": 1,\n    \"value\": 3\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:60842/v1/ratings",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "60842",
+							"path": [
+								"v1",
+								"ratings"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "postRating",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:60842/v1/ratings/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "60842",
+							"path": [
+								"v1",
+								"ratings",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "optionsRatingById",
+					"request": {
+						"method": "OPTIONS",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:60842/v1/ratings/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "60842",
+							"path": [
+								"v1",
+								"ratings",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "tasks",
+			"item": [
+				{
+					"name": "getTask",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqdGhvcm5lOTQiLCJpc3MiOiJiYWJ5Z2FsYWdvIiwiaWF0IjoxNjU2NTI5NDMxfQ.E-o_3Y213byDyPmxaD2I6Vtq0I2lRJvRm4IboqxGoIY",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost/v1/tasks/book",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"v1",
+								"tasks",
+								"book"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "putTask",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqdGhvcm5lOTQiLCJpc3MiOiJiYWJ5Z2FsYWdvIiwiaWF0IjoxNjU2NTI5NDMxfQ.E-o_3Y213byDyPmxaD2I6Vtq0I2lRJvRm4IboqxGoIY",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost/v1/tasks/book",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"v1",
+								"tasks",
+								"book"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteTask",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqdGhvcm5lOTQiLCJpc3MiOiJiYWJ5Z2FsYWdvIiwiaWF0IjoxNjU2NTI5NDMxfQ.E-o_3Y213byDyPmxaD2I6Vtq0I2lRJvRm4IboqxGoIY",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost/v1/tasks/book",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"v1",
+								"tasks",
+								"book"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "optionsTask",
+					"request": {
+						"method": "OPTIONS",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqdGhvcm5lOTQiLCJpc3MiOiJiYWJ5Z2FsYWdvIiwiaWF0IjoxNjU2NTI5NDMxfQ.E-o_3Y213byDyPmxaD2I6Vtq0I2lRJvRm4IboqxGoIY",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost/v1/tasks/book",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"v1",
+								"tasks",
+								"book"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

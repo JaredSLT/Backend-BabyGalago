@@ -1,4 +1,4 @@
-Baby Galago Server
+# Baby Galago Server
 
 Galago was made as an alternative to the current market offerings. While there are other programs that do similar things
 to what we're doing, but no one does it quite like us. Give the system a try to see exactly what we mean! We offer a

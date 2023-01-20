@@ -2,6 +2,8 @@ package tech.tresearchgroup.babygalago.controller.tasks;
 
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import tech.tresearchgroup.schemas.galago.entities.SettingsEntity;
 
 import java.io.IOException;
@@ -9,21 +11,23 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class GameLibraryScanTask implements Job {
+    private static final Logger logger = LoggerFactory.getLogger(GameLibraryScanTask.class);
 
     public static void processGame(Path libraryPath) throws IOException {
-        List<Path> files = Files.list(libraryPath).toList();
+        List<Path> files = Files.list(libraryPath).collect(Collectors.toList());
         List<String> submissions = new LinkedList<>();
         for (Path filePath : files) {
-            System.out.println(filePath.toAbsolutePath());
+            logger.info(String.valueOf(filePath.toAbsolutePath()));
         }
     }
 
     @Override
     public void execute(JobExecutionContext context) {
         try {
-            System.out.println("Scanning: " + SettingsEntity.gameLibraryPath);
+            logger.info("Scanning: " + SettingsEntity.gameLibraryPath);
             processGame(Path.of(SettingsEntity.gameLibraryPath));
         } catch (IOException e) {
             if (SettingsEntity.debug) {

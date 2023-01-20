@@ -2,48 +2,66 @@ package tech.tresearchgroup.babygalago.view.pages;
 
 import j2html.tags.DomContent;
 import lombok.AllArgsConstructor;
-import org.jetbrains.annotations.NotNull;
-import tech.tresearchgroup.babygalago.controller.SettingsController;
-import tech.tresearchgroup.babygalago.controller.controllers.NotificationEntityController;
 import tech.tresearchgroup.babygalago.controller.controllers.QueueEntityController;
 import tech.tresearchgroup.babygalago.view.components.HeadComponent;
 import tech.tresearchgroup.babygalago.view.components.SideBarComponent;
 import tech.tresearchgroup.babygalago.view.components.TopBarComponent;
+import tech.tresearchgroup.cao.controller.GenericCAO;
 import tech.tresearchgroup.palila.controller.components.*;
 import tech.tresearchgroup.palila.model.EnumValuePair;
 import tech.tresearchgroup.palila.model.enums.CompressionMethodEnum;
 import tech.tresearchgroup.palila.model.enums.PermissionGroupEnum;
 import tech.tresearchgroup.palila.model.enums.PlaybackQualityEnum;
-import tech.tresearchgroup.palila.model.enums.SearchMethodEnum;
-import tech.tresearchgroup.schemas.galago.entities.ExtendedUserEntity;
+import tech.tresearchgroup.palila.view.RenderablePage;
+import tech.tresearchgroup.sao.model.SearchMethodEnum;
 import tech.tresearchgroup.schemas.galago.entities.SettingsEntity;
 import tech.tresearchgroup.schemas.galago.enums.*;
 
-import java.sql.SQLException;
+import java.util.LinkedList;
 import java.util.List;
 
 import static j2html.TagCreator.*;
 
 @AllArgsConstructor
-public class SettingsPage {
-    private final NotificationEntityController notificationEntityController;
-    private final SettingsController settingsController;
-
-    public byte @NotNull [] render(boolean loggedIn, ExtendedUserEntity userEntity) throws SQLException {
-        PermissionGroupEnum permissionGroupEnum = PermissionGroupEnum.ALL;
-        if (userEntity != null) {
-            permissionGroupEnum = userEntity.getPermissionGroup();
-        }
+public class SettingsPage implements RenderablePage {
+    /**
+     * Renders the page
+     * @param loggedIn whether the user is logged in
+     * @param unreadCount the number of unread notifications
+     * @param permissionGroupEnum the permission group which the user belongs to
+     * @param serverName the name of the server
+     * @param isEnableUpload if file upload is enabled
+     * @param isMovieLibraryEnable if the movie library is enabled
+     * @param isTvShowLibraryEnable if the tv show library is enabled
+     * @param isGameLibraryEnable if the game library is enabled
+     * @param isMusicLibraryEnable if the music library is enabled
+     * @param isBookLibraryEnable if the book library is enabled
+     * @return the page as a string
+     */
+    public String render(boolean loggedIn,
+                         long unreadCount,
+                         PermissionGroupEnum permissionGroupEnum,
+                         String serverName,
+                         boolean isEnableUpload,
+                         boolean isMovieLibraryEnable,
+                         boolean isTvShowLibraryEnable,
+                         boolean isGameLibraryEnable,
+                         boolean isMusicLibraryEnable,
+                         boolean isBookLibraryEnable,
+                         GenericCAO genericCAO) {
         return document(
             html(
-                HeadComponent.render(SettingsEntity.serverName),
-                TopBarComponent.render(notificationEntityController.getNumberOfUnread(userEntity), QueueEntityController.getQueueSize(), loggedIn, permissionGroupEnum, settingsController.isEnableUpload()),
-                SideBarComponent.render(loggedIn,
-                    SettingsEntity.movieLibraryEnable,
-                    SettingsEntity.tvShowLibraryEnable,
-                    SettingsEntity.gameLibraryEnable,
-                    SettingsEntity.musicLibraryEnable,
-                    SettingsEntity.bookLibraryEnable),
+                HeadComponent.render(serverName, genericCAO),
+                TopBarComponent.render(unreadCount, QueueEntityController.getQueueSize(), loggedIn, permissionGroupEnum, isEnableUpload),
+                SideBarComponent.render(
+                    loggedIn,
+                    isMovieLibraryEnable,
+                    isTvShowLibraryEnable,
+                    isGameLibraryEnable,
+                    isMusicLibraryEnable,
+                    isBookLibraryEnable,
+                    genericCAO
+                ),
                 body(
                     div(
                         label(SettingsEntity.serverName + " Server Settings").withClass("overviewLabel"),
@@ -77,7 +95,7 @@ public class SettingsPage {
                     ).withClass("body")
                 )
             )
-        ).getBytes();
+        );
     }
 
     private DomContent generalSection() {
@@ -657,5 +675,30 @@ public class SettingsPage {
             ),
             PopoverComponent.renderRight("How often to scan the library for changes")
         );
+    }
+
+    /**
+     * Renders out the page with dummy data
+     * @return the page as a string
+     */
+    @Override
+    public List<String> render() {
+        List<String> pages = new LinkedList<>();
+        /*
+        pages.add(
+            render(
+            true,
+            0,
+            PermissionGroupEnum.ADMINISTRATOR,
+            "Baby galago server",
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+            )
+        );*/
+        return pages;
     }
 }

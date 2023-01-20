@@ -1,0 +1,43 @@
+version: '3.1'
+services:
+  database:
+    image: mariadb
+    network_mode: bridge
+    container_name: database
+    environment:
+      - MARIADB_USER=babygalago
+      - MARIADB_PASSWORD=d3f4ul7!
+      - MARIADB_DATABASE=babygalago
+      - MARIADB_ROOT_PASSWORD=d3f4ul7!
+    restart: unless-stopped
+  cache:
+    image: eqalpha/keydb
+    network_mode: bridge
+    container_name: cache
+    restart: unless-stopped
+  search:
+    image: getmeili/meilisearch
+    network_mode: bridge
+    container_name: search
+    restart: unless-stopped
+  server:
+    image: gitlab.tresearchgroup.tech:5050/jthorne/babygalagoserver-alpha
+    container_name: server
+    network_mode: bridge
+
+    environment:
+      - DB_HOST=database
+      - DB_USER=babygalago
+      - DB_PASS=d3f4ul7!
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - database
+      - cache
+      - search
+    links:
+      - database
+      - cache
+      - search
+    restart: unless-stopped

@@ -2,18 +2,27 @@ package tech.tresearchgroup.colobus.controller.modules;
 
 import io.activej.inject.annotation.Provides;
 import io.activej.inject.module.AbstractModule;
-import tech.tresearchgroup.babygalago.controller.controllers.UserEntityController;
+import tech.tresearchgroup.babygalago.controller.SettingsController;
+import tech.tresearchgroup.babygalago.controller.controllers.ExtendedUserEntityController;
+import tech.tresearchgroup.babygalago.controller.controllers.NotificationEntityController;
+import tech.tresearchgroup.cao.controller.GenericCAO;
 import tech.tresearchgroup.colobus.controller.IndexController;
 import tech.tresearchgroup.colobus.view.IndexPage;
 
 
 public class ForumControllersModule extends AbstractModule {
     @Provides
-    IndexController indexController(UserEntityController userEntityController,
-                                    IndexPage indexPage) {
+    IndexController indexController(ExtendedUserEntityController extendedUserEntityController,
+                                    IndexPage indexPage,
+                                    NotificationEntityController notificationEntityController,
+                                    SettingsController settingsController,
+                                    GenericCAO genericCAO) {
         return new IndexController(
-            userEntityController,
-            indexPage
+            extendedUserEntityController,
+            indexPage,
+            notificationEntityController,
+            settingsController,
+            genericCAO
         );
     }
 }

@@ -2,13 +2,19 @@ package tech.tresearchgroup.babygalago.view.components;
 
 import j2html.tags.DomContent;
 import org.jetbrains.annotations.NotNull;
-import tech.tresearchgroup.palila.controller.cache.StaticDomContentCAO;
+import tech.tresearchgroup.cao.controller.GenericCAO;
+import tech.tresearchgroup.cao.model.CacheTypesEnum;
 
 import static j2html.TagCreator.*;
 
 public class HeadComponent {
-    public static @NotNull DomContent render(String title) {
-        DomContent cached = StaticDomContentCAO.read("headComponent");
+    /**
+     * Renders the head component
+     * @param title the title of the page
+     * @return the component
+     */
+    public static @NotNull DomContent render(String title, GenericCAO genericCAO) {
+        DomContent cached = (DomContent) genericCAO.read(CacheTypesEnum.DOM, "headComponent");
         if (cached != null) {
             return cached;
         }
@@ -22,7 +28,7 @@ public class HeadComponent {
             title(title),
             link().withRel("icon").withType("image/x-icon").withHref("/assets/favicon.ico")
         );
-        StaticDomContentCAO.create("headComponent", data);
+        genericCAO.create(CacheTypesEnum.DOM, "headComponent", data);
         return data;
     }
 }

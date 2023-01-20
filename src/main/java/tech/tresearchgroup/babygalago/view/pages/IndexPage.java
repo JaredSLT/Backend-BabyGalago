@@ -1,62 +1,96 @@
 package tech.tresearchgroup.babygalago.view.pages;
 
 import lombok.AllArgsConstructor;
-import org.jetbrains.annotations.NotNull;
-import tech.tresearchgroup.babygalago.controller.SettingsController;
-import tech.tresearchgroup.babygalago.controller.controllers.NotificationEntityController;
 import tech.tresearchgroup.babygalago.controller.controllers.QueueEntityController;
 import tech.tresearchgroup.babygalago.view.components.HeadComponent;
 import tech.tresearchgroup.babygalago.view.components.SideBarComponent;
 import tech.tresearchgroup.babygalago.view.components.TopBarComponent;
 import tech.tresearchgroup.babygalago.view.components.ViewMoreComponent;
+import tech.tresearchgroup.cao.controller.GenericCAO;
 import tech.tresearchgroup.palila.controller.components.EditableScrollingComponent;
 import tech.tresearchgroup.palila.model.Card;
 import tech.tresearchgroup.palila.model.enums.PermissionGroupEnum;
-import tech.tresearchgroup.schemas.galago.entities.ExtendedUserEntity;
-import tech.tresearchgroup.schemas.galago.entities.UserSettingsEntity;
+import tech.tresearchgroup.palila.view.RenderablePage;
 
-import java.sql.SQLException;
+import java.util.LinkedList;
 import java.util.List;
 
 import static j2html.TagCreator.*;
 
 @AllArgsConstructor
-public class IndexPage {
-    private final SettingsController settingsController;
-    private final NotificationEntityController notificationEntityController;
-
-    public byte @NotNull [] render(boolean loggedIn,
-                                   int size,
-                                   List<Card> newBooks,
-                                   List<Card> popBooks,
-                                   List<Card> newGames,
-                                   List<Card> popGames,
-                                   List<Card> newMovies,
-                                   List<Card> popMovies,
-                                   List<Card> newMusic,
-                                   List<Card> popMusic,
-                                   List<Card> newTvShows,
-                                   List<Card> popTvShows,
-                                   ExtendedUserEntity userEntity) throws SQLException {
-        PermissionGroupEnum permissionGroupEnum = PermissionGroupEnum.ALL;
-        UserSettingsEntity userSettingsEntity = null;
-        if (userEntity != null) {
-            permissionGroupEnum = userEntity.getPermissionGroup();
-            userSettingsEntity = userEntity.getUserSettings();
-        }
+public class IndexPage implements RenderablePage {
+    /**
+     * Renders the page
+     * @param loggedIn whether the user is logged in
+     * @param newBooks the list of new book entities
+     * @param popBooks the list of popular book entities
+     * @param newGames the list of new game entities
+     * @param popGames the list of popular game entities
+     * @param newMovies the list of new movie entities
+     * @param popMovies  the list of popular movie entities
+     * @param newMusic the list of new music entities
+     * @param popMusic the list of popular music entities
+     * @param popTvShows the list of popular tv show entities
+     * @param newTvShows the list of new tv show entities
+     * @param unreadCount the number of unread notifications
+     * @param permissionGroupEnum the permission group which the user belongs to
+     * @param serverName the name of the server
+     * @param isEnableUpload if file upload is enabled
+     * @param isMovieLibraryEnable if the movie library is enabled
+     * @param isTvShowLibraryEnable if the tv show library is enabled
+     * @param isGameLibraryEnable if the game library is enabled
+     * @param isMusicLibraryEnable if the music library is enabled
+     * @param isBookLibraryEnable if the book library is enabled
+     * @return the page as a string
+     */
+    public String render(boolean loggedIn,
+                         int size,
+                         List<Card> newBooks,
+                         List<Card> popBooks,
+                         List<Card> newGames,
+                         List<Card> popGames,
+                         List<Card> newMovies,
+                         List<Card> popMovies,
+                         List<Card> newMusic,
+                         List<Card> popMusic,
+                         List<Card> newTvShows,
+                         List<Card> popTvShows,
+                         long unreadCount,
+                         PermissionGroupEnum permissionGroupEnum,
+                         String serverName,
+                         boolean isEnableUpload,
+                         boolean isMovieLibraryEnable,
+                         boolean isTvShowLibraryEnable,
+                         boolean isGameLibraryEnable,
+                         boolean isMusicLibraryEnable,
+                         boolean isBookLibraryEnable,
+                         GenericCAO genericCAO) {
+        boolean isHomePageShowNewBook = newBooks != null;
+        boolean isHomePageShowPopularBook = popBooks != null;
+        boolean isHomePageShowNewGame = newGames != null;
+        boolean isHomePageShowPopularGame = popGames != null;
+        boolean isHomePageShowNewMovie = newMovies != null;
+        boolean isHomePageShowPopularMovie = popMovies != null;
+        boolean isHomePageShowNewMusic = newMusic != null;
+        boolean isHomePageShowPopularMusic = popMusic != null;
+        boolean isHomePageShowNewTvShow = newTvShows != null;
+        boolean isHomePageShowPopularTvShow = popTvShows != null;
         return document(
             html(
-                HeadComponent.render(settingsController.getServerName()),
-                SideBarComponent.render(loggedIn,
-                    settingsController.isMovieLibraryEnable(),
-                    settingsController.isTvShowLibraryEnable(),
-                    settingsController.isGameLibraryEnable(),
-                    settingsController.isMusicLibraryEnable(),
-                    settingsController.isBookLibraryEnable()),
-                TopBarComponent.render(notificationEntityController.getNumberOfUnread(userEntity), QueueEntityController.getQueueSize(), loggedIn, permissionGroupEnum, settingsController.isEnableUpload()),
+                HeadComponent.render(serverName, genericCAO),
+                TopBarComponent.render(unreadCount, QueueEntityController.getQueueSize(), loggedIn, permissionGroupEnum, isEnableUpload),
+                SideBarComponent.render(
+                    loggedIn,
+                    isMovieLibraryEnable,
+                    isTvShowLibraryEnable,
+                    isGameLibraryEnable,
+                    isMusicLibraryEnable,
+                    isBookLibraryEnable,
+                    genericCAO
+                ),
                 body(
                     div(
-                        iff(settingsController.isHomePageShowNewBook(userSettingsEntity),
+                        iff(isHomePageShowNewBook,
                             div(
                                 ViewMoreComponent.render("new", "bookentity"),
                                 br(),
@@ -66,7 +100,7 @@ public class IndexPage {
                             )
                         ),
 
-                        iff(settingsController.isHomePageShowPopularBook(userSettingsEntity),
+                        iff(isHomePageShowPopularBook,
                             div(
                                 ViewMoreComponent.render("popular", "bookentity"),
                                 br(),
@@ -76,7 +110,7 @@ public class IndexPage {
                             )
                         ),
 
-                        iff(settingsController.isHomePageShowNewGame(userSettingsEntity),
+                        iff(isHomePageShowNewGame,
                             div(
                                 ViewMoreComponent.render("new", "gameentity"),
                                 br(),
@@ -86,7 +120,7 @@ public class IndexPage {
                             )
                         ),
 
-                        iff(settingsController.isHomePageShowPopularGame(userSettingsEntity),
+                        iff(isHomePageShowPopularGame,
                             div(
                                 ViewMoreComponent.render("popular", "gameentity"),
                                 br(),
@@ -96,7 +130,7 @@ public class IndexPage {
                             )
                         ),
 
-                        iff(settingsController.isHomePageShowNewMovie(userSettingsEntity),
+                        iff(isHomePageShowNewMovie,
                             div(
                                 ViewMoreComponent.render("new", "movieentity"),
                                 br(),
@@ -106,7 +140,7 @@ public class IndexPage {
                             )
                         ),
 
-                        iff(settingsController.isHomePageShowPopularMovie(userSettingsEntity),
+                        iff(isHomePageShowPopularMovie,
                             div(
                                 ViewMoreComponent.render("popular", "movieentity"),
                                 br(),
@@ -116,7 +150,7 @@ public class IndexPage {
                             )
                         ),
 
-                        iff(settingsController.isHomePageShowNewMusic(userSettingsEntity),
+                        iff(isHomePageShowNewMusic,
                             div(
                                 ViewMoreComponent.render("new", "musicentity"),
                                 br(),
@@ -126,7 +160,7 @@ public class IndexPage {
                             )
                         ),
 
-                        iff(settingsController.isHomePageShowPopularMusic(userSettingsEntity),
+                        iff(isHomePageShowPopularMusic,
                             div(
                                 ViewMoreComponent.render("popular", "movieentity"),
                                 br(),
@@ -136,7 +170,7 @@ public class IndexPage {
                             )
                         ),
 
-                        iff(settingsController.isHomePageShowNewTvShow(userSettingsEntity),
+                        iff(isHomePageShowNewTvShow,
                             div(
                                 ViewMoreComponent.render("new", "tvshowentity"),
                                 br(),
@@ -146,7 +180,7 @@ public class IndexPage {
                             )
                         ),
 
-                        iff(settingsController.isHomePageShowPopularTvShow(userSettingsEntity),
+                        iff(isHomePageShowPopularTvShow,
                             div(
                                 ViewMoreComponent.render("popular", "tvshowentity"),
                                 br(),
@@ -159,6 +193,43 @@ public class IndexPage {
                     ).withClass("body")
                 )
             )
-        ).getBytes();
+        );
+    }
+
+    /**
+     * Renders out the page with dummy data
+     * @return the page as a string
+     */
+    @Override
+    public List<String> render() {
+        List<String> pages = new LinkedList<>();
+        /*try {
+            return render(
+            loggedIn,
+            settingsController.getCardWidth(userSettingsEntity),
+            newBooksCards,
+            popularBooksCards,
+            newGamesCards,
+            popularGamesCards,
+            newMoviesCards,
+            popularMoviesCards,
+            newMusicCards,
+            popularMusicCards,
+            newTvShowsCards,
+            popularTvShowsCards,
+            notificationEntityController.getNumberOfUnread(userEntity),
+            userEntity.getPermissionGroup(),
+            settingsController.getServerName(),
+            settingsController.isEnableUpload(),
+            settingsController.isMovieLibraryEnable(),
+            settingsController.isTvShowLibraryEnable(),
+            settingsController.isGameLibraryEnable(),
+            settingsController.isMusicLibraryEnable(),
+            settingsController.isBookLibraryEnable()
+        );
+        } catch (SQLException e) {
+            return null;
+        }*/
+        return pages;
     }
 }

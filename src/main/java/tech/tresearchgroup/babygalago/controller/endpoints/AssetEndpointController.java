@@ -4,6 +4,8 @@ import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import io.activej.http.HttpRequest;
 import io.activej.http.HttpResponse;
+import io.activej.promise.Promisable;
+import org.jetbrains.annotations.NotNull;
 import tech.tresearchgroup.babygalago.controller.SettingsController;
 import tech.tresearchgroup.palila.controller.BasicController;
 import tech.tresearchgroup.palila.controller.CompressionController;
@@ -24,7 +26,13 @@ public class AssetEndpointController extends BasicController {
         this.settingsController = settingsController;
     }
 
-    public HttpResponse getAsset(HttpRequest httpRequest) throws IOException {
+    /**
+     * Returns the requested asset binary
+     * @param httpRequest the request
+     * @return the binary
+     * @throws IOException if it fails
+     */
+    public Promisable<HttpResponse> getAsset(HttpRequest httpRequest) throws IOException {
         String file = Objects.requireNonNull(httpRequest.getPathParameter("file"));
         byte[] cachedData = assetCache.getIfPresent(file);
         if (cachedData != null) {
@@ -40,25 +48,37 @@ public class AssetEndpointController extends BasicController {
         return error();
     }
 
-    public HttpResponse getCombinedCSS() throws IOException {
-        byte[] cachedData = assetCache.getIfPresent("styles");
-        if (cachedData != null) {
-            return okResponseCompressed(cachedData, settingsController.getMaxAssetCacheAge());
-        }
-        Path cssPath = Path.of("assets/css");
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        try (DirectoryStream<Path> stream = Files.newDirectoryStream(cssPath)) {
-            for (Path path : stream) {
-                if (!Files.isDirectory(path)) {
-                    if (path.getFileName().toString().contains(".min.css")) {
-                        outputStream.write(Files.readAllBytes(path));
+    /**
+     * Combines all CSS minified pages together as styles.min.css
+     * @param httpRequest the request
+     * @return the combined css
+     */
+    public @NotNull Promisable<HttpResponse> getCombinedCSS(HttpRequest httpRequest) {
+        try {
+            byte[] cachedData = assetCache.getIfPresent("styles");
+            if (cachedData != null) {
+                return okResponseCompressed(cachedData, settingsController.getMaxAssetCacheAge());
+            }
+            Path cssPath = Path.of("assets/css");
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            try (DirectoryStream<Path> stream = Files.newDirectoryStream(cssPath)) {
+                for (Path path : stream) {
+                    if (!Files.isDirectory(path)) {
+                        if (path.getFileName().toString().contains(".min.css")) {
+                            outputStream.write(Files.readAllBytes(path));
+                        }
                     }
                 }
             }
+            byte[] rawData = outputStream.toByteArray();
+            byte[] compressed = CompressionController.compress(rawData);
+            assetCache.put("styles", compressed);
+            return okResponseCompressed(compressed, settingsController.getMaxAssetCacheAge());
+        } catch (IOException e) {
+            if (settingsController.isDebug()) {
+                e.printStackTrace();
+            }
+            return error();
         }
-        byte[] rawData = outputStream.toByteArray();
-        byte[] compressed = CompressionController.compress(rawData);
-        assetCache.put("styles", compressed);
-        return okResponseCompressed(compressed, settingsController.getMaxAssetCacheAge());
     }
 }

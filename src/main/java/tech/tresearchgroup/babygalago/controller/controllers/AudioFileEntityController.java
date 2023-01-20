@@ -5,9 +5,13 @@ import com.meilisearch.sdk.Client;
 import com.zaxxer.hikari.HikariDataSource;
 import io.activej.serializer.BinarySerializer;
 import tech.tresearchgroup.palila.controller.GenericController;
+import tech.tresearchgroup.palila.model.Card;
 import tech.tresearchgroup.palila.model.entities.AudioFileEntity;
 import tech.tresearchgroup.palila.model.enums.PermissionGroupEnum;
 
+/**
+ * Sets up the audio file entity controller. To understand this class better, have a look at the class it extends (GenericController)
+ */
 public class AudioFileEntityController extends GenericController {
     public AudioFileEntityController(HikariDataSource hikariDataSource,
                                      Gson gson,
@@ -15,7 +19,7 @@ public class AudioFileEntityController extends GenericController {
                                      BinarySerializer<AudioFileEntity> serializer,
                                      int reindexSize,
                                      Object sample,
-                                     UserEntityController userEntityController) throws Exception {
+                                     ExtendedUserEntityController extendedUserEntityController) throws Exception {
         super(
             hikariDataSource,
             gson,
@@ -23,14 +27,15 @@ public class AudioFileEntityController extends GenericController {
             AudioFileEntity.class,
             serializer,
             reindexSize,
-            "title",
+            "path",
             sample,
             PermissionGroupEnum.USER,
             PermissionGroupEnum.USER,
             PermissionGroupEnum.USER,
             PermissionGroupEnum.USER,
             PermissionGroupEnum.USER,
-            userEntityController
+            extendedUserEntityController,
+            new Card()
         );
     }
 }

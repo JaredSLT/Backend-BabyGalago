@@ -1,59 +1,84 @@
 package tech.tresearchgroup.babygalago.view.pages;
 
 import lombok.AllArgsConstructor;
-import org.jetbrains.annotations.NotNull;
-import tech.tresearchgroup.babygalago.controller.SettingsController;
-import tech.tresearchgroup.babygalago.controller.controllers.NotificationEntityController;
 import tech.tresearchgroup.babygalago.controller.controllers.QueueEntityController;
 import tech.tresearchgroup.babygalago.view.components.*;
+import tech.tresearchgroup.cao.controller.GenericCAO;
 import tech.tresearchgroup.palila.controller.components.PaginationComponent;
 import tech.tresearchgroup.palila.controller.components.PosterViewComponent;
 import tech.tresearchgroup.palila.model.Card;
 import tech.tresearchgroup.palila.model.enums.PermissionGroupEnum;
-import tech.tresearchgroup.schemas.galago.entities.ExtendedUserEntity;
-import tech.tresearchgroup.schemas.galago.entities.UserSettingsEntity;
-import tech.tresearchgroup.schemas.galago.enums.DisplayModeEnum;
+import tech.tresearchgroup.palila.view.RenderablePage;
 
-import java.sql.SQLException;
+import java.util.LinkedList;
 import java.util.List;
 
 import static j2html.TagCreator.*;
 
 @AllArgsConstructor
-public class ViewPage {
-    private final SettingsController settingsController;
-    private final NotificationEntityController notificationEntityController;
-
-    public byte @NotNull [] render(boolean loggedIn,
-                                   String title,
-                                   String type,
-                                   String function,
-                                   List<Card> cards,
-                                   int size,
-                                   int currentPage,
-                                   long maxPage,
-                                   ExtendedUserEntity userEntity,
-                                   Class theClass,
-                                   boolean ascending,
-                                   String sortBy,
-                                   boolean enableSortBy) throws SQLException {
-        PermissionGroupEnum permissionGroupEnum = PermissionGroupEnum.ALL;
-        UserSettingsEntity userSettingsEntity = null;
-        if (userEntity != null) {
-            permissionGroupEnum = userEntity.getPermissionGroup();
-            userSettingsEntity = userEntity.getUserSettings();
-        }
-        boolean posterView = settingsController.getDisplayMode(userSettingsEntity).equals(DisplayModeEnum.POSTER);
+public class ViewPage implements RenderablePage {
+    /**
+     * Renders the page
+     * @param loggedIn whether the user is logged in
+     * @param title the title at the top of the page
+     * @param type the type of entity
+     * @param function the method of displaying
+     * @param cards the cards being displayed
+     * @param size the size of the cards
+     * @param currentPage the current page number
+     * @param maxPage the max number of pages
+     * @param theClass the class of the entities
+     * @param ascending whether its ascending
+     * @param posterView whether to render as cards or table
+     * @param sortBy how to sort the items
+     * @param enableSortBy whether it can be sorted
+     * @param unreadCount the number of unread notifications
+     * @param permissionGroupEnum the permission group which the user belongs to
+     * @param serverName the name of the server
+     * @param isEnableUpload if file upload is enabled
+     * @param isMovieLibraryEnable if the movie library is enabled
+     * @param isTvShowLibraryEnable if the tv show library is enabled
+     * @param isGameLibraryEnable if the game library is enabled
+     * @param isMusicLibraryEnable if the music library is enabled
+     * @param isBookLibraryEnable if the book library is enabled
+     * @return the page as a string
+     */
+    public String render(boolean loggedIn,
+                         String title,
+                         String type,
+                         String function,
+                         List<Card> cards,
+                         int size,
+                         int currentPage,
+                         long maxPage,
+                         Class theClass,
+                         boolean ascending,
+                         boolean posterView,
+                         String sortBy,
+                         boolean enableSortBy,
+                         long unreadCount,
+                         PermissionGroupEnum permissionGroupEnum,
+                         String serverName,
+                         boolean isEnableUpload,
+                         boolean isMovieLibraryEnable,
+                         boolean isTvShowLibraryEnable,
+                         boolean isGameLibraryEnable,
+                         boolean isMusicLibraryEnable,
+                         boolean isBookLibraryEnable,
+                         GenericCAO genericCAO) {
         return document(
             html(
-                HeadComponent.render(settingsController.getServerName()),
-                TopBarComponent.render(notificationEntityController.getNumberOfUnread(userEntity), QueueEntityController.getQueueSize(), loggedIn, permissionGroupEnum, settingsController.isEnableUpload()),
-                SideBarComponent.render(loggedIn,
-                    settingsController.isMovieLibraryEnable(),
-                    settingsController.isTvShowLibraryEnable(),
-                    settingsController.isGameLibraryEnable(),
-                    settingsController.isMusicLibraryEnable(),
-                    settingsController.isBookLibraryEnable()),
+                HeadComponent.render(serverName, genericCAO),
+                TopBarComponent.render(unreadCount, QueueEntityController.getQueueSize(), loggedIn, permissionGroupEnum, isEnableUpload),
+                SideBarComponent.render(
+                    loggedIn,
+                    isMovieLibraryEnable,
+                    isTvShowLibraryEnable,
+                    isGameLibraryEnable,
+                    isMusicLibraryEnable,
+                    isBookLibraryEnable,
+                    genericCAO
+                ),
                 body(
                     div(
                         label(title).withClass("overviewLabel"),
@@ -62,7 +87,7 @@ public class ViewPage {
                             SortByFormComponent.render(theClass, ascending, sortBy)
                         ),
                         iff(cards.size() > 0,
-                            LeftFormsComponent.render(type)
+                            LeftFormsComponent.render(type, genericCAO)
                         ),
                         br(),
                         br(),
@@ -87,6 +112,43 @@ public class ViewPage {
                     ).withClass("body")
                 )
             )
-        ).getBytes();
+        );
+    }
+
+    /**
+     * Renders out the page with dummy data
+     * @return the page as a string
+     */
+    @Override
+    public List<String> render() {
+        /*try {
+            return render(
+            loggedIn,
+            theClass.getSimpleName(),
+            theClass.getSimpleName().toLowerCase(),
+            "browse",
+            cards,
+            settingsController.getCardWidth(userSettingsEntity),
+            page,
+            maxPage,
+            theClass,
+            ascending,
+            settingsController.getDisplayMode(userSettingsEntity).equals(DisplayModeEnum.POSTER),
+            sortBy,
+            true,
+            notificationEntityController.getNumberOfUnread(userEntity),
+            userEntity.getPermissionGroup(),
+            settingsController.getServerName(),
+            settingsController.isEnableUpload(),
+            settingsController.isMovieLibraryEnable(),
+            settingsController.isTvShowLibraryEnable(),
+            settingsController.isGameLibraryEnable(),
+            settingsController.isMusicLibraryEnable(),
+            settingsController.isBookLibraryEnable()
+        );
+        } catch (SQLException e) {
+            return null;
+        }*/
+        return new LinkedList<>();
     }
 }

@@ -2,13 +2,19 @@ package tech.tresearchgroup.babygalago.view.components;
 
 import j2html.tags.DomContent;
 import org.jetbrains.annotations.NotNull;
-import tech.tresearchgroup.palila.controller.cache.StaticDomContentCAO;
+import tech.tresearchgroup.cao.controller.GenericCAO;
+import tech.tresearchgroup.cao.model.CacheTypesEnum;
 
 import static j2html.TagCreator.*;
 
 public class BulkActionsComponent {
-    public static @NotNull DomContent render(String mediaType) {
-        DomContent cached = StaticDomContentCAO.read("bulkActionsComponent-" + mediaType);
+    /**
+     * Renders the bulk action component
+     * @param mediaType the type of media to create the component for
+     * @return the component
+     */
+    public static @NotNull DomContent render(String mediaType, GenericCAO genericCAO) {
+        DomContent cached = (DomContent) genericCAO.read(CacheTypesEnum.DOM, "bulkActionsComponent-" + mediaType);
         if (cached != null) {
             return cached;
         }
@@ -36,7 +42,7 @@ public class BulkActionsComponent {
                 )
             ).withClass("multidropdown")
         ).withId("bulkActions");
-        StaticDomContentCAO.create("bulkActionsComponent-" + mediaType, data);
+        genericCAO.create(CacheTypesEnum.DOM, "bulkActionsComponent-" + mediaType, data);
         return data;
     }
 }

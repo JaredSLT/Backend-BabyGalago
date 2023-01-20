@@ -2,6 +2,8 @@ package tech.tresearchgroup.babygalago.controller;
 
 import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import tech.tresearchgroup.babygalago.controller.tasks.*;
 import tech.tresearchgroup.schemas.galago.entities.SettingsEntity;
 import tech.tresearchgroup.schemas.galago.enums.BaseMediaTypeEnum;
@@ -10,6 +12,7 @@ import tech.tresearchgroup.schemas.galago.enums.ScanFrequencyEnum;
 import java.util.List;
 
 public class TaskController {
+    private static final Logger logger = LoggerFactory.getLogger(TaskController.class);
     private static final JobDetail bookLibrary = JobBuilder.newJob(BookLibraryScanTask.class)
         .withIdentity("bookLibraryJob", "library")
         .build();
@@ -32,6 +35,10 @@ public class TaskController {
     private Trigger musicTrigger;
     private Trigger tvShowTrigger;
 
+    /**
+     * Creates each trigger
+     * @throws SchedulerException the triggers couldn't be setup
+     */
     public TaskController() throws SchedulerException {
         scheduler = StdSchedulerFactory.getDefaultScheduler();
         if (isEnabled(BaseMediaTypeEnum.TVSHOW)) {
@@ -53,10 +60,15 @@ public class TaskController {
         scheduler.start();
     }
 
+    /**
+     * Sets up the triggers scan frequency
+     * @param mediaType the media type for the trigger
+     * @return the trigger
+     */
     private Trigger setupTrigger(BaseMediaTypeEnum mediaType) {
         int time = calculateTime(mediaType);
         if (time == -1) {
-            System.err.println("Failed to calculate time for: " + mediaType);
+            logger.error("Failed to calculate time for: " + mediaType);
             return null;
         }
         return TriggerBuilder.newTrigger()
@@ -68,63 +80,82 @@ public class TaskController {
             .build();
     }
 
+    /**
+     * Whether the library is enabled
+     * @param mediaType the media type to check
+     * @return true if enabled
+     */
     private boolean isEnabled(BaseMediaTypeEnum mediaType) {
         switch (mediaType) {
-            case TVSHOW -> {
+            case TVSHOW: {
                 return SettingsEntity.tvShowScanEnable;
             }
-            case MUSIC -> {
+            case MUSIC: {
                 return SettingsEntity.musicScanEnable;
             }
-            case MOVIE -> {
+            case MOVIE: {
                 return SettingsEntity.movieScanEnable;
             }
-            case GAME -> {
+            case GAME: {
                 return SettingsEntity.gameScanEnable;
             }
-            case BOOK -> {
+            case BOOK: {
                 return SettingsEntity.bookScanEnable;
             }
         }
         return false;
     }
 
+    /**
+     * Calculates the amount of time in seconds from other formats (hours, days, etc)
+     * @param mediaType the media type to calculate
+     * @return the time in seconds
+     */
     private int calculateTime(BaseMediaTypeEnum mediaType) {
         switch (mediaType) {
-            case GAME -> {
+            case GAME: {
                 return calculateSeconds(SettingsEntity.gameScanFrequencyTime, SettingsEntity.gameScanFrequencyType);
             }
-            case BOOK -> {
+            case BOOK: {
                 return calculateSeconds(SettingsEntity.bookScanFrequencyTime, SettingsEntity.bookScanFrequencyType);
             }
-            case MOVIE -> {
+            case MOVIE: {
                 return calculateSeconds(SettingsEntity.movieScanFrequencyTime, SettingsEntity.movieScanFrequencyType);
             }
-            case MUSIC -> {
+            case MUSIC: {
                 return calculateSeconds(SettingsEntity.musicScanFrequencyTime, SettingsEntity.musicScanFrequencyType);
             }
-            case TVSHOW -> {
+            case TVSHOW: {
                 return calculateSeconds(SettingsEntity.tvShowScanFrequencyTime, SettingsEntity.tvShowScanFrequencyType);
             }
         }
         return -1;
     }
 
+    /**
+     * Calculates a duration of time in seconds
+     * @param number the duration
+     * @param scanFrequencyEnum the frequency
+     * @return the time in seconds
+     */
     private int calculateSeconds(int number, ScanFrequencyEnum scanFrequencyEnum) {
         switch (scanFrequencyEnum) {
-            case DAYS -> {
+            case DAYS: {
                 return number * 24 * 60 * 60;
             }
-            case HOURS -> {
+            case HOURS: {
                 return number * 60 * 60;
             }
-            case MINUTES -> {
+            case MINUTES: {
                 return number * 60;
             }
         }
         return -1;
     }
 
+    /**
+     * Runs all the jobs
+     */
     public void initAllJobs() {
         if (SettingsEntity.bookScanEnable) {
             initBookJob();
@@ -143,6 +174,9 @@ public class TaskController {
         }
     }
 
+    /**
+     * Starts the book job
+     */
     public void initBookJob() {
         try {
             scheduler.scheduleJob(bookLibrary, bookTrigger);
@@ -153,6 +187,9 @@ public class TaskController {
         }
     }
 
+    /**
+     * Starts the game job
+     */
     public void initGameJob() {
         try {
             scheduler.scheduleJob(gameLibrary, gameTrigger);
@@ -163,6 +200,9 @@ public class TaskController {
         }
     }
 
+    /**
+     * Starts the movie job
+     */
     public void initMovieJob() {
         try {
             scheduler.scheduleJob(movieLibrary, movieTrigger);
@@ -173,6 +213,9 @@ public class TaskController {
         }
     }
 
+    /**
+     * Starts the music job
+     */
     public void initMusicJob() {
         try {
             scheduler.scheduleJob(musicLibrary, musicTrigger);
@@ -183,6 +226,9 @@ public class TaskController {
         }
     }
 
+    /**
+     * Starts the tv show job
+     */
     public void initTvShowJob() {
         try {
             scheduler.scheduleJob(tvShowLibrary, tvShowTrigger);
@@ -193,10 +239,18 @@ public class TaskController {
         }
     }
 
+    /**
+     * Stops all the jobs
+     * @return true if successful
+     */
     public boolean stopAllJobs() {
         return stopBookJob() && stopGameJob() && stopMovieJob() && stopMusicJob() && stopTvShowJob();
     }
 
+    /**
+     * Stops the book job
+     * @return true if successful
+     */
     public boolean stopBookJob() {
         try {
             scheduler.pauseJob(bookLibrary.getKey());
@@ -209,6 +263,10 @@ public class TaskController {
         return false;
     }
 
+    /**
+     * Stops the game job
+     * @return true if successful
+     */
     public boolean stopGameJob() {
         try {
             scheduler.pauseJob(gameLibrary.getKey());
@@ -221,6 +279,10 @@ public class TaskController {
         return false;
     }
 
+    /**
+     * Stops the movie job
+     * @return true if successful
+     */
     public boolean stopMovieJob() {
         try {
             scheduler.pauseJob(movieLibrary.getKey());
@@ -233,6 +295,10 @@ public class TaskController {
         return false;
     }
 
+    /**
+     * Stops the movie job
+     * @return true if successful
+     */
     public boolean stopMusicJob() {
         try {
             scheduler.pauseJob(musicLibrary.getKey());
@@ -245,6 +311,10 @@ public class TaskController {
         return false;
     }
 
+    /**
+     * Stops the tv show job
+     * @return true if successful
+     */
     public boolean stopTvShowJob() {
         try {
             scheduler.pauseJob(tvShowLibrary.getKey());
@@ -257,10 +327,18 @@ public class TaskController {
         return false;
     }
 
+    /**
+     * Starts all the jobs
+     * @return true if successful
+     */
     public boolean startAllJobs() {
         return startBookJob() && startGameJob() && startMovieJob() && startMusicJob() && startTvShowJob();
     }
 
+    /**
+     * Stops the book job
+     * @return true if successful
+     */
     public boolean startBookJob() {
         try {
             scheduler.resumeJob(bookLibrary.getKey());
@@ -273,6 +351,10 @@ public class TaskController {
         return false;
     }
 
+    /**
+     * Starts the game job
+     * @return true if successful
+     */
     public boolean startGameJob() {
         try {
             scheduler.resumeJob(gameLibrary.getKey());
@@ -285,6 +367,10 @@ public class TaskController {
         return false;
     }
 
+    /**
+     * Starts the movie job
+     * @return true is successful
+     */
     public boolean startMovieJob() {
         try {
             scheduler.resumeJob(movieLibrary.getKey());
@@ -297,6 +383,10 @@ public class TaskController {
         return false;
     }
 
+    /**
+     * Starts the music job
+     * @return true if successful
+     */
     public boolean startMusicJob() {
         try {
             scheduler.resumeJob(musicLibrary.getKey());
@@ -309,6 +399,10 @@ public class TaskController {
         return false;
     }
 
+    /**
+     * Checks if the tv show job is running
+     * @return true if yes
+     */
     public boolean startTvShowJob() {
         try {
             scheduler.resumeJob(tvShowLibrary.getKey());
@@ -321,6 +415,10 @@ public class TaskController {
         return false;
     }
 
+    /**
+     * Checks if the book is running
+     * @return true if yes
+     */
     public boolean isBookRunning() {
         try {
             return !isJobPaused(bookLibrary);
@@ -332,6 +430,10 @@ public class TaskController {
         return false;
     }
 
+    /**
+     * Checks if the game job is running
+     * @return true if yes
+     */
     public boolean isGameRunning() {
         try {
             return !isJobPaused(gameLibrary);
@@ -343,6 +445,10 @@ public class TaskController {
         return false;
     }
 
+    /**
+     * Checks if the movie job is running
+     * @return true if yes
+     */
     public boolean isMovieRunning() {
         try {
             return !isJobPaused(movieLibrary);
@@ -354,6 +460,10 @@ public class TaskController {
         return false;
     }
 
+    /**
+     * Checks if the music job is running
+     * @return true if yes
+     */
     public boolean isMusicRunning() {
         try {
             return !isJobPaused(musicLibrary);
@@ -365,6 +475,10 @@ public class TaskController {
         return false;
     }
 
+    /**
+     * Checks if the tv show job is running
+     * @return true if yes
+     */
     public boolean isTvShowRunning() {
         try {
             return !isJobPaused(tvShowLibrary);
@@ -376,6 +490,12 @@ public class TaskController {
         return false;
     }
 
+    /**
+     * Checks if a job is paused
+     * @param jobDetail the job
+     * @return true if yes
+     * @throws SchedulerException job examination failed
+     */
     private boolean isJobPaused(JobDetail jobDetail) throws SchedulerException {
         List<? extends Trigger> triggers = scheduler.getTriggersOfJob(jobDetail.getKey());
         for (Trigger trigger : triggers) {

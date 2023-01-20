@@ -2,31 +2,42 @@ package tech.tresearchgroup.colobus.view;
 
 import lombok.AllArgsConstructor;
 import org.jetbrains.annotations.NotNull;
-import tech.tresearchgroup.babygalago.controller.SettingsController;
 import tech.tresearchgroup.babygalago.controller.controllers.QueueEntityController;
 import tech.tresearchgroup.babygalago.view.components.HeadComponent;
 import tech.tresearchgroup.babygalago.view.components.SideBarComponent;
 import tech.tresearchgroup.babygalago.view.components.TopBarComponent;
+import tech.tresearchgroup.cao.controller.GenericCAO;
 import tech.tresearchgroup.palila.model.enums.PermissionGroupEnum;
 
 import static j2html.TagCreator.*;
 
 @AllArgsConstructor
 public class IndexPage {
-    private final SettingsController settingsController;
-
-    public byte @NotNull [] render(PermissionGroupEnum permissionGroupEnum) {
+    public byte @NotNull [] render(boolean loggedIn,
+                                   long unreadCount,
+                                   PermissionGroupEnum permissionGroupEnum,
+                                   String serverName,
+                                   boolean isEnableUpload,
+                                   boolean isMovieLibraryEnable,
+                                   boolean isTvShowLibraryEnable,
+                                   boolean isGameLibraryEnable,
+                                   boolean isMusicLibraryEnable,
+                                   boolean isBookLibraryEnable,
+                                   GenericCAO genericCAO) {
         return document(
             html(
-                HeadComponent.render(settingsController.getServerName()),
+                HeadComponent.render(serverName, genericCAO),
                 //Todo load notifications
-                TopBarComponent.render(2L, QueueEntityController.getQueueSize(), true, permissionGroupEnum, settingsController.isEnableUpload()),
-                SideBarComponent.render(true,
-                    settingsController.isMovieLibraryEnable(),
-                    settingsController.isTvShowLibraryEnable(),
-                    settingsController.isGameLibraryEnable(),
-                    settingsController.isMusicLibraryEnable(),
-                    settingsController.isBookLibraryEnable()),
+                TopBarComponent.render(unreadCount, QueueEntityController.getQueueSize(), true, permissionGroupEnum, isEnableUpload),
+                SideBarComponent.render(
+                    loggedIn,
+                    isMovieLibraryEnable,
+                    isTvShowLibraryEnable,
+                    isGameLibraryEnable,
+                    isMusicLibraryEnable,
+                    isBookLibraryEnable,
+                    genericCAO
+                ),
                 body(
                     div(
                         div(

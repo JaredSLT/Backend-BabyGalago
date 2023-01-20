@@ -14,7 +14,7 @@ function uploadFile(fileName) {
     ajax.addEventListener("load", completeHandler, false);
     ajax.addEventListener("error", errorHandler, false);
     ajax.addEventListener("abort", abortHandler, false);
-    ajax.open("POST", "/upload?mediaType=" + mediaType);
+    ajax.open("POST", "/upload/" + mediaType);
     ajax.send(formdata);
 }
 

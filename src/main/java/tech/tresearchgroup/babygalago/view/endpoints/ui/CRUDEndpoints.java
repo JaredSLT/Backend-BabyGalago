@@ -1,159 +1,42 @@
 package tech.tresearchgroup.babygalago.view.endpoints.ui;
 
 import io.activej.http.HttpMethod;
-import io.activej.http.HttpRequest;
-import io.activej.http.HttpResponse;
 import io.activej.http.RoutingServlet;
 import io.activej.inject.annotation.Provides;
-import io.activej.promise.Promisable;
+import io.activej.inject.module.AbstractModule;
 import lombok.AllArgsConstructor;
-import org.jetbrains.annotations.NotNull;
-import tech.tresearchgroup.babygalago.controller.SettingsController;
 import tech.tresearchgroup.babygalago.controller.endpoints.ui.CRUDEndpointsController;
-import tech.tresearchgroup.palila.controller.HttpResponses;
-import tech.tresearchgroup.palila.controller.ReflectionMethods;
+import tech.tresearchgroup.palila.controller.EndpointsRouter;
+import tech.tresearchgroup.palila.controller.RoutingServletBuilder;
+import tech.tresearchgroup.palila.model.endpoints.Endpoint;
 
 @AllArgsConstructor
-public class CRUDEndpoints extends HttpResponses {
+public class CRUDEndpoints extends AbstractModule implements EndpointsRouter {
     private final CRUDEndpointsController CRUDEndpointsController;
-    private final SettingsController settingsController;
 
+    /**
+     * Creates the endpoints and maps them to their respective methods
+     * @return the routing servlet
+     */
     @Provides
     public RoutingServlet servlet() {
-        return RoutingServlet.create()
-            .map(HttpMethod.GET, "/add/:mediaType", this::add)
-            .map(HttpMethod.POST, "/add/:mediaType", this::postAdd)
-            .map(HttpMethod.GET, "/browse/:mediaType", this::browse)
-            .map(HttpMethod.GET, "/edit/:mediaType/:id", this::edit)
-            .map(HttpMethod.POST, "/edit/:mediaType/:id", this::postEdit)
-            .map(HttpMethod.GET, "/new/:mediaType", this::newMediaType)
-            .map(HttpMethod.GET, "/popular/:mediaType", this::popular)
-            .map(HttpMethod.GET, "/view/:mediaType/:id", this::view)
-            .map(HttpMethod.GET, "/delete/:mediaType/:id", this::delete)
-            .map(HttpMethod.POST, "/delete/:mediaType/:id", this::postDelete);
+        return RoutingServletBuilder.build(getEndpoints());
     }
 
-    private @NotNull Promisable<HttpResponse> add(@NotNull HttpRequest httpRequest) {
-        try {
-            String mediaType = httpRequest.getPathParameter("mediaType");
-            Class className = ReflectionMethods.findClass(mediaType, settingsController.getEntityPackages());
-            if (className != null) {
-                return CRUDEndpointsController.add(className, httpRequest);
-            }
-            return notFound();
-        } catch (Exception e) {
-            if (settingsController.isDebug()) {
-                e.printStackTrace();
-            }
-        }
-        return error();
-    }
-
-    private Promisable<HttpResponse> postAdd(@NotNull HttpRequest httpRequest) {
-        return notImplemented();
-    }
-
-    private @NotNull Promisable<HttpResponse> browse(@NotNull HttpRequest httpRequest) {
-        try {
-            String mediaType = httpRequest.getPathParameter("mediaType");
-            Class className = ReflectionMethods.findClass(mediaType, settingsController.getEntityPackages());
-            if (className != null) {
-                return CRUDEndpointsController.browse(className, httpRequest);
-            }
-            return notFound();
-        } catch (Exception e) {
-            if (settingsController.isDebug()) {
-                e.printStackTrace();
-            }
-        }
-        return error();
-    }
-
-    private @NotNull Promisable<HttpResponse> edit(@NotNull HttpRequest httpRequest) {
-        try {
-            String mediaType = httpRequest.getPathParameter("mediaType");
-            Class className = ReflectionMethods.findClass(mediaType, settingsController.getEntityPackages());
-            if (className != null) {
-                return CRUDEndpointsController.edit(className, httpRequest);
-            }
-            return notFound();
-        } catch (Exception e) {
-            if (settingsController.isDebug()) {
-                e.printStackTrace();
-            }
-        }
-        return error();
-    }
-
-    private Promisable<HttpResponse> postEdit(@NotNull HttpRequest httpRequest) {
-        return notImplemented();
-    }
-
-    private @NotNull Promisable<HttpResponse> newMediaType(@NotNull HttpRequest httpRequest) {
-        try {
-            String mediaType = httpRequest.getPathParameter("mediaType");
-            Class className = ReflectionMethods.findClass(mediaType, settingsController.getEntityPackages());
-            if (className != null) {
-                return CRUDEndpointsController.newEntities(className, httpRequest);
-            }
-            return notFound();
-        } catch (Exception e) {
-            if (settingsController.isDebug()) {
-                e.printStackTrace();
-            }
-        }
-        return error();
-    }
-
-    private @NotNull Promisable<HttpResponse> popular(@NotNull HttpRequest httpRequest) {
-        try {
-            String mediaType = httpRequest.getPathParameter("mediaType");
-            Class className = ReflectionMethods.findClass(mediaType, settingsController.getEntityPackages());
-            if (className != null) {
-                return CRUDEndpointsController.popularEntities(className, httpRequest);
-            }
-            return notFound();
-        } catch (Exception e) {
-            if (settingsController.isDebug()) {
-                e.printStackTrace();
-            }
-        }
-        return error();
-    }
-
-    private @NotNull Promisable<HttpResponse> view(@NotNull HttpRequest httpRequest) {
-        try {
-            String mediaType = httpRequest.getPathParameter("mediaType");
-            Class className = ReflectionMethods.findClass(mediaType, settingsController.getEntityPackages());
-            if (className != null) {
-                return CRUDEndpointsController.view(className, httpRequest);
-            }
-            return notFound();
-        } catch (Exception e) {
-            if (settingsController.isDebug()) {
-                e.printStackTrace();
-            }
-        }
-        return error();
-    }
-
-    private @NotNull Promisable<HttpResponse> delete(@NotNull HttpRequest httpRequest) {
-        try {
-            String mediaType = httpRequest.getPathParameter("mediaType");
-            Class className = ReflectionMethods.findClass(mediaType, settingsController.getEntityPackages());
-            if (className != null) {
-                return CRUDEndpointsController.delete(className, httpRequest);
-            }
-            return notFound();
-        } catch (Exception e) {
-            if (settingsController.isDebug()) {
-                e.printStackTrace();
-            }
-        }
-        return error();
-    }
-
-    private Promisable<HttpResponse> postDelete(@NotNull HttpRequest httpRequest) {
-        return notImplemented();
+    @Override
+    public Endpoint[] getEndpoints() {
+        return new Endpoint[]{
+            new Endpoint(HttpMethod.GET, "/add/:mediaType", CRUDEndpointsController::add),
+            new Endpoint(HttpMethod.POST, "/add/:mediaType", CRUDEndpointsController::createObjectFromForm),
+            new Endpoint(HttpMethod.GET, "/browse/:mediaType", CRUDEndpointsController::browse),
+            new Endpoint(HttpMethod.GET, "/edit/:mediaType/:id", CRUDEndpointsController::edit),
+            new Endpoint(HttpMethod.POST, "/edit/:mediaType/:id", CRUDEndpointsController::updateObjectFromForm),
+            new Endpoint(HttpMethod.GET, "/new/:mediaType", CRUDEndpointsController::newEntities),
+            new Endpoint(HttpMethod.GET, "/popular/:mediaType", CRUDEndpointsController::popularEntities),
+            new Endpoint(HttpMethod.GET, "/view/:mediaType/:id", CRUDEndpointsController::view),
+            new Endpoint(HttpMethod.GET, "/delete/:mediaType/:id", CRUDEndpointsController::delete),
+            new Endpoint(HttpMethod.POST, "/delete/:mediaType/:id", CRUDEndpointsController::postDelete),
+            new Endpoint(HttpMethod.POST, "/add/:mediaType/upload/:varName", CRUDEndpointsController::postUpload),
+        };
     }
 }

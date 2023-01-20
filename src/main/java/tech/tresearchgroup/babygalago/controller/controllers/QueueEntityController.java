@@ -9,6 +9,7 @@ import org.quartz.impl.StdSchedulerFactory;
 import tech.tresearchgroup.babygalago.controller.SettingsController;
 import tech.tresearchgroup.babygalago.controller.queues.ConverterWorker;
 import tech.tresearchgroup.palila.controller.GenericController;
+import tech.tresearchgroup.palila.model.Card;
 import tech.tresearchgroup.palila.model.enums.PermissionGroupEnum;
 import tech.tresearchgroup.schemas.galago.entities.QueueEntity;
 
@@ -23,13 +24,17 @@ public class QueueEntityController extends GenericController {
     private static Scheduler scheduler;
     private static SettingsController settingsController;
 
+
+    /**
+     * Sets up the queue entity controller. To understand this class better, have a look at the class it extends (GenericController)
+     */
     public QueueEntityController(HikariDataSource hikariDataSource,
                                  Gson gson,
                                  Client client,
                                  BinarySerializer<QueueEntity> serializer,
                                  int reindexSize,
                                  SettingsController settingsController,
-                                 UserEntityController userEntityController) throws Exception {
+                                 ExtendedUserEntityController extendedUserEntityController) throws Exception {
         super(
             hikariDataSource,
             gson,
@@ -44,7 +49,8 @@ public class QueueEntityController extends GenericController {
             PermissionGroupEnum.USER,
             PermissionGroupEnum.USER,
             PermissionGroupEnum.USER,
-            userEntityController
+            extendedUserEntityController,
+            new Card()
         );
         scheduler = StdSchedulerFactory.getDefaultScheduler();
         Trigger converterTrigger = TriggerBuilder.newTrigger()
@@ -57,10 +63,18 @@ public class QueueEntityController extends GenericController {
         QueueEntityController.settingsController = settingsController;
     }
 
+    /**
+     * Gets the number of jobs in the queue
+     * @return the queue size
+     */
     public static long getQueueSize() {
         return jobs.size();
     }
 
+    /**
+     * Stops the converter queue
+     * @return true if successful
+     */
     public boolean stopConverterQueue() {
         try {
             scheduler.pauseJob(converterWorker.getKey());
@@ -73,6 +87,10 @@ public class QueueEntityController extends GenericController {
         return false;
     }
 
+    /**
+     * Starts the converter queue
+     * @return true if successful
+     */
     public boolean startConverterQueue() {
         try {
             scheduler.resumeJob(converterWorker.getKey());
@@ -85,6 +103,10 @@ public class QueueEntityController extends GenericController {
         return false;
     }
 
+    /**
+     * Checks if the converter queue is running
+     * @return true if yes
+     */
     public boolean isConverterQueueRunning() {
         try {
             return !isJobPaused(converterWorker);
@@ -96,6 +118,12 @@ public class QueueEntityController extends GenericController {
         return false;
     }
 
+    /**
+     * Checks if the job is paused
+     * @param jobDetail the job to check
+     * @return true if yes
+     * @throws SchedulerException if it failed to examine the job
+     */
     private boolean isJobPaused(JobDetail jobDetail) throws SchedulerException {
         List<? extends Trigger> triggers = scheduler.getTriggersOfJob(jobDetail.getKey());
         for (Trigger trigger : triggers) {

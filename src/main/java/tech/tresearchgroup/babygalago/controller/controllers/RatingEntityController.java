@@ -4,8 +4,10 @@ import com.google.gson.Gson;
 import com.meilisearch.sdk.Client;
 import com.zaxxer.hikari.HikariDataSource;
 import io.activej.http.HttpResponse;
+import io.activej.promise.Promisable;
 import io.activej.serializer.BinarySerializer;
 import tech.tresearchgroup.palila.controller.GenericController;
+import tech.tresearchgroup.palila.model.Card;
 import tech.tresearchgroup.palila.model.PageMediaEntity;
 import tech.tresearchgroup.palila.model.enums.PermissionGroupEnum;
 import tech.tresearchgroup.schemas.galago.entities.RatingEntity;
@@ -18,13 +20,18 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class RatingEntityController extends GenericController {
+    private final HikariDataSource hikariDataSource;
+
+    /**
+     * Sets up the rating entity controller. To understand this class better, have a look at the class it extends (GenericController)
+     */
     public RatingEntityController(HikariDataSource hikariDataSource,
                                   Gson gson,
                                   Client client,
                                   BinarySerializer<RatingEntity> serializer,
                                   int reindexSize,
                                   Object sample,
-                                  UserEntityController userEntityController) throws Exception {
+                                  ExtendedUserEntityController extendedUserEntityController) throws Exception {
         super(
             hikariDataSource,
             gson,
@@ -39,11 +46,21 @@ public class RatingEntityController extends GenericController {
             PermissionGroupEnum.USER,
             PermissionGroupEnum.USER,
             PermissionGroupEnum.USER,
-            userEntityController
+            extendedUserEntityController,
+            new Card()
         );
+        this.hikariDataSource = hikariDataSource;
     }
 
-    public HttpResponse getRatings(String mediaType, int mediaId) throws IOException, SQLException {
+    /**
+     * Gets the ratings for an entity
+     * @param mediaType the type of media
+     * @param mediaId the media id
+     * @return the response page
+     * @throws IOException if it fails to parse the data
+     * @throws SQLException if it fails to load the data from the db
+     */
+    public Promisable<HttpResponse> getRatings(String mediaType, int mediaId) throws IOException, SQLException {
         //Todo caching system and overrride the functions that don't include the media type
         Connection connection = hikariDataSource.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(" SELECT * FROM ratingentity WHERE mediaType = ? AND mediaId = ?");

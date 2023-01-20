@@ -2,108 +2,134 @@ package tech.tresearchgroup.babygalago.controller.modules;
 
 import io.activej.inject.annotation.Provides;
 import io.activej.inject.module.AbstractModule;
-import tech.tresearchgroup.babygalago.controller.SettingsController;
-import tech.tresearchgroup.babygalago.controller.controllers.NotificationEntityController;
 import tech.tresearchgroup.babygalago.view.pages.*;
 
+/**
+ * This class is used for dependency injection. It sets up pages and forms to be used elsewhere
+ */
 public class PagesAndFormsModule extends AbstractModule {
     @Provides
-    AboutPage aboutPage(SettingsController settingsController, NotificationEntityController notificationEntityController) {
-        return new AboutPage(settingsController, notificationEntityController);
+    AboutPage aboutPage() {
+        return new AboutPage();
     }
 
     @Provides
-    DeniedPage deniedPage(SettingsController settingsController, NotificationEntityController notificationEntityController) {
-        return new DeniedPage(settingsController, notificationEntityController);
+    DeniedPage deniedPage() {
+        return new DeniedPage();
     }
 
     @Provides
-    DisabledPage disabledPage(SettingsController settingsController, NotificationEntityController notificationEntityController) {
-        return new DisabledPage(settingsController, notificationEntityController);
+    DisabledPage disabledPage() {
+        return new DisabledPage();
     }
 
     @Provides
-    IndexPage indexPage(SettingsController settingsController, NotificationEntityController notificationEntityController) {
-        return new IndexPage(settingsController, notificationEntityController);
+    IndexPage indexPage() {
+        return new IndexPage();
     }
 
     @Provides
-    LicensesPage licensesPage(SettingsController settingsController, NotificationEntityController notificationEntityController) {
-        return new LicensesPage(settingsController, notificationEntityController);
+    LicensesPage licensesPage() {
+        return new LicensesPage();
     }
 
     @Provides
-    LoginPage loginPage(SettingsController settingsController, NotificationEntityController notificationEntityController) {
-        return new LoginPage(settingsController, notificationEntityController);
+    LoginPage loginPage() {
+        return new LoginPage();
     }
 
     @Provides
-    MaintenancePage maintenancePage(SettingsController settingsController) {
-        return new MaintenancePage(settingsController);
+    MaintenancePage maintenancePage() {
+        return new MaintenancePage();
     }
 
     @Provides
-    NewsPage newsPage(SettingsController settingsController, NotificationEntityController notificationEntityController) {
-        return new NewsPage(settingsController, notificationEntityController);
+    NewsPage newsPage() {
+        return new NewsPage();
     }
 
     @Provides
-    NotificationsPage notificationsPage(SettingsController settingsController, NotificationEntityController notificationEntityController) {
-        return new NotificationsPage(settingsController, notificationEntityController);
+    NotificationsPage notificationsPage() {
+        return new NotificationsPage();
     }
 
     @Provides
-    ProfilePage profilePage(SettingsController settingsController, NotificationEntityController notificationEntityController) {
-        return new ProfilePage(settingsController, notificationEntityController);
+    ProfilePage profilePage() {
+        return new ProfilePage();
     }
 
     @Provides
-    QueuePage queuePage(SettingsController settingsController, NotificationEntityController notificationEntityController) {
-        return new QueuePage(settingsController, notificationEntityController);
+    QueuePage queuePage() {
+        return new QueuePage();
     }
 
     @Provides
-    RegisterPage registerPage(SettingsController settingsController, NotificationEntityController notificationEntityController) {
-        return new RegisterPage(settingsController, notificationEntityController);
+    RegisterPage registerPage() {
+        return new RegisterPage();
     }
 
     @Provides
-    ResetPage resetPage(SettingsController settingsController, NotificationEntityController notificationEntityController) {
-        return new ResetPage(settingsController, notificationEntityController);
+    ResetPage resetPage() {
+        return new ResetPage();
     }
 
     @Provides
-    SearchPage searchPage(SettingsController settingsController, NotificationEntityController notificationEntityController) {
-        return new SearchPage(settingsController, notificationEntityController);
+    SearchPage searchPage() {
+        return new SearchPage();
     }
 
     @Provides
-    UploadPage uploadPage(SettingsController settingsController, NotificationEntityController notificationEntityController) {
-        return new UploadPage(settingsController, notificationEntityController);
+    UploadPage uploadPage() {
+        return new UploadPage();
     }
 
     @Provides
-    ViewPage viewPage(SettingsController settingsController, NotificationEntityController notificationEntityController) {
-        return new ViewPage(settingsController, notificationEntityController);
+    ViewPage viewPage() {
+        return new ViewPage();
     }
 
     @Provides
-    PlayPage playBookPage(SettingsController settingsController, NotificationEntityController notificationEntityController) {
-        return new PlayPage(settingsController, notificationEntityController);
+    PlayPage playBookPage() {
+        return new PlayPage();
     }
 
     @Provides
-    SettingsPage settingsPage(NotificationEntityController notificationEntityController, SettingsController settingsController) {
-        return new SettingsPage(notificationEntityController, settingsController);
+    SettingsPage settingsPage() {
+        return new SettingsPage();
     }
 
     @Provides
-    UserSettingsPage userSettingsPage(SettingsController settingsController, NotificationEntityController notificationEntityController) {
-        return new UserSettingsPage(settingsController, notificationEntityController);
+    UserSettingsPage userSettingsPage() {
+        return new UserSettingsPage();
     }
 
     @Provides
-    tech.tresearchgroup.colobus.view.IndexPage colobusIndexPage(SettingsController settingsController) {
-        return new tech.tresearchgroup.colobus.view.IndexPage(settingsController);
+    tech.tresearchgroup.colobus.view.IndexPage colobusIndexPage() {
+        return new tech.tresearchgroup.colobus.view.IndexPage();
+    }
+
+    @Provides
+    EntityPage entityPage() {
+        return new EntityPage();
+    }
+
+    @Provides
+    ErrorPage errorPage() {
+        return new ErrorPage();
+    }
+
+    @Provides
+    NotFoundPage notFoundPage() {
+        return new NotFoundPage();
+    }
+
+    @Provides
+    UnderConstructionPage underConstructionPage() {
+        return new UnderConstructionPage();
+    }
+
+    @Provides
+    EmptySearchPage emptySearchPage() {
+        return new EmptySearchPage();
     }
 }

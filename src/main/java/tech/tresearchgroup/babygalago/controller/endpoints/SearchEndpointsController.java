@@ -9,10 +9,10 @@ import tech.tresearchgroup.babygalago.controller.controllers.ExtendedUserEntityC
 import tech.tresearchgroup.babygalago.controller.controllers.NotificationEntityController;
 import tech.tresearchgroup.babygalago.view.pages.EmptySearchPage;
 import tech.tresearchgroup.babygalago.view.pages.SearchPage;
+import tech.tresearchgroup.cao.controller.GenericCAO;
 import tech.tresearchgroup.palila.controller.BasicController;
 import tech.tresearchgroup.palila.controller.GenericController;
 import tech.tresearchgroup.palila.controller.ReflectionMethods;
-import tech.tresearchgroup.cao.controller.GenericCAO;
 import tech.tresearchgroup.palila.model.Card;
 import tech.tresearchgroup.palila.model.enums.PermissionGroupEnum;
 import tech.tresearchgroup.palila.model.enums.ReturnType;
@@ -57,16 +57,17 @@ public class SearchEndpointsController extends BasicController {
 
     /**
      * Searches all the media entities
-     * @param query the query
+     *
+     * @param query       the query
      * @param httpRequest the request
      * @return the global search result entity
-     * @throws SQLException if it fails
+     * @throws SQLException              if it fails
      * @throws InvocationTargetException if it fails
-     * @throws NoSuchMethodException if it fails
-     * @throws IllegalAccessException if it fails
-     * @throws InstantiationException if it fails
-     * @throws ClassNotFoundException if it fails
-     * @throws IOException if it fails
+     * @throws NoSuchMethodException     if it fails
+     * @throws IllegalAccessException    if it fails
+     * @throws InstantiationException    if it fails
+     * @throws ClassNotFoundException    if it fails
+     * @throws IOException               if it fails
      */
     private GlobalSearchResultEntity search(String query, HttpRequest httpRequest) throws SQLException, InvocationTargetException, NoSuchMethodException, IllegalAccessException, InstantiationException, ClassNotFoundException, IOException {
         httpRequest.loadBody();
@@ -96,6 +97,7 @@ public class SearchEndpointsController extends BasicController {
 
     /**
      * Performs a global search and returns JSON
+     *
      * @param httpRequest the request
      * @return the search result
      * @throws Exception if it fails
@@ -111,6 +113,7 @@ public class SearchEndpointsController extends BasicController {
 
     /**
      * Performs a search and renders it in the search page
+     *
      * @param httpRequest the request
      * @return the page
      * @throws Exception if it fails
@@ -148,8 +151,7 @@ public class SearchEndpointsController extends BasicController {
                                 settingsController.isTvShowLibraryEnable(),
                                 settingsController.isGameLibraryEnable(),
                                 settingsController.isMusicLibraryEnable(),
-                                settingsController.isBookLibraryEnable(),
-                                genericCAO
+                                settingsController.isBookLibraryEnable()
                             ).getBytes()
                         );
                     }
@@ -165,6 +167,7 @@ public class SearchEndpointsController extends BasicController {
 
     /**
      * Renders an empty search page (if a search yielded no results)
+     *
      * @param httpRequest the request
      * @return the page
      * @throws Exception if it fails
@@ -194,6 +197,7 @@ public class SearchEndpointsController extends BasicController {
 
     /**
      * Performs a search for a specific media type
+     *
      * @param httpRequest the request
      * @return the JSON or 500
      * @throws Exception if it fails

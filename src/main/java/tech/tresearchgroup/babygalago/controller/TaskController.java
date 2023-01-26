@@ -37,6 +37,7 @@ public class TaskController {
 
     /**
      * Creates each trigger
+     *
      * @throws SchedulerException the triggers couldn't be setup
      */
     public TaskController() throws SchedulerException {
@@ -62,6 +63,7 @@ public class TaskController {
 
     /**
      * Sets up the triggers scan frequency
+     *
      * @param mediaType the media type for the trigger
      * @return the trigger
      */
@@ -82,6 +84,7 @@ public class TaskController {
 
     /**
      * Whether the library is enabled
+     *
      * @param mediaType the media type to check
      * @return true if enabled
      */
@@ -108,6 +111,7 @@ public class TaskController {
 
     /**
      * Calculates the amount of time in seconds from other formats (hours, days, etc)
+     *
      * @param mediaType the media type to calculate
      * @return the time in seconds
      */
@@ -134,7 +138,8 @@ public class TaskController {
 
     /**
      * Calculates a duration of time in seconds
-     * @param number the duration
+     *
+     * @param number            the duration
      * @param scanFrequencyEnum the frequency
      * @return the time in seconds
      */
@@ -241,6 +246,7 @@ public class TaskController {
 
     /**
      * Stops all the jobs
+     *
      * @return true if successful
      */
     public boolean stopAllJobs() {
@@ -249,6 +255,7 @@ public class TaskController {
 
     /**
      * Stops the book job
+     *
      * @return true if successful
      */
     public boolean stopBookJob() {
@@ -265,6 +272,7 @@ public class TaskController {
 
     /**
      * Stops the game job
+     *
      * @return true if successful
      */
     public boolean stopGameJob() {
@@ -281,6 +289,7 @@ public class TaskController {
 
     /**
      * Stops the movie job
+     *
      * @return true if successful
      */
     public boolean stopMovieJob() {
@@ -297,6 +306,7 @@ public class TaskController {
 
     /**
      * Stops the movie job
+     *
      * @return true if successful
      */
     public boolean stopMusicJob() {
@@ -313,6 +323,7 @@ public class TaskController {
 
     /**
      * Stops the tv show job
+     *
      * @return true if successful
      */
     public boolean stopTvShowJob() {
@@ -329,6 +340,7 @@ public class TaskController {
 
     /**
      * Starts all the jobs
+     *
      * @return true if successful
      */
     public boolean startAllJobs() {
@@ -337,6 +349,7 @@ public class TaskController {
 
     /**
      * Stops the book job
+     *
      * @return true if successful
      */
     public boolean startBookJob() {
@@ -353,6 +366,7 @@ public class TaskController {
 
     /**
      * Starts the game job
+     *
      * @return true if successful
      */
     public boolean startGameJob() {
@@ -369,6 +383,7 @@ public class TaskController {
 
     /**
      * Starts the movie job
+     *
      * @return true is successful
      */
     public boolean startMovieJob() {
@@ -385,6 +400,7 @@ public class TaskController {
 
     /**
      * Starts the music job
+     *
      * @return true if successful
      */
     public boolean startMusicJob() {
@@ -401,6 +417,7 @@ public class TaskController {
 
     /**
      * Checks if the tv show job is running
+     *
      * @return true if yes
      */
     public boolean startTvShowJob() {
@@ -417,6 +434,7 @@ public class TaskController {
 
     /**
      * Checks if the book is running
+     *
      * @return true if yes
      */
     public boolean isBookRunning() {
@@ -432,6 +450,7 @@ public class TaskController {
 
     /**
      * Checks if the game job is running
+     *
      * @return true if yes
      */
     public boolean isGameRunning() {
@@ -447,6 +466,7 @@ public class TaskController {
 
     /**
      * Checks if the movie job is running
+     *
      * @return true if yes
      */
     public boolean isMovieRunning() {
@@ -462,6 +482,7 @@ public class TaskController {
 
     /**
      * Checks if the music job is running
+     *
      * @return true if yes
      */
     public boolean isMusicRunning() {
@@ -477,6 +498,7 @@ public class TaskController {
 
     /**
      * Checks if the tv show job is running
+     *
      * @return true if yes
      */
     public boolean isTvShowRunning() {
@@ -492,6 +514,7 @@ public class TaskController {
 
     /**
      * Checks if a job is paused
+     *
      * @param jobDetail the job
      * @return true if yes
      * @throws SchedulerException job examination failed

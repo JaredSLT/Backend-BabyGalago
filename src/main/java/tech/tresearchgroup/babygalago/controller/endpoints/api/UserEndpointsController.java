@@ -27,13 +27,14 @@ public class UserEndpointsController extends BasicController {
 
     /**
      * Gets a list of extended user entities
+     *
      * @param httpRequest the request
      * @return the page response
-     * @throws SQLException if its fails
-     * @throws IOException if its fails
+     * @throws SQLException              if its fails
+     * @throws IOException               if its fails
      * @throws InvocationTargetException if its fails
-     * @throws InstantiationException if its fails
-     * @throws IllegalAccessException if its fails
+     * @throws InstantiationException    if its fails
+     * @throws IllegalAccessException    if its fails
      */
     public Promisable<HttpResponse> getUsers(HttpRequest httpRequest) throws SQLException, IOException, InvocationTargetException, InstantiationException, IllegalAccessException {
         ExtendedUserEntity extendedUserEntity = (ExtendedUserEntity) getUser(httpRequest, extendedUserEntityController);
@@ -48,14 +49,15 @@ public class UserEndpointsController extends BasicController {
 
     /**
      * Creates an extended user entity
+     *
      * @param httpRequest the request
      * @return the page response
-     * @throws SQLException if its fails
-     * @throws IOException if its fails
+     * @throws SQLException              if its fails
+     * @throws IOException               if its fails
      * @throws InvocationTargetException if its fails
-     * @throws NoSuchMethodException if its fails
-     * @throws IllegalAccessException if its fails
-     * @throws InstantiationException if its fails
+     * @throws NoSuchMethodException     if its fails
+     * @throws IllegalAccessException    if its fails
+     * @throws InstantiationException    if its fails
      */
     public Promisable<HttpResponse> postUser(HttpRequest httpRequest) throws SQLException, IOException, InvocationTargetException, NoSuchMethodException, IllegalAccessException, InstantiationException {
         if (settingsController.isAllowRegistration()) {
@@ -67,14 +69,15 @@ public class UserEndpointsController extends BasicController {
 
     /**
      * Creates an extended user entity
+     *
      * @param httpRequest the request
      * @return the page response
-     * @throws SQLException if its fails
+     * @throws SQLException              if its fails
      * @throws InvocationTargetException if its fails
-     * @throws NoSuchMethodException if its fails
-     * @throws IllegalAccessException if its fails
-     * @throws InstantiationException if its fails
-     * @throws IOException if its fails
+     * @throws NoSuchMethodException     if its fails
+     * @throws IllegalAccessException    if its fails
+     * @throws InstantiationException    if its fails
+     * @throws IOException               if its fails
      */
     public Promisable<HttpResponse> putUser(HttpRequest httpRequest) throws SQLException, InvocationTargetException, NoSuchMethodException, IllegalAccessException, InstantiationException, IOException {
         if (settingsController.isAllowRegistration()) {
@@ -86,13 +89,14 @@ public class UserEndpointsController extends BasicController {
 
     /**
      * Gets an extended user entity by its id
+     *
      * @param httpRequest the request
      * @return the page response
-     * @throws SQLException if its fails
-     * @throws IOException if its fails
+     * @throws SQLException              if its fails
+     * @throws IOException               if its fails
      * @throws InvocationTargetException if its fails
-     * @throws InstantiationException if its fails
-     * @throws IllegalAccessException if its fails
+     * @throws InstantiationException    if its fails
+     * @throws IllegalAccessException    if its fails
      */
     public Promisable<HttpResponse> getUserById(HttpRequest httpRequest) throws SQLException, IOException, InvocationTargetException, InstantiationException, IllegalAccessException {
         ExtendedUserEntity extendedUserEntity = (ExtendedUserEntity) getUser(httpRequest, extendedUserEntityController);
@@ -106,6 +110,7 @@ public class UserEndpointsController extends BasicController {
 
     /**
      * Patches an extended user entity
+     *
      * @param httpRequest the request
      * @return the page response
      * @throws Exception if its fails
@@ -123,6 +128,7 @@ public class UserEndpointsController extends BasicController {
 
     /**
      * Deletes a user entity by its id
+     *
      * @param httpRequest the request
      * @return the page response
      * @throws Exception if its fails
@@ -139,14 +145,15 @@ public class UserEndpointsController extends BasicController {
 
     /**
      * Creates a user entity
+     *
      * @param httpRequest the request
      * @return the page response
-     * @throws SQLException if its fails
+     * @throws SQLException              if its fails
      * @throws InvocationTargetException if its fails
-     * @throws NoSuchMethodException if its fails
-     * @throws IllegalAccessException if its fails
-     * @throws InstantiationException if its fails
-     * @throws IOException if its fails
+     * @throws NoSuchMethodException     if its fails
+     * @throws IllegalAccessException    if its fails
+     * @throws InstantiationException    if its fails
+     * @throws IOException               if its fails
      */
     public Promisable<HttpResponse> postUserById(HttpRequest httpRequest) throws SQLException, InvocationTargetException, NoSuchMethodException, IllegalAccessException, InstantiationException, IOException {
         ExtendedUserEntity extendedUserEntity = (ExtendedUserEntity) getUser(httpRequest, extendedUserEntityController);
@@ -162,6 +169,7 @@ public class UserEndpointsController extends BasicController {
 
     /**
      * Returns a sample extended user entity
+     *
      * @param httpRequest the request
      * @return the page response
      */
@@ -171,6 +179,7 @@ public class UserEndpointsController extends BasicController {
 
     /**
      * Gets which methods are available for this endpoint
+     *
      * @param httpRequest the request
      * @return the response page
      */
@@ -181,6 +190,7 @@ public class UserEndpointsController extends BasicController {
 
     /**
      * Gets which methods are available for this endpoint
+     *
      * @param httpRequest the request
      * @return the response page
      */

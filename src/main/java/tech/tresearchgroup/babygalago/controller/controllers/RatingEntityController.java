@@ -54,10 +54,11 @@ public class RatingEntityController extends GenericController {
 
     /**
      * Gets the ratings for an entity
+     *
      * @param mediaType the type of media
-     * @param mediaId the media id
+     * @param mediaId   the media id
      * @return the response page
-     * @throws IOException if it fails to parse the data
+     * @throws IOException  if it fails to parse the data
      * @throws SQLException if it fails to load the data from the db
      */
     public Promisable<HttpResponse> getRatings(String mediaType, int mediaId) throws IOException, SQLException {

@@ -27,6 +27,7 @@ public class SettingsEndpointsController extends BasicController {
 
     /**
      * Loads and returns the Settings.json file
+     *
      * @param httpRequest the request
      * @return the page response
      * @throws IOException if its fails
@@ -37,6 +38,7 @@ public class SettingsEndpointsController extends BasicController {
 
     /**
      * Patches Settings.json
+     *
      * @param httpRequest the request
      * @return the page response
      */
@@ -48,14 +50,15 @@ public class SettingsEndpointsController extends BasicController {
 
     /**
      * Gets the users settings
+     *
      * @param httpRequest the request
      * @return the page response
-     * @throws SQLException if its fails
-     * @throws IOException if its fails
+     * @throws SQLException              if its fails
+     * @throws IOException               if its fails
      * @throws InvocationTargetException if its fails
-     * @throws NoSuchMethodException if its fails
-     * @throws InstantiationException if its fails
-     * @throws IllegalAccessException if its fails
+     * @throws NoSuchMethodException     if its fails
+     * @throws InstantiationException    if its fails
+     * @throws IllegalAccessException    if its fails
      */
     public Promisable<HttpResponse> getUserSettings(HttpRequest httpRequest) throws SQLException, IOException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         long userId = userController.getUserId(httpRequest);
@@ -64,6 +67,7 @@ public class SettingsEndpointsController extends BasicController {
 
     /**
      * Creates a user settings entity
+     *
      * @param httpRequest the request
      * @return the page response
      * @throws Exception if its fails
@@ -75,6 +79,7 @@ public class SettingsEndpointsController extends BasicController {
 
     /**
      * Patches user settings entity
+     *
      * @param httpRequest the request
      * @return the page response
      * @throws Exception if its fails
@@ -87,6 +92,7 @@ public class SettingsEndpointsController extends BasicController {
 
     /**
      * Deletes a users settings
+     *
      * @param httpRequest the request
      * @return the page response
      * @throws Exception if its fails
@@ -98,6 +104,7 @@ public class SettingsEndpointsController extends BasicController {
 
     /**
      * Gets which methods are available for this endpoint
+     *
      * @param httpRequest the request
      * @return the response page
      */
@@ -108,6 +115,7 @@ public class SettingsEndpointsController extends BasicController {
 
     /**
      * Gets which methods are available for this endpoint
+     *
      * @param httpRequest the request
      * @return the response page
      */

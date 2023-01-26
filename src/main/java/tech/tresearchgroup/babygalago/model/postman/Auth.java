@@ -2,12 +2,12 @@ package tech.tresearchgroup.babygalago.model.postman;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Auth{
+public class Auth {
 
-	@SerializedName("type")
-	private String type;
+    @SerializedName("type")
+    private String type;
 
-	public String getType(){
-		return type;
-	}
+    public String getType() {
+        return type;
+    }
 }

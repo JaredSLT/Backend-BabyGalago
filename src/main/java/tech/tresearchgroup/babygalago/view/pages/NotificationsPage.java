@@ -23,6 +23,7 @@ import static j2html.TagCreator.*;
 public class NotificationsPage implements RenderablePage {
     /**
      * Generates a notification item
+     *
      * @param notificationEntity the entity to render
      * @return the rendered notification as a TrTag
      */
@@ -42,19 +43,20 @@ public class NotificationsPage implements RenderablePage {
 
     /**
      * Renders the page
-     * @param currentPage the current page number
-     * @param maxPage the maximum page number
+     *
+     * @param currentPage            the current page number
+     * @param maxPage                the maximum page number
      * @param notificationEntityList the list of notification entities to render
-     * @param loggedIn whether the user is logged in
-     * @param unreadCount the number of unread notifications
-     * @param permissionGroupEnum the permission group which the user belongs to
-     * @param serverName the name of the server
-     * @param isEnableUpload if file upload is enabled
-     * @param isMovieLibraryEnable if the movie library is enabled
-     * @param isTvShowLibraryEnable if the tv show library is enabled
-     * @param isGameLibraryEnable if the game library is enabled
-     * @param isMusicLibraryEnable if the music library is enabled
-     * @param isBookLibraryEnable if the book library is enabled
+     * @param loggedIn               whether the user is logged in
+     * @param unreadCount            the number of unread notifications
+     * @param permissionGroupEnum    the permission group which the user belongs to
+     * @param serverName             the name of the server
+     * @param isEnableUpload         if file upload is enabled
+     * @param isMovieLibraryEnable   if the movie library is enabled
+     * @param isTvShowLibraryEnable  if the tv show library is enabled
+     * @param isGameLibraryEnable    if the game library is enabled
+     * @param isMusicLibraryEnable   if the music library is enabled
+     * @param isBookLibraryEnable    if the book library is enabled
      * @return the page as a string
      */
     public String render(int currentPage,
@@ -73,7 +75,7 @@ public class NotificationsPage implements RenderablePage {
                          GenericCAO genericCAO) {
         return document(
             html(
-                HeadComponent.render(serverName, genericCAO),
+                HeadComponent.render(serverName),
                 TopBarComponent.render(unreadCount, QueueEntityController.getQueueSize(), loggedIn, permissionGroupEnum, isEnableUpload),
                 SideBarComponent.render(
                     loggedIn,
@@ -81,14 +83,13 @@ public class NotificationsPage implements RenderablePage {
                     isTvShowLibraryEnable,
                     isGameLibraryEnable,
                     isMusicLibraryEnable,
-                    isBookLibraryEnable,
-                    genericCAO
+                    isBookLibraryEnable
                 ),
                 body(
                     div(
                         div(
                             br(),
-                            BulkActionsComponent.render("notification", genericCAO),
+                            BulkActionsComponent.render("notification"),
                             label("Notifications").withClass("overviewLabel"),
                             br(),
                             br(),
@@ -118,6 +119,7 @@ public class NotificationsPage implements RenderablePage {
 
     /**
      * Renders out the page with dummy data
+     *
      * @return the page as a string
      */
     @Override

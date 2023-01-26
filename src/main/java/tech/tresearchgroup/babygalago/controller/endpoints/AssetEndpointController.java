@@ -28,6 +28,7 @@ public class AssetEndpointController extends BasicController {
 
     /**
      * Returns the requested asset binary
+     *
      * @param httpRequest the request
      * @return the binary
      * @throws IOException if it fails
@@ -50,6 +51,7 @@ public class AssetEndpointController extends BasicController {
 
     /**
      * Combines all CSS minified pages together as styles.min.css
+     *
      * @param httpRequest the request
      * @return the combined css
      */

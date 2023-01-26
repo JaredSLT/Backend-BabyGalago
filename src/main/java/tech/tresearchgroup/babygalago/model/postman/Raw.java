@@ -2,12 +2,12 @@ package tech.tresearchgroup.babygalago.model.postman;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Raw{
+public class Raw {
 
-	@SerializedName("language")
-	private String language;
+    @SerializedName("language")
+    private String language;
 
-	public String getLanguage(){
-		return language;
-	}
+    public String getLanguage() {
+        return language;
+    }
 }

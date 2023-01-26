@@ -23,6 +23,7 @@ public class NotificationsEndpointsController extends BasicController {
 
     /**
      * Creates a notification entity
+     *
      * @param httpRequest the request
      * @return the page response
      * @throws Exception if its fails
@@ -34,6 +35,7 @@ public class NotificationsEndpointsController extends BasicController {
 
     /**
      * Creates a notification entity
+     *
      * @param httpRequest the request
      * @return the page response
      * @throws Exception if its fails
@@ -45,14 +47,15 @@ public class NotificationsEndpointsController extends BasicController {
 
     /**
      * Gets a list of notification entities
+     *
      * @param httpRequest the request
      * @return the page response
-     * @throws SQLException if its fails
-     * @throws IOException if its fails
+     * @throws SQLException              if its fails
+     * @throws IOException               if its fails
      * @throws InvocationTargetException if its fails
-     * @throws NoSuchMethodException if its fails
-     * @throws IllegalAccessException if its fails
-     * @throws InstantiationException if its fails
+     * @throws NoSuchMethodException     if its fails
+     * @throws IllegalAccessException    if its fails
+     * @throws InstantiationException    if its fails
      */
     public Promisable<HttpResponse> getNotifications(HttpRequest httpRequest) throws SQLException, IOException, InvocationTargetException, NoSuchMethodException, IllegalAccessException, InstantiationException {
         int page = httpRequest.getQueryParameter("page") != null ? Integer.parseInt(Objects.requireNonNull(httpRequest.getQueryParameter("page"))) : 0;
@@ -66,6 +69,7 @@ public class NotificationsEndpointsController extends BasicController {
 
     /**
      * Deletes a notification entity by id
+     *
      * @param httpRequest the request
      * @return the page response
      * @throws Exception if its fails
@@ -77,14 +81,15 @@ public class NotificationsEndpointsController extends BasicController {
 
     /**
      * Gets a notification entity by id
+     *
      * @param httpRequest the request
      * @return the page response
-     * @throws SQLException if its fails
-     * @throws IOException if its fails
+     * @throws SQLException              if its fails
+     * @throws IOException               if its fails
      * @throws InvocationTargetException if its fails
-     * @throws NoSuchMethodException if its fails
-     * @throws InstantiationException if its fails
-     * @throws IllegalAccessException if its fails
+     * @throws NoSuchMethodException     if its fails
+     * @throws InstantiationException    if its fails
+     * @throws IllegalAccessException    if its fails
      */
     public Promisable<HttpResponse> getNotificationById(HttpRequest httpRequest) throws SQLException, IOException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         long notificationId = Long.parseLong(httpRequest.getPathParameter("notificationId"));
@@ -97,6 +102,7 @@ public class NotificationsEndpointsController extends BasicController {
 
     /**
      * Gets which methods are available for this endpoint
+     *
      * @param httpRequest the request
      * @return the response page
      */
@@ -107,6 +113,7 @@ public class NotificationsEndpointsController extends BasicController {
 
     /**
      * Gets which methods are available for this endpoint
+     *
      * @param httpRequest the request
      * @return the response page
      */

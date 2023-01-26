@@ -4,40 +4,40 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class Request{
+public class Request {
 
-	@SerializedName("method")
-	private String method;
+    @SerializedName("method")
+    private String method;
 
-	@SerializedName("header")
-	private List<Object> header;
+    @SerializedName("header")
+    private List<Object> header;
 
-	@SerializedName("url")
-	private Url url;
+    @SerializedName("url")
+    private Url url;
 
-	@SerializedName("body")
-	private Body body;
+    @SerializedName("body")
+    private Body body;
 
-	@SerializedName("auth")
-	private Auth auth;
+    @SerializedName("auth")
+    private Auth auth;
 
-	public String getMethod(){
-		return method;
-	}
+    public String getMethod() {
+        return method;
+    }
 
-	public List<Object> getHeader(){
-		return header;
-	}
+    public List<Object> getHeader() {
+        return header;
+    }
 
-	public Url getUrl(){
-		return url;
-	}
+    public Url getUrl() {
+        return url;
+    }
 
-	public Body getBody(){
-		return body;
-	}
+    public Body getBody() {
+        return body;
+    }
 
-	public Auth getAuth(){
-		return auth;
-	}
+    public Auth getAuth() {
+        return auth;
+    }
 }

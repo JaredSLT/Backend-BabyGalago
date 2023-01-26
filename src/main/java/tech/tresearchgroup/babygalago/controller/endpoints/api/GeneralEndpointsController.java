@@ -29,6 +29,7 @@ public class GeneralEndpointsController extends BasicController {
 
     /**
      * Provides an executor for file uploads
+     *
      * @return the executor
      */
     @Provides
@@ -38,6 +39,7 @@ public class GeneralEndpointsController extends BasicController {
 
     /**
      * Gets the latest version
+     *
      * @param httpRequest the request
      * @return the response page
      * @throws IOException if it fails to check
@@ -49,6 +51,7 @@ public class GeneralEndpointsController extends BasicController {
 
     /**
      * Requests for the server to update to the newest version
+     *
      * @param httpRequest the request
      * @return the response page
      */
@@ -59,14 +62,15 @@ public class GeneralEndpointsController extends BasicController {
 
     /**
      * Uploads a file
+     *
      * @param httpRequest the request
      * @return the response page
-     * @throws SQLException if it fails to create the sql query
+     * @throws SQLException              if it fails to create the sql query
      * @throws InvocationTargetException if it fails to parse
-     * @throws NoSuchMethodException if the orm fails
-     * @throws IllegalAccessException if the orm fails
-     * @throws InstantiationException if the orm fails
-     * @throws IOException if the orm fails
+     * @throws NoSuchMethodException     if the orm fails
+     * @throws IllegalAccessException    if the orm fails
+     * @throws InstantiationException    if the orm fails
+     * @throws IOException               if the orm fails
      */
     public @NotNull Promisable<HttpResponse> postUpload(HttpRequest httpRequest) throws SQLException, InvocationTargetException, NoSuchMethodException, IllegalAccessException, InstantiationException, IOException {
         if (settingsController.isEnableUpload()) {
@@ -84,6 +88,7 @@ public class GeneralEndpointsController extends BasicController {
 
     /**
      * Gets the operating version
+     *
      * @param httpRequest the request
      * @return the response page
      * @throws IOException if it fails
@@ -94,6 +99,7 @@ public class GeneralEndpointsController extends BasicController {
 
     /**
      * Gets which methods are available for this endpoint
+     *
      * @param httpRequest the request
      * @return the response page
      */
@@ -111,6 +117,7 @@ public class GeneralEndpointsController extends BasicController {
 
     /**
      * Gets which methods are available for this endpoint
+     *
      * @param httpRequest the request
      * @return the response page
      */
@@ -128,6 +135,7 @@ public class GeneralEndpointsController extends BasicController {
 
     /**
      * Gets which methods are available for this endpoint
+     *
      * @param httpRequest the request
      * @return the response page
      */
@@ -144,6 +152,7 @@ public class GeneralEndpointsController extends BasicController {
 
     /**
      * Gets which methods are available for this endpoint
+     *
      * @param httpRequest the request
      * @return the response page
      */
@@ -161,6 +170,7 @@ public class GeneralEndpointsController extends BasicController {
 
     /**
      * Gets which methods are available for this endpoint
+     *
      * @param httpRequest the request
      * @return the response page
      */

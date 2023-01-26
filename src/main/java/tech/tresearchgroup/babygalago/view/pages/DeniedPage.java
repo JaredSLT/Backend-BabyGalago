@@ -5,7 +5,6 @@ import tech.tresearchgroup.babygalago.controller.controllers.QueueEntityControll
 import tech.tresearchgroup.babygalago.view.components.HeadComponent;
 import tech.tresearchgroup.babygalago.view.components.SideBarComponent;
 import tech.tresearchgroup.babygalago.view.components.TopBarComponent;
-import tech.tresearchgroup.cao.controller.GenericCAO;
 import tech.tresearchgroup.palila.model.enums.PermissionGroupEnum;
 import tech.tresearchgroup.palila.view.RenderablePage;
 
@@ -40,11 +39,10 @@ public class DeniedPage implements RenderablePage {
                          boolean isTvShowLibraryEnable,
                          boolean isGameLibraryEnable,
                          boolean isMusicLibraryEnable,
-                         boolean isBookLibraryEnable,
-                         GenericCAO genericCAO) {
+                         boolean isBookLibraryEnable) {
         return document(
             html(
-                HeadComponent.render(serverName, genericCAO),
+                HeadComponent.render(serverName),
                 TopBarComponent.render(unreadCount, QueueEntityController.getQueueSize(), loggedIn, permissionGroupEnum, isEnableUpload),
                 SideBarComponent.render(
                     loggedIn,
@@ -52,8 +50,7 @@ public class DeniedPage implements RenderablePage {
                     isTvShowLibraryEnable,
                     isGameLibraryEnable,
                     isMusicLibraryEnable,
-                    isBookLibraryEnable,
-                    genericCAO
+                    isBookLibraryEnable
                 ),
                 body(
                     div(
@@ -74,7 +71,6 @@ public class DeniedPage implements RenderablePage {
     @Override
     public List<String> render() {
         List<String> pages = new LinkedList<>();
-        /*
         pages.add(
             render(
                 true,
@@ -88,7 +84,7 @@ public class DeniedPage implements RenderablePage {
                 true,
                 true
             )
-        );*/
+        );
         return pages;
     }
 }

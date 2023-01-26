@@ -94,8 +94,7 @@ public class MainEndpointsController extends BasicController {
                 settingsController.isTvShowLibraryEnable(),
                 settingsController.isGameLibraryEnable(),
                 settingsController.isMusicLibraryEnable(),
-                settingsController.isBookLibraryEnable(),
-                genericCAO
+                settingsController.isBookLibraryEnable()
             ).getBytes()
         );
     }
@@ -245,8 +244,7 @@ public class MainEndpointsController extends BasicController {
                     settingsController.isTvShowLibraryEnable(),
                     settingsController.isGameLibraryEnable(),
                     settingsController.isMusicLibraryEnable(),
-                    settingsController.isBookLibraryEnable(),
-                    genericCAO
+                    settingsController.isBookLibraryEnable()
                 ).getBytes()
             );
         } catch (Exception e) {
@@ -640,8 +638,7 @@ public class MainEndpointsController extends BasicController {
                 settingsController.isTvShowLibraryEnable(),
                 settingsController.isGameLibraryEnable(),
                 settingsController.isMusicLibraryEnable(),
-                settingsController.isBookLibraryEnable(),
-                genericCAO
+                settingsController.isBookLibraryEnable()
             ).getBytes()
         );
     }
@@ -682,8 +679,7 @@ public class MainEndpointsController extends BasicController {
                     settingsController.isTvShowLibraryEnable(),
                     settingsController.isGameLibraryEnable(),
                     settingsController.isMusicLibraryEnable(),
-                    settingsController.isBookLibraryEnable(),
-                    genericCAO
+                    settingsController.isBookLibraryEnable()
                 ).getBytes()
             );
         }
@@ -1209,8 +1205,7 @@ public class MainEndpointsController extends BasicController {
                     settingsController.isTvShowLibraryEnable(),
                     settingsController.isGameLibraryEnable(),
                     settingsController.isMusicLibraryEnable(),
-                    settingsController.isBookLibraryEnable(),
-                    genericCAO
+                    settingsController.isBookLibraryEnable()
                 ).getBytes()
             );
         }
@@ -1237,8 +1232,7 @@ public class MainEndpointsController extends BasicController {
                     settingsController.isTvShowLibraryEnable(),
                     settingsController.isGameLibraryEnable(),
                     settingsController.isMusicLibraryEnable(),
-                    settingsController.isBookLibraryEnable(),
-                    genericCAO
+                    settingsController.isBookLibraryEnable()
                 ).getBytes()
             );
         } catch (Exception e) {

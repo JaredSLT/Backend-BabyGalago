@@ -22,14 +22,15 @@ public class RatingEndpointsController extends BasicController {
 
     /**
      * Gets a rating by its id
+     *
      * @param httpRequest the request
      * @return the page response
-     * @throws SQLException if its fails
-     * @throws IOException if its fails
+     * @throws SQLException              if its fails
+     * @throws IOException               if its fails
      * @throws InvocationTargetException if its fails
-     * @throws NoSuchMethodException if its fails
-     * @throws InstantiationException if its fails
-     * @throws IllegalAccessException if its fails
+     * @throws NoSuchMethodException     if its fails
+     * @throws InstantiationException    if its fails
+     * @throws IllegalAccessException    if its fails
      */
     public Promisable<HttpResponse> getRating(HttpRequest httpRequest) throws SQLException, IOException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         long ratingId = Long.parseLong(httpRequest.getPathParameter("ratingId"));
@@ -42,6 +43,7 @@ public class RatingEndpointsController extends BasicController {
 
     /**
      * Patch a rating by its id
+     *
      * @param httpRequest the request
      * @return the page response
      * @throws Exception if its fails
@@ -54,6 +56,7 @@ public class RatingEndpointsController extends BasicController {
 
     /**
      * Deletes a rating by its id
+     *
      * @param httpRequest the request
      * @return the page response
      * @throws Exception if its fails
@@ -65,6 +68,7 @@ public class RatingEndpointsController extends BasicController {
 
     /**
      * Creates a rating entity
+     *
      * @param httpRequest the request
      * @return the page response
      * @throws Exception if its fails
@@ -76,6 +80,7 @@ public class RatingEndpointsController extends BasicController {
 
     /**
      * Creates a rating entity
+     *
      * @param httpRequest the request
      * @return the page response
      * @throws Exception if its fails
@@ -87,6 +92,7 @@ public class RatingEndpointsController extends BasicController {
 
     /**
      * Gets which methods are available for this endpoint
+     *
      * @param httpRequest the request
      * @return the response page
      */

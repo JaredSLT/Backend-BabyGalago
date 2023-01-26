@@ -11,11 +11,11 @@ import tech.tresearchgroup.babygalago.controller.controllers.ExtendedUserEntityC
 import tech.tresearchgroup.babygalago.controller.controllers.NotificationEntityController;
 import tech.tresearchgroup.babygalago.view.pages.EntityPage;
 import tech.tresearchgroup.babygalago.view.pages.ViewPage;
+import tech.tresearchgroup.cao.controller.GenericCAO;
 import tech.tresearchgroup.palila.controller.BasicController;
 import tech.tresearchgroup.palila.controller.CompressionController;
 import tech.tresearchgroup.palila.controller.GenericController;
 import tech.tresearchgroup.palila.controller.ReflectionMethods;
-import tech.tresearchgroup.cao.controller.GenericCAO;
 import tech.tresearchgroup.palila.model.Card;
 import tech.tresearchgroup.palila.model.enums.ReturnType;
 import tech.tresearchgroup.schemas.galago.entities.BookEntity;
@@ -138,7 +138,7 @@ public class CRUDEndpointsController extends BasicController {
                 Object object = controller.readSecureResponse(id, ReturnType.OBJECT, httpRequest);
                 return ok(
                     entityPage.render(
-                        ReflectionMethods.toFormObjects(false, object, theClass, genericCAO),
+                        ReflectionMethods.toFormObjects(false, object, theClass),
                         loggedIn,
                         false,
                         theClass,
@@ -215,7 +215,7 @@ public class CRUDEndpointsController extends BasicController {
                 boolean loggedIn = verifyApiKey(httpRequest);
                 return ok(
                     entityPage.render(
-                        ReflectionMethods.toFormObjects(true, object, theClass, genericCAO),
+                        ReflectionMethods.toFormObjects(true, object, theClass),
                         loggedIn,
                         true,
                         theClass,
@@ -279,7 +279,7 @@ public class CRUDEndpointsController extends BasicController {
                 ExtendedUserEntity userEntity = (ExtendedUserEntity) getUser(httpRequest, extendedUserEntityController);
                 boolean loggedIn = verifyApiKey(httpRequest);
                 byte[] data = entityPage.render(
-                    ReflectionMethods.toFormObjects(true, null, theClass, genericCAO),
+                    ReflectionMethods.toFormObjects(true, null, theClass),
                     loggedIn,
                     true,
                     theClass,

@@ -35,6 +35,7 @@ public class SslUtils {
 
     /**
      * Creates the trust managers
+     *
      * @param path the location of the truststore
      * @param pass the password of the truststore
      * @return the trust managers
@@ -53,9 +54,10 @@ public class SslUtils {
 
     /**
      * Creates the key managers
-     * @param path the path
+     *
+     * @param path      the path
      * @param storePass the password for the keystore
-     * @param keyPass the password for the key in the keystore
+     * @param keyPass   the password for the key in the keystore
      * @return the key managers
      * @throws Exception if something should crash
      */
@@ -71,13 +73,14 @@ public class SslUtils {
 
     /**
      * Creates the SSL context
-     * @param algorithm the algorithm to use for the context
-     * @param keyManagers the key managers
+     *
+     * @param algorithm     the algorithm to use for the context
+     * @param keyManagers   the key managers
      * @param trustManagers the trust managers
-     * @param secureRandom a secure random
+     * @param secureRandom  a secure random
      * @return the context
      * @throws NoSuchAlgorithmException if the specified algorithm doesn't exist
-     * @throws KeyManagementException if the key manager crashes
+     * @throws KeyManagementException   if the key manager crashes
      */
     static SSLContext createSslContext(String algorithm, KeyManager[] keyManagers, TrustManager[] trustManagers,
                                        SecureRandom secureRandom) throws NoSuchAlgorithmException, KeyManagementException {
@@ -88,6 +91,7 @@ public class SslUtils {
 
     /**
      * Creates the SSL context
+     *
      * @return the ssl context
      */
     public static SSLContext createTestSslContext() {

@@ -2,20 +2,19 @@ package tech.tresearchgroup.babygalago.view.components;
 
 import j2html.tags.DomContent;
 import org.jetbrains.annotations.NotNull;
-import tech.tresearchgroup.cao.controller.GenericCAO;
-import tech.tresearchgroup.cao.model.CacheTypesEnum;
 
 import static j2html.TagCreator.*;
 
 public class SideBarComponent {
     /**
      * Renders the sidebar
-     * @param loggedIn whether the user is logged in
-     * @param movieLibraryEnable whether the library is enabled
+     *
+     * @param loggedIn            whether the user is logged in
+     * @param movieLibraryEnable  whether the library is enabled
      * @param tvShowLibraryEnable whether the library is enabled
-     * @param gameLibraryEnable whether the library is enabled
-     * @param musicLibraryEnable whether the library is enabled
-     * @param bookLibraryEnable whether the library is enabled
+     * @param gameLibraryEnable   whether the library is enabled
+     * @param musicLibraryEnable  whether the library is enabled
+     * @param bookLibraryEnable   whether the library is enabled
      * @return the component
      */
     public static @NotNull DomContent render(boolean loggedIn,
@@ -23,13 +22,8 @@ public class SideBarComponent {
                                              boolean tvShowLibraryEnable,
                                              boolean gameLibraryEnable,
                                              boolean musicLibraryEnable,
-                                             boolean bookLibraryEnable,
-                                             GenericCAO genericCAO) {
-        DomContent cached = (DomContent) genericCAO.read(CacheTypesEnum.DOM, "sideBarComponent-" + loggedIn);
-        if (cached != null) {
-            return cached;
-        }
-        DomContent data = div(
+                                             boolean bookLibraryEnable) {
+        return div(
             div(
                 img().withAlt("Galago logo").withClass("sidebar-logo").withSrc("/assets/logo.webp")
             ).withClass("flex-centered"),
@@ -94,7 +88,5 @@ public class SideBarComponent {
                 ).withClass("btn btn-link nav-btn").withHref("/licenses").withText(" 2022 T.R.G.")
             ).withClass("sidebar-footer")
         ).withClass("sidebar active");
-        genericCAO.create(CacheTypesEnum.DOM, "sideBarComponent-" + loggedIn, data);
-        return data;
     }
 }

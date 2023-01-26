@@ -22,8 +22,9 @@ import static j2html.TagCreator.*;
 public class RegisterPage implements RenderablePage {
     /**
      * Creates an error di
+     *
      * @param toError whether the error should be generated
-     * @param text the text inside the error
+     * @param text    the text inside the error
      * @return the div with the error in it
      */
     public static DivTag getError(boolean toError, String text) {
@@ -39,17 +40,18 @@ public class RegisterPage implements RenderablePage {
 
     /**
      * Renders the page
+     *
      * @param registrationErrorsEnum The error to be displayed
-     * @param loggedIn whether the user is logged in
-     * @param unreadCount the number of unread notifications
-     * @param permissionGroupEnum the permission group which the user belongs to
-     * @param serverName the name of the server
-     * @param isEnableUpload if file upload is enabled
-     * @param isMovieLibraryEnable if the movie library is enabled
-     * @param isTvShowLibraryEnable if the tv show library is enabled
-     * @param isGameLibraryEnable if the game library is enabled
-     * @param isMusicLibraryEnable if the music library is enabled
-     * @param isBookLibraryEnable if the book library is enabled
+     * @param loggedIn               whether the user is logged in
+     * @param unreadCount            the number of unread notifications
+     * @param permissionGroupEnum    the permission group which the user belongs to
+     * @param serverName             the name of the server
+     * @param isEnableUpload         if file upload is enabled
+     * @param isMovieLibraryEnable   if the movie library is enabled
+     * @param isTvShowLibraryEnable  if the tv show library is enabled
+     * @param isGameLibraryEnable    if the game library is enabled
+     * @param isMusicLibraryEnable   if the music library is enabled
+     * @param isBookLibraryEnable    if the book library is enabled
      * @return the page as a string
      */
     public String render(@Nullable RegistrationErrorsEnum registrationErrorsEnum,
@@ -92,7 +94,7 @@ public class RegisterPage implements RenderablePage {
         }
         return document(
             html(
-                HeadComponent.render(serverName, genericCAO),
+                HeadComponent.render(serverName),
                 TopBarComponent.render(unreadCount, QueueEntityController.getQueueSize(), loggedIn, permissionGroupEnum, isEnableUpload),
                 SideBarComponent.render(
                     loggedIn,
@@ -100,8 +102,7 @@ public class RegisterPage implements RenderablePage {
                     isTvShowLibraryEnable,
                     isGameLibraryEnable,
                     isMusicLibraryEnable,
-                    isBookLibraryEnable,
-                    genericCAO
+                    isBookLibraryEnable
                 ),
                 body(
                     div(
@@ -135,6 +136,7 @@ public class RegisterPage implements RenderablePage {
 
     /**
      * Renders out the page with dummy data
+     *
      * @return the page as a string
      */
     @Override

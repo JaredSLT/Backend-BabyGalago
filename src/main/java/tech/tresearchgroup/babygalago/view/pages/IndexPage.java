@@ -21,26 +21,27 @@ import static j2html.TagCreator.*;
 public class IndexPage implements RenderablePage {
     /**
      * Renders the page
-     * @param loggedIn whether the user is logged in
-     * @param newBooks the list of new book entities
-     * @param popBooks the list of popular book entities
-     * @param newGames the list of new game entities
-     * @param popGames the list of popular game entities
-     * @param newMovies the list of new movie entities
-     * @param popMovies  the list of popular movie entities
-     * @param newMusic the list of new music entities
-     * @param popMusic the list of popular music entities
-     * @param popTvShows the list of popular tv show entities
-     * @param newTvShows the list of new tv show entities
-     * @param unreadCount the number of unread notifications
-     * @param permissionGroupEnum the permission group which the user belongs to
-     * @param serverName the name of the server
-     * @param isEnableUpload if file upload is enabled
-     * @param isMovieLibraryEnable if the movie library is enabled
+     *
+     * @param loggedIn              whether the user is logged in
+     * @param newBooks              the list of new book entities
+     * @param popBooks              the list of popular book entities
+     * @param newGames              the list of new game entities
+     * @param popGames              the list of popular game entities
+     * @param newMovies             the list of new movie entities
+     * @param popMovies             the list of popular movie entities
+     * @param newMusic              the list of new music entities
+     * @param popMusic              the list of popular music entities
+     * @param popTvShows            the list of popular tv show entities
+     * @param newTvShows            the list of new tv show entities
+     * @param unreadCount           the number of unread notifications
+     * @param permissionGroupEnum   the permission group which the user belongs to
+     * @param serverName            the name of the server
+     * @param isEnableUpload        if file upload is enabled
+     * @param isMovieLibraryEnable  if the movie library is enabled
      * @param isTvShowLibraryEnable if the tv show library is enabled
-     * @param isGameLibraryEnable if the game library is enabled
-     * @param isMusicLibraryEnable if the music library is enabled
-     * @param isBookLibraryEnable if the book library is enabled
+     * @param isGameLibraryEnable   if the game library is enabled
+     * @param isMusicLibraryEnable  if the music library is enabled
+     * @param isBookLibraryEnable   if the book library is enabled
      * @return the page as a string
      */
     public String render(boolean loggedIn,
@@ -77,7 +78,7 @@ public class IndexPage implements RenderablePage {
         boolean isHomePageShowPopularTvShow = popTvShows != null;
         return document(
             html(
-                HeadComponent.render(serverName, genericCAO),
+                HeadComponent.render(serverName),
                 TopBarComponent.render(unreadCount, QueueEntityController.getQueueSize(), loggedIn, permissionGroupEnum, isEnableUpload),
                 SideBarComponent.render(
                     loggedIn,
@@ -85,8 +86,7 @@ public class IndexPage implements RenderablePage {
                     isTvShowLibraryEnable,
                     isGameLibraryEnable,
                     isMusicLibraryEnable,
-                    isBookLibraryEnable,
-                    genericCAO
+                    isBookLibraryEnable
                 ),
                 body(
                     div(
@@ -198,6 +198,7 @@ public class IndexPage implements RenderablePage {
 
     /**
      * Renders out the page with dummy data
+     *
      * @return the page as a string
      */
     @Override

@@ -9,15 +9,16 @@ import static j2html.TagCreator.*;
 public class TopBarComponent {
     /**
      * Renders the top bar component
-     * @param notificationsAlert how many unread notifications there are
-     * @param queueItems how many items are in queue
-     * @param loggedIn whether the user is logged in
+     *
+     * @param notificationsAlert  how many unread notifications there are
+     * @param queueItems          how many items are in queue
+     * @param loggedIn            whether the user is logged in
      * @param permissionGroupEnum which permission group the user belongs to
-     * @param uploadEnabled whether uploading is enabled
+     * @param uploadEnabled       whether uploading is enabled
      * @return the component
      */
     public static @NotNull DomContent render(Long notificationsAlert, long queueItems, boolean loggedIn, PermissionGroupEnum permissionGroupEnum, boolean uploadEnabled) {
-        if(permissionGroupEnum == null) {
+        if (permissionGroupEnum == null) {
             permissionGroupEnum = PermissionGroupEnum.ALL;
         }
         return header(

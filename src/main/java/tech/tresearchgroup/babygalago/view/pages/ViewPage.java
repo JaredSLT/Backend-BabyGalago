@@ -19,28 +19,29 @@ import static j2html.TagCreator.*;
 public class ViewPage implements RenderablePage {
     /**
      * Renders the page
-     * @param loggedIn whether the user is logged in
-     * @param title the title at the top of the page
-     * @param type the type of entity
-     * @param function the method of displaying
-     * @param cards the cards being displayed
-     * @param size the size of the cards
-     * @param currentPage the current page number
-     * @param maxPage the max number of pages
-     * @param theClass the class of the entities
-     * @param ascending whether its ascending
-     * @param posterView whether to render as cards or table
-     * @param sortBy how to sort the items
-     * @param enableSortBy whether it can be sorted
-     * @param unreadCount the number of unread notifications
-     * @param permissionGroupEnum the permission group which the user belongs to
-     * @param serverName the name of the server
-     * @param isEnableUpload if file upload is enabled
-     * @param isMovieLibraryEnable if the movie library is enabled
+     *
+     * @param loggedIn              whether the user is logged in
+     * @param title                 the title at the top of the page
+     * @param type                  the type of entity
+     * @param function              the method of displaying
+     * @param cards                 the cards being displayed
+     * @param size                  the size of the cards
+     * @param currentPage           the current page number
+     * @param maxPage               the max number of pages
+     * @param theClass              the class of the entities
+     * @param ascending             whether its ascending
+     * @param posterView            whether to render as cards or table
+     * @param sortBy                how to sort the items
+     * @param enableSortBy          whether it can be sorted
+     * @param unreadCount           the number of unread notifications
+     * @param permissionGroupEnum   the permission group which the user belongs to
+     * @param serverName            the name of the server
+     * @param isEnableUpload        if file upload is enabled
+     * @param isMovieLibraryEnable  if the movie library is enabled
      * @param isTvShowLibraryEnable if the tv show library is enabled
-     * @param isGameLibraryEnable if the game library is enabled
-     * @param isMusicLibraryEnable if the music library is enabled
-     * @param isBookLibraryEnable if the book library is enabled
+     * @param isGameLibraryEnable   if the game library is enabled
+     * @param isMusicLibraryEnable  if the music library is enabled
+     * @param isBookLibraryEnable   if the book library is enabled
      * @return the page as a string
      */
     public String render(boolean loggedIn,
@@ -68,7 +69,7 @@ public class ViewPage implements RenderablePage {
                          GenericCAO genericCAO) {
         return document(
             html(
-                HeadComponent.render(serverName, genericCAO),
+                HeadComponent.render(serverName),
                 TopBarComponent.render(unreadCount, QueueEntityController.getQueueSize(), loggedIn, permissionGroupEnum, isEnableUpload),
                 SideBarComponent.render(
                     loggedIn,
@@ -76,8 +77,7 @@ public class ViewPage implements RenderablePage {
                     isTvShowLibraryEnable,
                     isGameLibraryEnable,
                     isMusicLibraryEnable,
-                    isBookLibraryEnable,
-                    genericCAO
+                    isBookLibraryEnable
                 ),
                 body(
                     div(
@@ -87,7 +87,7 @@ public class ViewPage implements RenderablePage {
                             SortByFormComponent.render(theClass, ascending, sortBy)
                         ),
                         iff(cards.size() > 0,
-                            LeftFormsComponent.render(type, genericCAO)
+                            LeftFormsComponent.render(type)
                         ),
                         br(),
                         br(),
@@ -117,6 +117,7 @@ public class ViewPage implements RenderablePage {
 
     /**
      * Renders out the page with dummy data
+     *
      * @return the page as a string
      */
     @Override

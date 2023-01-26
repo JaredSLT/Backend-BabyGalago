@@ -68,13 +68,14 @@ public class UserSettingsEntityController extends GenericController {
 
     /**
      * Reads the users settings
+     *
      * @param httpRequest the request
      * @return the response page
-     * @throws SQLException if it fails to load from the database
+     * @throws SQLException              if it fails to load from the database
      * @throws InvocationTargetException if it fails to parse
-     * @throws InstantiationException orm failure
-     * @throws IllegalAccessException orm failure
-     * @throws IOException orm failure
+     * @throws InstantiationException    orm failure
+     * @throws IllegalAccessException    orm failure
+     * @throws IOException               orm failure
      */
     public Promisable<HttpResponse> read(HttpRequest httpRequest) throws SQLException, InvocationTargetException, InstantiationException, IllegalAccessException, IOException {
         ExtendedUserEntity user = (ExtendedUserEntity) getUser(httpRequest, extendedUserEntityController);
@@ -127,6 +128,7 @@ public class UserSettingsEntityController extends GenericController {
 
     /**
      * Creates a users settings
+     *
      * @param httpRequest the request
      * @return the response page
      */
@@ -190,7 +192,7 @@ public class UserSettingsEntityController extends GenericController {
             //Todo create settings for the specified user and display form
             return null;
         } catch (Exception e) {
-            if(settingsController.isDebug()) {
+            if (settingsController.isDebug()) {
                 e.printStackTrace();
             }
             return redirect("/error");

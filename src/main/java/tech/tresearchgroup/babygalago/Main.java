@@ -51,8 +51,8 @@ public class Main extends MultiThreadedHttpsServerLauncher {
      */
     public static void main(String[] args) throws Exception {
         System.out.println("Starting with: " + Arrays.toString(args));
-        if(args.length > 0) {
-            if(args[0].equals("server")) {
+        if (args.length > 0) {
+            if (args[0].equals("server")) {
                 SettingsController.loadSettings();
                 new Main().launch(args);
             }

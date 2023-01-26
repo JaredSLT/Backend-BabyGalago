@@ -26,7 +26,7 @@ public class IndexPage {
                                    GenericCAO genericCAO) {
         return document(
             html(
-                HeadComponent.render(serverName, genericCAO),
+                HeadComponent.render(serverName),
                 //Todo load notifications
                 TopBarComponent.render(unreadCount, QueueEntityController.getQueueSize(), true, permissionGroupEnum, isEnableUpload),
                 SideBarComponent.render(
@@ -35,8 +35,7 @@ public class IndexPage {
                     isTvShowLibraryEnable,
                     isGameLibraryEnable,
                     isMusicLibraryEnable,
-                    isBookLibraryEnable,
-                    genericCAO
+                    isBookLibraryEnable
                 ),
                 body(
                     div(

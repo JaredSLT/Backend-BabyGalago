@@ -5,7 +5,6 @@ import tech.tresearchgroup.babygalago.controller.controllers.QueueEntityControll
 import tech.tresearchgroup.babygalago.view.components.HeadComponent;
 import tech.tresearchgroup.babygalago.view.components.SideBarComponent;
 import tech.tresearchgroup.babygalago.view.components.TopBarComponent;
-import tech.tresearchgroup.cao.controller.GenericCAO;
 import tech.tresearchgroup.palila.controller.components.EditableScrollingComponent;
 import tech.tresearchgroup.palila.model.enums.PermissionGroupEnum;
 import tech.tresearchgroup.palila.view.RenderablePage;
@@ -20,19 +19,20 @@ import static j2html.TagCreator.*;
 public class SearchPage implements RenderablePage {
     /**
      * Renders the page
-     * @param loggedIn whether the user is logged in
+     *
+     * @param loggedIn                 whether the user is logged in
      * @param globalSearchResultEntity the search result
-     * @param timeTaken the amount in ms that was taken to run the search
-     * @param size the card size
-     * @param unreadCount the number of unread notifications
-     * @param permissionGroupEnum the permission group which the user belongs to
-     * @param serverName the name of the server
-     * @param isEnableUpload if file upload is enabled
-     * @param isMovieLibraryEnable if the movie library is enabled
-     * @param isTvShowLibraryEnable if the tv show library is enabled
-     * @param isGameLibraryEnable if the game library is enabled
-     * @param isMusicLibraryEnable if the music library is enabled
-     * @param isBookLibraryEnable if the book library is enabled
+     * @param timeTaken                the amount in ms that was taken to run the search
+     * @param size                     the card size
+     * @param unreadCount              the number of unread notifications
+     * @param permissionGroupEnum      the permission group which the user belongs to
+     * @param serverName               the name of the server
+     * @param isEnableUpload           if file upload is enabled
+     * @param isMovieLibraryEnable     if the movie library is enabled
+     * @param isTvShowLibraryEnable    if the tv show library is enabled
+     * @param isGameLibraryEnable      if the game library is enabled
+     * @param isMusicLibraryEnable     if the music library is enabled
+     * @param isBookLibraryEnable      if the book library is enabled
      * @return the page as a string
      */
     public String render(boolean loggedIn,
@@ -47,11 +47,10 @@ public class SearchPage implements RenderablePage {
                          boolean isTvShowLibraryEnable,
                          boolean isGameLibraryEnable,
                          boolean isMusicLibraryEnable,
-                         boolean isBookLibraryEnable,
-                         GenericCAO genericCAO) {
+                         boolean isBookLibraryEnable) {
         return document(
             html(
-                HeadComponent.render(serverName, genericCAO),
+                HeadComponent.render(serverName),
                 TopBarComponent.render(unreadCount, QueueEntityController.getQueueSize(), loggedIn, permissionGroupEnum, isEnableUpload),
                 SideBarComponent.render(
                     loggedIn,
@@ -59,8 +58,7 @@ public class SearchPage implements RenderablePage {
                     isTvShowLibraryEnable,
                     isGameLibraryEnable,
                     isMusicLibraryEnable,
-                    isBookLibraryEnable,
-                    genericCAO
+                    isBookLibraryEnable
                 ),
                 body(
                     div(
@@ -90,6 +88,7 @@ public class SearchPage implements RenderablePage {
 
     /**
      * Renders out the page with dummy data
+     *
      * @return the page as a string
      */
     @Override

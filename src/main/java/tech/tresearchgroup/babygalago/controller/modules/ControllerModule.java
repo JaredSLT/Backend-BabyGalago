@@ -19,9 +19,9 @@ import tech.tresearchgroup.babygalago.controller.endpoints.ui.CRUDEndpointsContr
 import tech.tresearchgroup.babygalago.controller.endpoints.ui.MainEndpointsController;
 import tech.tresearchgroup.babygalago.controller.endpoints.ui.PlayEndpointsController;
 import tech.tresearchgroup.babygalago.view.pages.*;
+import tech.tresearchgroup.cao.controller.GenericCAO;
 import tech.tresearchgroup.dao.model.LockType;
 import tech.tresearchgroup.palila.controller.GenericController;
-import tech.tresearchgroup.cao.controller.GenericCAO;
 import tech.tresearchgroup.palila.model.entities.*;
 import tech.tresearchgroup.palila.model.enums.PermissionGroupEnum;
 import tech.tresearchgroup.palila.model.enums.PlaybackQualityEnum;

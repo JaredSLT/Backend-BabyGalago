@@ -21,6 +21,7 @@ public class QueueEndpointsController extends BasicController {
 
     /**
      * Gets the possible queue values
+     *
      * @param httpRequest the request
      * @return the page response
      * @throws IOException if its fails
@@ -32,6 +33,7 @@ public class QueueEndpointsController extends BasicController {
 
     /**
      * Gets the entities inside a queue
+     *
      * @param httpRequest the request
      * @return the page response
      */
@@ -51,6 +53,7 @@ public class QueueEndpointsController extends BasicController {
 
     /**
      * Creates a queue entity
+     *
      * @param httpRequest the request
      * @return the page response
      */
@@ -70,6 +73,7 @@ public class QueueEndpointsController extends BasicController {
 
     /**
      * Stops the queue
+     *
      * @param httpRequest the request
      * @return the page request
      */
@@ -89,6 +93,7 @@ public class QueueEndpointsController extends BasicController {
 
     /**
      * Gets which methods are available for this endpoint
+     *
      * @param httpRequest the request
      * @return the response page
      */

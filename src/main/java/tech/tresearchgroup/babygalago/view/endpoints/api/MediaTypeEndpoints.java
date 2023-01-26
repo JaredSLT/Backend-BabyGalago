@@ -7,7 +7,6 @@ import io.activej.inject.module.AbstractModule;
 import lombok.AllArgsConstructor;
 import tech.tresearchgroup.babygalago.controller.endpoints.SearchEndpointsController;
 import tech.tresearchgroup.babygalago.controller.endpoints.api.MediaTypeEndpointsController;
-import tech.tresearchgroup.palila.controller.HttpResponses;
 
 @AllArgsConstructor
 public class MediaTypeEndpoints extends AbstractModule {
@@ -16,6 +15,7 @@ public class MediaTypeEndpoints extends AbstractModule {
 
     /**
      * Creates the endpoints and maps them to their respective methods
+     *
      * @return the routing servlet
      */
     @Provides

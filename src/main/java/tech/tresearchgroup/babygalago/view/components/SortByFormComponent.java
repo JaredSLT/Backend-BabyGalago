@@ -12,9 +12,10 @@ import static j2html.TagCreator.*;
 public class SortByFormComponent {
     /**
      * Renders the sort by form
-     * @param theClass the class to be reflected
+     *
+     * @param theClass  the class to be reflected
      * @param ascending whether it is ascending order
-     * @param sortBy how it was sorted
+     * @param sortBy    how it was sorted
      * @return the component
      */
     public static @NotNull DomContent render(Class theClass, boolean ascending, String sortBy) {

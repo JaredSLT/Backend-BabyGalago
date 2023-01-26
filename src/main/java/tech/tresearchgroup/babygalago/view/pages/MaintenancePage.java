@@ -2,7 +2,6 @@ package tech.tresearchgroup.babygalago.view.pages;
 
 import lombok.AllArgsConstructor;
 import tech.tresearchgroup.babygalago.view.components.HeadComponent;
-import tech.tresearchgroup.cao.controller.GenericCAO;
 import tech.tresearchgroup.palila.view.RenderablePage;
 
 import java.util.LinkedList;
@@ -14,13 +13,14 @@ import static j2html.TagCreator.*;
 public class MaintenancePage implements RenderablePage {
     /**
      * Renders the page
+     *
      * @param serverName the name of the server
      * @return the page as a string
      */
-    public String render(String serverName, GenericCAO genericCAO) {
+    public String render(String serverName) {
         return document(
             html(
-                HeadComponent.render(serverName, genericCAO),
+                HeadComponent.render(serverName),
                 body(
                     div(
                         div(
@@ -41,6 +41,7 @@ public class MaintenancePage implements RenderablePage {
 
     /**
      * Renders out the page with dummy data
+     *
      * @return the page as a string
      */
     @Override

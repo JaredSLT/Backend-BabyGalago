@@ -53,13 +53,14 @@ public class ExtendedUserEntityController extends BasicUserController {
 
     /**
      * Looks up a user entity by username and password
+     *
      * @param username the username
      * @param password the password
      * @return the extended user entity
-     * @throws SQLException if there is a failure with the database
+     * @throws SQLException              if there is a failure with the database
      * @throws InvocationTargetException if there is a failure with the ORM
-     * @throws IllegalAccessException if there is a failure with the ORM
-     * @throws InstantiationException if there is a failure with the ORM
+     * @throws IllegalAccessException    if there is a failure with the ORM
+     * @throws InstantiationException    if there is a failure with the ORM
      */
     public ExtendedUserEntity getUserByUsernameAndPassword(String username, String password) throws SQLException, InvocationTargetException, IllegalAccessException, InstantiationException {
         Connection connection = hikariDataSource.getConnection();
@@ -79,12 +80,13 @@ public class ExtendedUserEntityController extends BasicUserController {
 
     /**
      * Gets a user by their username
+     *
      * @param username the username
      * @return the extended user entity
-     * @throws SQLException if there is an issue with the database
+     * @throws SQLException              if there is an issue with the database
      * @throws InvocationTargetException if there is a failure with the ORM
-     * @throws IllegalAccessException if there is a failure with the ORM
-     * @throws InstantiationException if there is a failure with the ORM
+     * @throws IllegalAccessException    if there is a failure with the ORM
+     * @throws InstantiationException    if there is a failure with the ORM
      */
     public ExtendedUserEntity getUserByUsername(String username) throws SQLException, InvocationTargetException, IllegalAccessException, InstantiationException {
         Connection connection = hikariDataSource.getConnection();
@@ -101,15 +103,16 @@ public class ExtendedUserEntityController extends BasicUserController {
 
     /**
      * Responds to a UI request to create an entity
+     *
      * @param extendedUserEntity the user to create
-     * @param httpRequest the request to create
+     * @param httpRequest        the request to create
      * @return the response page
-     * @throws SQLException if there is a failure with the database
+     * @throws SQLException              if there is a failure with the database
      * @throws InvocationTargetException if there is a failure with the ORM
-     * @throws NoSuchMethodException if there is a failure with the ORM
-     * @throws IllegalAccessException if there is a failure with the ORM
-     * @throws InstantiationException if there is a failure with the ORM
-     * @throws IOException if there is a failure with the ORM
+     * @throws NoSuchMethodException     if there is a failure with the ORM
+     * @throws IllegalAccessException    if there is a failure with the ORM
+     * @throws InstantiationException    if there is a failure with the ORM
+     * @throws IOException               if there is a failure with the ORM
      */
     public Promisable<HttpResponse> createUIResponse(ExtendedUserEntity extendedUserEntity, HttpRequest httpRequest) throws SQLException, InvocationTargetException, NoSuchMethodException, IllegalAccessException, InstantiationException, IOException {
         if (createSecureResponse(extendedUserEntity, ReturnType.OBJECT, httpRequest) != null) {

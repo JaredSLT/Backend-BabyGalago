@@ -26,42 +26,43 @@ import static j2html.TagCreator.*;
 public class UserSettingsPage implements RenderablePage {
     /**
      * Renders the settings for the user account
-     * @param loggedIn whether the user is logged in
-     * @param unreadCount the number of unread notifications
-     * @param permissionGroupEnum the permission group of the user account
-     * @param serverName the name of the server
-     * @param isEnableUpload if file upload is enabled
-     * @param isMovieLibraryEnable if the movie library is enabled
-     * @param isTvShowLibraryEnable if the tv show library is enabled
-     * @param isGameLibraryEnable if the game library is enabled
-     * @param isMusicLibraryEnable if the music library is enabled
-     * @param isBookLibraryEnable if the book library is enabled
-     * @param interfaceMethodEnum the interface method to use
-     * @param playbackQualityEnum the default video playback quality
-     * @param displayModeEnum the display mode (poster, table)
-     * @param isTableShowPoster whether to show the poster in the table
-     * @param isTableShowName whether to show the name in the table
-     * @param isTableShowRuntime whether to show the runtime in the table
-     * @param isTableShowGenre whether to show the genre in the table
-     * @param isTableShowMpaaRating whether to show the MPAA rating in the table
-     * @param isTableShowUserRating whether to show the user rating in the table
-     * @param isTableShowLanguage whether to show the language in the table
-     * @param isTableShowReleaseDate whether to show the release date in the table
-     * @param isTableShowActions whether to show the actions in the table
-     * @param isHomePageShowNewBook whether to show new books on the home page
-     * @param isHomePageShowNewGame whether to show new games on the home page
-     * @param isHomePageShowNewMovie whether to show new movies on the home page
-     * @param isHomePageShowNewMusic whether to show new music on the home page
-     * @param isHomePageShowNewTvShow whether to show new tv shows on the home page
-     * @param isHomePageShowPopularBook whether to show popular books on the home page
-     * @param isHomePageShowPopularGame whether to show popular games on the home page
-     * @param isHomePageShowPopularMovie whether to show popular movies on the home page
-     * @param isHomePageShowPopularMusic whether to show popular music on the home page
+     *
+     * @param loggedIn                    whether the user is logged in
+     * @param unreadCount                 the number of unread notifications
+     * @param permissionGroupEnum         the permission group of the user account
+     * @param serverName                  the name of the server
+     * @param isEnableUpload              if file upload is enabled
+     * @param isMovieLibraryEnable        if the movie library is enabled
+     * @param isTvShowLibraryEnable       if the tv show library is enabled
+     * @param isGameLibraryEnable         if the game library is enabled
+     * @param isMusicLibraryEnable        if the music library is enabled
+     * @param isBookLibraryEnable         if the book library is enabled
+     * @param interfaceMethodEnum         the interface method to use
+     * @param playbackQualityEnum         the default video playback quality
+     * @param displayModeEnum             the display mode (poster, table)
+     * @param isTableShowPoster           whether to show the poster in the table
+     * @param isTableShowName             whether to show the name in the table
+     * @param isTableShowRuntime          whether to show the runtime in the table
+     * @param isTableShowGenre            whether to show the genre in the table
+     * @param isTableShowMpaaRating       whether to show the MPAA rating in the table
+     * @param isTableShowUserRating       whether to show the user rating in the table
+     * @param isTableShowLanguage         whether to show the language in the table
+     * @param isTableShowReleaseDate      whether to show the release date in the table
+     * @param isTableShowActions          whether to show the actions in the table
+     * @param isHomePageShowNewBook       whether to show new books on the home page
+     * @param isHomePageShowNewGame       whether to show new games on the home page
+     * @param isHomePageShowNewMovie      whether to show new movies on the home page
+     * @param isHomePageShowNewMusic      whether to show new music on the home page
+     * @param isHomePageShowNewTvShow     whether to show new tv shows on the home page
+     * @param isHomePageShowPopularBook   whether to show popular books on the home page
+     * @param isHomePageShowPopularGame   whether to show popular games on the home page
+     * @param isHomePageShowPopularMovie  whether to show popular movies on the home page
+     * @param isHomePageShowPopularMusic  whether to show popular music on the home page
      * @param isHomePageShowPopularTvShow whether to show popular tv shows on the home page
-     * @param maxSearchResults the number of entities to show while searching
-     * @param maxBrowseResults the number of entities to show while browsing
-     * @param cardWidth the width of the card in pixels
-     * @param isStickyTopMenu whether the top menu bar should stick to the top of the page
+     * @param maxSearchResults            the number of entities to show while searching
+     * @param maxBrowseResults            the number of entities to show while browsing
+     * @param cardWidth                   the width of the card in pixels
+     * @param isStickyTopMenu             whether the top menu bar should stick to the top of the page
      * @return the settings page as a string
      */
     public String render(boolean loggedIn,
@@ -103,7 +104,7 @@ public class UserSettingsPage implements RenderablePage {
                          GenericCAO genericCAO) {
         return document(
             html(
-                HeadComponent.render(serverName, genericCAO),
+                HeadComponent.render(serverName),
                 TopBarComponent.render(unreadCount, QueueEntityController.getQueueSize(), loggedIn, permissionGroupEnum, isEnableUpload),
                 SideBarComponent.render(
                     loggedIn,
@@ -111,8 +112,7 @@ public class UserSettingsPage implements RenderablePage {
                     isTvShowLibraryEnable,
                     isGameLibraryEnable,
                     isMusicLibraryEnable,
-                    isBookLibraryEnable,
-                    genericCAO
+                    isBookLibraryEnable
                 ),
                 body(
                     div(
@@ -230,6 +230,7 @@ public class UserSettingsPage implements RenderablePage {
 
     /**
      * Renders out the page with dummy data
+     *
      * @return the page as a string
      */
     @Override

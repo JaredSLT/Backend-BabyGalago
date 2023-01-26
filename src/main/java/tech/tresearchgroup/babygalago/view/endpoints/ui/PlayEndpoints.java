@@ -16,6 +16,7 @@ public class PlayEndpoints extends AbstractModule implements EndpointsRouter {
 
     /**
      * Creates the endpoints and maps them to their respective methods
+     *
      * @return the routing servlet
      */
     @Provides

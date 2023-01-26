@@ -13,6 +13,7 @@ import static j2html.TagCreator.*;
 public class TableViewComponent {
     /**
      * Renders entity lists in table view
+     *
      * @param cards the cards to list
      * @return the component
      */

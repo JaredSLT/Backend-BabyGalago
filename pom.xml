@@ -152,7 +152,7 @@
         <dependency>
             <groupId>tech.tresearchgroup.palila</groupId>
             <artifactId>palila</artifactId>
-            <version>1.7.9-SNAPSHOT</version>
+            <version>1.8.1-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>tech.tresearchgroup.schemas</groupId>

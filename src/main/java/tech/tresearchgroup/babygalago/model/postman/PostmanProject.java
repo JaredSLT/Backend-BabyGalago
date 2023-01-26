@@ -4,19 +4,19 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class PostmanProject{
+public class PostmanProject {
 
-	@SerializedName("item")
-	private List<ItemItem> item;
+    @SerializedName("item")
+    private List<ItemItem> item;
 
-	@SerializedName("info")
-	private Info info;
+    @SerializedName("info")
+    private Info info;
 
-	public List<ItemItem> getItem(){
-		return item;
-	}
+    public List<ItemItem> getItem() {
+        return item;
+    }
 
-	public Info getInfo(){
-		return info;
-	}
+    public Info getInfo() {
+        return info;
+    }
 }

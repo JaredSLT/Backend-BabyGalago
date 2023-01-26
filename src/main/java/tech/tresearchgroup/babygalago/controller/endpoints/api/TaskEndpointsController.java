@@ -17,6 +17,7 @@ public class TaskEndpointsController extends BasicController {
 
     /**
      * Gets whether the queue for a media type is running
+     *
      * @param httpRequest the request
      * @return the page response
      */
@@ -55,6 +56,7 @@ public class TaskEndpointsController extends BasicController {
 
     /**
      * Starts the queue for a media type
+     *
      * @param httpRequest the request
      * @return the page response
      */
@@ -93,6 +95,7 @@ public class TaskEndpointsController extends BasicController {
 
     /**
      * Stops the queue for a media type
+     *
      * @param httpRequest the request
      * @return the page response
      */
@@ -131,6 +134,7 @@ public class TaskEndpointsController extends BasicController {
 
     /**
      * Gets which methods are available for this endpoint
+     *
      * @param httpRequest the request
      * @return the response page
      */

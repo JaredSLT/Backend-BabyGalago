@@ -65,6 +65,7 @@ public class QueueEntityController extends GenericController {
 
     /**
      * Gets the number of jobs in the queue
+     *
      * @return the queue size
      */
     public static long getQueueSize() {
@@ -73,6 +74,7 @@ public class QueueEntityController extends GenericController {
 
     /**
      * Stops the converter queue
+     *
      * @return true if successful
      */
     public boolean stopConverterQueue() {
@@ -89,6 +91,7 @@ public class QueueEntityController extends GenericController {
 
     /**
      * Starts the converter queue
+     *
      * @return true if successful
      */
     public boolean startConverterQueue() {
@@ -105,6 +108,7 @@ public class QueueEntityController extends GenericController {
 
     /**
      * Checks if the converter queue is running
+     *
      * @return true if yes
      */
     public boolean isConverterQueueRunning() {
@@ -120,6 +124,7 @@ public class QueueEntityController extends GenericController {
 
     /**
      * Checks if the job is paused
+     *
      * @param jobDetail the job to check
      * @return true if yes
      * @throws SchedulerException if it failed to examine the job

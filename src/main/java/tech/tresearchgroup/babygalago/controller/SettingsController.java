@@ -175,6 +175,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Saves the SettingsFileEntity to Settings.json
+     *
      * @param settingsFileEntity the settings entity to save
      * @return whether saving was successful or not
      */
@@ -196,6 +197,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Checks whether the library for the class is disabled or not
+     *
      * @param theClass the class to check
      * @return true if it is disabled
      */
@@ -222,6 +224,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Gets the interface method from the user settings
+     *
      * @param userSettingsEntity the users settings entity
      * @return the interface method
      */
@@ -234,6 +237,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Gets the default video player playback quality from user settings
+     *
      * @param userSettingsEntity the users settings entity
      * @return the playback quality
      */
@@ -246,6 +250,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Whether the server is in debug mode
+     *
      * @return true if it is
      */
     public boolean isDebug() {
@@ -254,6 +259,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Set the server to debug mode
+     *
      * @param debug true to display more output
      */
     public void setDebug(boolean debug) {
@@ -262,6 +268,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Whether the server is in maintenance mode
+     *
      * @return true if it is
      */
     public boolean isMaintenanceMode() {
@@ -270,6 +277,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets the server into maintenance mode
+     *
      * @param maintenanceMode true to redirect users to the maintenance page
      */
     public void setMaintenanceMode(boolean maintenanceMode) {
@@ -278,6 +286,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Whether to check user authentication
+     *
      * @return true if it will
      */
     public boolean isEnableSecurity() {
@@ -286,6 +295,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets the servers security setting
+     *
      * @param enableSecurity true to check authentications, false to skip them
      */
     public void setEnableSecurity(boolean enableSecurity) {
@@ -295,6 +305,7 @@ public class SettingsController extends BasicController {
     /**
      * Gets the page compression method. The compression method must be supported by both the transmission type
      * (HTTP, HTTPS) and the browser that is loading the content.
+     *
      * @return the compression method
      */
     public CompressionMethodEnum getCompressionMethod() {
@@ -304,6 +315,7 @@ public class SettingsController extends BasicController {
     /**
      * Sets the servers compression method. If you're using HTTPS and are targeting modern browsers you should use
      * BROTLI.
+     *
      * @param compressionMethod the compression method
      */
     public void setCompressionMethod(CompressionMethodEnum compressionMethod) {
@@ -312,6 +324,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Get the JWT issuer
+     *
      * @return the issuer
      */
     public String getIssuer() {
@@ -320,6 +333,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets the JWT issuer
+     *
      * @param issuer the issuer
      */
     public void setIssuer(String issuer) {
@@ -328,6 +342,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Gets the JWT secret key
+     *
      * @return the key
      */
     public String getSecretKey() {
@@ -336,6 +351,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets the JWT secret key
+     *
      * @param secretKey the secret key
      */
     public void setSecretKey(String secretKey) {
@@ -344,6 +360,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Gets the search host
+     *
      * @return the search host
      */
     public String getSearchHost() {
@@ -352,6 +369,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets the search server host (with port)
+     *
      * @param searchHost the host
      */
     public void setSearchHost(String searchHost) {
@@ -360,6 +378,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Gets the search key
+     *
      * @return the search key
      */
     public String getSearchKey() {
@@ -368,6 +387,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets the search key
+     *
      * @param searchKey the search key
      */
     public void setSearchKey(String searchKey) {
@@ -376,6 +396,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Gets the display mode. This is used during UI page generation
+     *
      * @param userSettingsEntity the user settings entity
      * @return the users desired display mode
      */
@@ -388,6 +409,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Gets the administrators preferred encoder program
+     *
      * @return the program name
      */
     public EncoderProgramEnum getEncoderProgram() {
@@ -396,6 +418,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets the preferred encoder program
+     *
      * @param encoderProgram the encoder name
      */
     public void setEncoderProgram(EncoderProgramEnum encoderProgram) {
@@ -404,6 +427,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Gets the preffered inspector program
+     *
      * @return the inspector program name
      */
     public InspectorProgramEnum getInspectorProgram() {
@@ -412,6 +436,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets the preferred inspector program
+     *
      * @param inspectorProgram the inspector name
      */
     public void setInspectorProgram(InspectorProgramEnum inspectorProgram) {
@@ -420,6 +445,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Gets the audio codec (used for transcoding)
+     *
      * @return the audio codec name
      */
     public AudioCodecEnum getAudioCodec() {
@@ -428,6 +454,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets the preferred audio codec
+     *
      * @param audioCodec the audio codec name
      */
     public void setAudioCodec(AudioCodecEnum audioCodec) {
@@ -436,6 +463,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Gets the preferred audio rate
+     *
      * @return the audio rate
      */
     public AudioRateEnum getAudioRate() {
@@ -444,6 +472,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets the preferred audio rate
+     *
      * @param audioRate the audio rate
      */
     public void setAudioRate(AudioRateEnum audioRate) {
@@ -452,6 +481,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Gets the audio encoder preset
+     *
      * @return the preset
      */
     public EncoderPresetEnum getAudioPreset() {
@@ -460,6 +490,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets the audio encoder preset
+     *
      * @param audioPreset the preset
      */
     public void setAudioPreset(EncoderPresetEnum audioPreset) {
@@ -468,6 +499,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Gets the video container (used for transcoding)
+     *
      * @return the video container name
      */
     public VideoContainerEnum getVideoContainer() {
@@ -476,6 +508,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets the preferred video container (used for transcoding)
+     *
      * @param videoContainer the video container
      */
     public void setVideoContainer(VideoContainerEnum videoContainer) {
@@ -484,6 +517,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Gets the video codec
+     *
      * @return the name of the video codec
      */
     public VideoCodecEnum getVideoCodec() {
@@ -492,6 +526,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets the preferred video codec
+     *
      * @param videoCodec the video codec
      */
     public void setVideoCodec(VideoCodecEnum videoCodec) {
@@ -500,6 +535,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Gets the encoder preset
+     *
      * @return the encoder preset
      */
     public EncoderPresetEnum getEncoderPreset() {
@@ -508,6 +544,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets the encoder preset
+     *
      * @param encoderPreset the preset
      */
     public void setEncoderPreset(EncoderPresetEnum encoderPreset) {
@@ -516,6 +553,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Whether the encoder should tune for film
+     *
      * @return true if yes
      */
     public boolean isVideoTuneFilm() {
@@ -524,6 +562,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets the encoders film tune function
+     *
      * @param videoTuneFilm true to use it
      */
     public void setVideoTuneFilm(boolean videoTuneFilm) {
@@ -532,6 +571,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Whether the encoder should tune for animation
+     *
      * @return true if yes
      */
     public boolean isVideoTuneAnimation() {
@@ -540,6 +580,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets the encoders animation tune function
+     *
      * @param videoTuneAnimation true to use it
      */
     public void setVideoTuneAnimation(boolean videoTuneAnimation) {
@@ -548,6 +589,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Whether the encoder should tune for grain
+     *
      * @return true if yes
      */
     public boolean isVideoTuneGrain() {
@@ -556,6 +598,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets the encoders grain tune function
+     *
      * @param videoTuneGrain true to use it
      */
     public void setVideoTuneGrain(boolean videoTuneGrain) {
@@ -564,6 +607,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Whether the encoder should tune for still images
+     *
      * @return true if yes
      */
     public boolean isVideoTuneStillImage() {
@@ -572,6 +616,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets the encoders still image tune function
+     *
      * @param videoTuneStillImage true to use it
      */
     public void setVideoTuneStillImage(boolean videoTuneStillImage) {
@@ -580,6 +625,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Whether the encoder should tune for fast decoding
+     *
      * @return true if yes
      */
     public boolean isVideoTuneFastDecode() {
@@ -588,6 +634,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets the encoders fast decode function
+     *
      * @param videoTuneFastDecode true to use it
      */
     public void setVideoTuneFastDecode(boolean videoTuneFastDecode) {
@@ -596,6 +643,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Whether the encoder should tune for zero latency
+     *
      * @return true if yes
      */
     public boolean isVideoTuneZeroLatency() {
@@ -604,6 +652,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets the encoders zero latency function
+     *
      * @param videoTuneZeroLatency true to use it
      */
     public void setVideoTuneZeroLatency(boolean videoTuneZeroLatency) {
@@ -612,6 +661,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Whether the encoder should tune for fast start
+     *
      * @return true if yes
      */
     public boolean isVideoFastStart() {
@@ -620,6 +670,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets the encoders fast start function
+     *
      * @param videoFastStart true to use it
      */
     public void setVideoFastStart(boolean videoFastStart) {
@@ -628,6 +679,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Whether the encoder should tune for PSNR
+     *
      * @return true if yes
      */
     public boolean isVideoTunePsnr() {
@@ -636,6 +688,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets the encoders tune psnr function
+     *
      * @param videoTunePsnr true to use it
      */
     public void setVideoTunePsnr(boolean videoTunePsnr) {
@@ -644,6 +697,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Whether the encoder should tune for SSNR
+     *
      * @return true if yes
      */
     public boolean isVideoTuneSsnr() {
@@ -652,6 +706,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets the encoders tune ssnr function
+     *
      * @param videoTuneSsnr true to use it
      */
     public void setVideoTuneSsnr(boolean videoTuneSsnr) {
@@ -660,6 +715,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Gets the encoders constant frame rate value
+     *
      * @return the frame rate
      */
     public int getVideoCrf() {
@@ -668,6 +724,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets the frame rate to a constant value
+     *
      * @param videoCrf the frame rate
      */
     public void setVideoCrf(int videoCrf) {
@@ -676,6 +733,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Whether the encoder will attempt to remove black borders
+     *
      * @return true if yes
      */
     public boolean isVideoBlackBorder() {
@@ -684,6 +742,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets the encoders remove black borders function
+     *
      * @param videoBlackBorder true to use
      */
     public void setVideoBlackBorder(boolean videoBlackBorder) {
@@ -692,6 +751,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Whether the encoder is using CUDA video acceleration
+     *
      * @return true if yes
      */
     public boolean isVideoCudaAcceleration() {
@@ -700,6 +760,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Determines whether the encoder should use CUDA acceleration
+     *
      * @param videoCudaAcceleration true to use
      */
     public void setVideoCudaAcceleration(boolean videoCudaAcceleration) {
@@ -708,6 +769,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Gets the video bitrate for 144p transcodes
+     *
      * @return the bitrate
      */
     public int getOneFourFourVideoTranscodeBitrate() {
@@ -716,6 +778,7 @@ public class SettingsController extends BasicController {
 
     /**
      * SEts the video bitrate for 144p transcodes
+     *
      * @param oneFourFourVideoTranscodeBitrate the bitrate
      */
     public void setOneFourFourVideoTranscodeBitrate(int oneFourFourVideoTranscodeBitrate) {
@@ -724,6 +787,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Gets the video bitrate for 240p transcodes
+     *
      * @return the bitrate
      */
     public int getTwoFourZeroVideoTranscodeBitrate() {
@@ -732,6 +796,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets the bitrate for 240p transcodes
+     *
      * @param twoFourZeroVideoTranscodeBitrate the bitrate
      */
     public void setTwoFourZeroVideoTranscodeBitrate(int twoFourZeroVideoTranscodeBitrate) {
@@ -740,6 +805,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Gets the bitrate for 360p transcodes
+     *
      * @return the bitrate
      */
     public int getThreeSixZeroVideoTranscodeBitrate() {
@@ -748,6 +814,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets the bitrate for 360p transcodes
+     *
      * @param threeSixZeroVideoTranscodeBitrate the bitrate
      */
     public void setThreeSixZeroVideoTranscodeBitrate(int threeSixZeroVideoTranscodeBitrate) {
@@ -756,6 +823,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Gets the bitrate for 480p transcodes
+     *
      * @return the bitrate
      */
     public int getFourEightZeroVideoTranscodeBitrate() {
@@ -764,6 +832,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets the bitrate for 480p transcodes
+     *
      * @param fourEightZeroVideoTranscodeBitrate the bitrate
      */
     public void setFourEightZeroVideoTranscodeBitrate(int fourEightZeroVideoTranscodeBitrate) {
@@ -772,6 +841,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Gets the bitrate for 720p transcodes
+     *
      * @return the bitrate
      */
     public int getSevenTwoZeroVideoTranscodeBitrate() {
@@ -780,6 +850,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets the bitrate for 720p transcodes
+     *
      * @param sevenTwoZeroVideoTranscodeBitrate the bitrate
      */
     public void setSevenTwoZeroVideoTranscodeBitrate(int sevenTwoZeroVideoTranscodeBitrate) {
@@ -788,6 +859,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Gets the bitrate for 1080p transcodes
+     *
      * @return the bitrate
      */
     public int getOneZeroEightZeroVideoTranscodeBitrate() {
@@ -796,6 +868,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets the bitrate for 1080p transcodes
+     *
      * @param oneZeroEightZeroVideoTranscodeBitrate the bitrate
      */
     public void setOneZeroEightZeroVideoTranscodeBitrate(int oneZeroEightZeroVideoTranscodeBitrate) {
@@ -804,6 +877,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Gets the bitrate for 2k transcodes
+     *
      * @return the bitrate
      */
     public int getTwoKVideoTranscodeBitrate() {
@@ -812,6 +886,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets the bitrate for 2k transcodes
+     *
      * @param twoKVideoTranscodeBitrate the bitrate
      */
     public void setTwoKVideoTranscodeBitrate(int twoKVideoTranscodeBitrate) {
@@ -820,6 +895,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Gets the bitrate for 4k transcodes
+     *
      * @return the bitrate
      */
     public int getFourKVideoTranscodeBitrate() {
@@ -828,6 +904,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets the bitrate for 4k transcodes
+     *
      * @param fourKVideoTranscodeBitrate the bitrate
      */
     public void setFourKVideoTranscodeBitrate(int fourKVideoTranscodeBitrate) {
@@ -836,6 +913,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Gets the bitrate for 4k transcodes
+     *
      * @return the bitrate
      */
     public int getEightKVideoTranscodeBitrate() {
@@ -844,6 +922,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets the bitrate for 4k transcodes
+     *
      * @param eightKVideoTranscodeBitrate the bitrate
      */
     public void setEightKVideoTranscodeBitrate(int eightKVideoTranscodeBitrate) {
@@ -852,6 +931,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Whether to show the posters in the table view
+     *
      * @param userSettingsEntity the users settings entity
      * @return the users preference
      */
@@ -864,6 +944,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Whether to show the names in the table view
+     *
      * @param userSettingsEntity the users settings entity
      * @return the users preference
      */
@@ -876,6 +957,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Whether to show run time in the table view
+     *
      * @param userSettingsEntity the users settings entity
      * @return the users preference
      */
@@ -888,6 +970,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Whether to show the genres in the table view
+     *
      * @param userSettingsEntity the users settings entity
      * @return the users preference
      */
@@ -900,6 +983,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Whether to show the MPAA ratings in the table view
+     *
      * @param userSettingsEntity the users settings entity
      * @return the users preference
      */
@@ -912,6 +996,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Whether to show the user ratings in the table view
+     *
      * @param userSettingsEntity the users settings entity
      * @return the users preference
      */
@@ -924,6 +1009,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Whether to show languages in the table view
+     *
      * @param userSettingsEntity the users settings entity
      * @return the users preference
      */
@@ -936,6 +1022,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Whether to show the release dates in the table view
+     *
      * @param userSettingsEntity the users settings entity
      * @return the users preference
      */
@@ -948,6 +1035,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Whether to show actions in the table view
+     *
      * @param userSettingsEntity the users settings
      * @return the users preference
      */
@@ -960,6 +1048,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Whether the book library is enabled or not
+     *
      * @return true if it is
      */
     public boolean isBookLibraryEnable() {
@@ -968,6 +1057,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Whether the book library is enabled
+     *
      * @param bookLibraryEnable true if it is
      */
     public void setBookLibraryEnable(boolean bookLibraryEnable) {
@@ -976,6 +1066,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Gets the path to the book library
+     *
      * @return the path
      */
     public String getBookLibraryPath() {
@@ -984,6 +1075,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets the path to the book library
+     *
      * @param bookLibraryPath the path
      */
     public void setBookLibraryPath(String bookLibraryPath) {
@@ -992,6 +1084,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Whether to routinely scan the book library for new entities
+     *
      * @return true if yes
      */
     public boolean isBookScanEnable() {
@@ -1000,6 +1093,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets whether the book library should be scanned
+     *
      * @param bookScanEnable true if yes
      */
     public void setBookScanEnable(boolean bookScanEnable) {
@@ -1008,6 +1102,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Gets the frequency in which the book library will be scanned
+     *
      * @return the duration between scans
      */
     public int getBookScanFrequencyTime() {
@@ -1016,6 +1111,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets the book scan frequency time
+     *
      * @param bookScanFrequencyTime the duration between scans
      */
     public void setBookScanFrequencyTime(int bookScanFrequencyTime) {
@@ -1024,6 +1120,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Gets the book scan frequency type (seconds, minutes, etc)
+     *
      * @return the scan frequency
      */
     public ScanFrequencyEnum getBookScanFrequencyType() {
@@ -1032,6 +1129,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets the book scan frequency type (seconds, minutes, etc)
+     *
      * @param bookScanFrequencyType the frequency type
      */
     public void setBookScanFrequencyType(ScanFrequencyEnum bookScanFrequencyType) {
@@ -1040,6 +1138,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Whether the game library is enabled
+     *
      * @return true if it is
      */
     public boolean isGameLibraryEnable() {
@@ -1048,6 +1147,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets whether the game library is enabled
+     *
      * @param gameLibraryEnable true if it is
      */
     public void setGameLibraryEnable(boolean gameLibraryEnable) {
@@ -1056,6 +1156,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Gets the game library path
+     *
      * @return the path
      */
     public String getGameLibraryPath() {
@@ -1064,6 +1165,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets the game library path
+     *
      * @param gameLibraryPath the path
      */
     public void setGameLibraryPath(String gameLibraryPath) {
@@ -1072,6 +1174,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Whether to scan the game library for new files or not
+     *
      * @return true if yes
      */
     public boolean isGameScanEnable() {
@@ -1080,6 +1183,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets whether to scan the game library for new files
+     *
      * @param gameScanEnable true if yes
      */
     public void setGameScanEnable(boolean gameScanEnable) {
@@ -1088,6 +1192,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Gets the game scan frequency
+     *
      * @return the duration
      */
     public int getGameScanFrequencyTime() {
@@ -1096,6 +1201,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets the gmae scan frequency
+     *
      * @param gameScanFrequencyTime the duration
      */
     public void setGameScanFrequencyTime(int gameScanFrequencyTime) {
@@ -1104,6 +1210,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Gets the game scan frequency type
+     *
      * @return the frequency type (seconds, minutes, etc)
      */
     public ScanFrequencyEnum getGameScanFrequencyType() {
@@ -1112,6 +1219,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets the game scan frequency type
+     *
      * @param gameScanFrequencyType the frequency type (seconds, minutes, etc)
      */
     public void setGameScanFrequencyType(ScanFrequencyEnum gameScanFrequencyType) {
@@ -1120,6 +1228,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Gets whether the movie library is enabled
+     *
      * @return true if yes
      */
     public boolean isMovieLibraryEnable() {
@@ -1128,6 +1237,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets whether the movie library is enabled
+     *
      * @param movieLibraryEnable true if yes
      */
     public void setMovieLibraryEnable(boolean movieLibraryEnable) {
@@ -1136,6 +1246,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Gets the movie library path
+     *
      * @return the path
      */
     public String getMovieLibraryPath() {
@@ -1144,6 +1255,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets the movie library path
+     *
      * @param movieLibraryPath the library path
      */
     public void setMovieLibraryPath(String movieLibraryPath) {
@@ -1152,6 +1264,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Gets whether the movie library scanning is enabled
+     *
      * @return true if yes
      */
     public boolean isMovieScanEnable() {
@@ -1160,6 +1273,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets the movie scan function
+     *
      * @param movieScanEnable enabled if true
      */
     public void setMovieScanEnable(boolean movieScanEnable) {
@@ -1168,6 +1282,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Gets whether movie pretranscoding is enabled
+     *
      * @return true if yes
      */
     public boolean isMoviePreTranscodeEnable() {
@@ -1176,6 +1291,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets whether movies should be pretranscoded
+     *
      * @param moviePreTranscodeEnable true if yes
      */
     public void setMoviePreTranscodeEnable(boolean moviePreTranscodeEnable) {
@@ -1184,6 +1300,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Gets whether movies should be pretranscoded for 144p
+     *
      * @return true if yes
      */
     public boolean isMoviePreTranscode144p() {
@@ -1192,6 +1309,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets whether movies should be pretranscoded to 144p
+     *
      * @param moviePreTranscode144p true if yes
      */
     public void setMoviePreTranscode144p(boolean moviePreTranscode144p) {
@@ -1200,6 +1318,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Gets whether movies should be pretranscoded to 240p
+     *
      * @return true if yes
      */
     public boolean isMoviePreTranscode240p() {
@@ -1208,6 +1327,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets whether movies should be pretranscoded to 240p
+     *
      * @param moviePreTranscode240p true if yes
      */
     public void setMoviePreTranscode240p(boolean moviePreTranscode240p) {
@@ -1216,6 +1336,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Gets whether movies should be pretranscoded to 360p
+     *
      * @return true if yes
      */
     public boolean isMoviePreTranscode360p() {
@@ -1224,6 +1345,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets whether movies should be pretranscoded to 360p
+     *
      * @param moviePreTranscode360p true if yes
      */
     public void setMoviePreTranscode360p(boolean moviePreTranscode360p) {
@@ -1232,6 +1354,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Gets whether movies should be pretranscoded to 480p
+     *
      * @return true if yes
      */
     public boolean isMoviePreTranscode480p() {
@@ -1240,6 +1363,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets whether movies should be pretranscoded to 480p
+     *
      * @param moviePreTranscode480p true if yes
      */
     public void setMoviePreTranscode480p(boolean moviePreTranscode480p) {
@@ -1248,6 +1372,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Gets whether movies should be pretranscoded to 720p
+     *
      * @return true if yes
      */
     public boolean isMoviePreTranscode720p() {
@@ -1256,6 +1381,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets whether movies should be pretranscoded to 720p
+     *
      * @param moviePreTranscode720p true if yes
      */
     public void setMoviePreTranscode720p(boolean moviePreTranscode720p) {
@@ -1264,6 +1390,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Gets whether movies should be pretranscoded to 1080p
+     *
      * @return true if yes
      */
     public boolean isMoviePreTranscode1080p() {
@@ -1272,6 +1399,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets whether movies should be pretranscoded to 1080p
+     *
      * @param moviePreTranscode1080p true if yes
      */
     public void setMoviePreTranscode1080p(boolean moviePreTranscode1080p) {
@@ -1280,6 +1408,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets wheter movies should be pretransocded to 2k
+     *
      * @return true if yes
      */
     public boolean isMoviePreTranscode2k() {
@@ -1288,6 +1417,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets whether movies should be pretranscoded to 2k
+     *
      * @param moviePreTranscode2k true if yes
      */
     public void setMoviePreTranscode2k(boolean moviePreTranscode2k) {
@@ -1296,6 +1426,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Gets whether movies should be tretranscoded to 4k
+     *
      * @return true if yes
      */
     public boolean isMoviePreTranscode4k() {
@@ -1304,6 +1435,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets whether movies should be pretranscoded to 4k
+     *
      * @param moviePreTranscode4k true if yes
      */
     public void setMoviePreTranscode4k(boolean moviePreTranscode4k) {
@@ -1312,6 +1444,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Gets whether movies should be ptretranscoded to 8k
+     *
      * @return true if yes
      */
     public boolean isMoviePreTranscode8k() {
@@ -1320,6 +1453,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets whether movies should be pretranscoded to 8k
+     *
      * @param moviePreTranscode8k true if yes
      */
     public void setMoviePreTranscode8k(boolean moviePreTranscode8k) {
@@ -1328,6 +1462,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Gets the movie scan frequency time
+     *
      * @return the duration
      */
     public int getMovieScanFrequencyTime() {
@@ -1336,6 +1471,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets the movie scan frequency time
+     *
      * @param movieScanFrequencyTime the duration
      */
     public void setMovieScanFrequencyTime(int movieScanFrequencyTime) {
@@ -1344,6 +1480,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Gets the movie scan frequency type
+     *
      * @return the scan frequency
      */
     public ScanFrequencyEnum getMovieScanFrequencyType() {
@@ -1352,6 +1489,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets the movie scan frequency type
+     *
      * @param movieScanFrequencyType the scan frequency
      */
     public void setMovieScanFrequencyType(ScanFrequencyEnum movieScanFrequencyType) {
@@ -1360,6 +1498,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Gets the movie pretranscode library path
+     *
      * @return the path
      */
     public String getMoviePreTranscodeLibraryPath() {
@@ -1368,6 +1507,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets the movie library pretranscode path
+     *
      * @param moviePreTranscodeLibraryPath the path
      */
     public void setMoviePreTranscodeLibraryPath(String moviePreTranscodeLibraryPath) {
@@ -1376,6 +1516,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Gets whether the music library is enabled
+     *
      * @return true if yes
      */
     public boolean isMusicLibraryEnable() {
@@ -1384,6 +1525,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets whether the music library is enabled
+     *
      * @param musicLibraryEnable true if yes
      */
     public void setMusicLibraryEnable(boolean musicLibraryEnable) {
@@ -1392,6 +1534,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Gets the music library path
+     *
      * @return the path
      */
     public String getMusicLibraryPath() {
@@ -1400,6 +1543,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets the music library path
+     *
      * @param musicLibraryPath the path
      */
     public void setMusicLibraryPath(String musicLibraryPath) {
@@ -1408,6 +1552,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Gets whether the music scan is enabled
+     *
      * @return true if yes
      */
     public boolean isMusicScanEnable() {
@@ -1416,6 +1561,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets whether the music library will be scanned
+     *
      * @param musicScanEnable true if yes
      */
     public void setMusicScanEnable(boolean musicScanEnable) {
@@ -1424,6 +1570,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Gets whether music pretranscoding is enabled
+     *
      * @return true if yes
      */
     public boolean isMusicPreTranscodeEnable() {
@@ -1432,6 +1579,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets whether music will be pretranscoded
+     *
      * @param musicPreTranscodeEnable true if yes
      */
     public void setMusicPreTranscodeEnable(boolean musicPreTranscodeEnable) {
@@ -1440,6 +1588,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Gets whether music should be pretranscoded to 64Kbps
+     *
      * @return true if yes
      */
     public boolean isMusicPreTranscode64k() {
@@ -1448,6 +1597,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets whether music should be pretranscoded to 64Kbps
+     *
      * @param musicPreTranscode64k true if yes
      */
     public void setMusicPreTranscode64k(boolean musicPreTranscode64k) {
@@ -1456,6 +1606,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Gets whether music should be pretranscoded to 96Kbps
+     *
      * @return true if yes
      */
     public boolean isMusicPreTranscode96k() {
@@ -1464,6 +1615,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets whether music should be pretranscoded to 96Kbps
+     *
      * @param musicPreTranscode96k true if yes
      */
     public void setMusicPreTranscode96k(boolean musicPreTranscode96k) {
@@ -1472,6 +1624,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Gets whether music should be pretranscoded to 128Kbps
+     *
      * @return true if yes
      */
     public boolean isMusicPreTranscode128k() {
@@ -1480,6 +1633,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets whether music should be pretranscoded to 128Kbps
+     *
      * @param musicPreTranscode128k true if yes
      */
     public void setMusicPreTranscode128k(boolean musicPreTranscode128k) {
@@ -1488,6 +1642,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Gets whether music should be pretranscoded to 320Kbps
+     *
      * @return true if yes
      */
     public boolean isMusicPreTranscode320k() {
@@ -1496,6 +1651,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets whether music should be pretranscoded to 320Kbps
+     *
      * @param musicPreTranscode320k true if yes
      */
     public void setMusicPreTranscode320k(boolean musicPreTranscode320k) {
@@ -1504,6 +1660,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Gets whether music should be pretranscoded to 1411Kbps
+     *
      * @return true if yes
      */
     public boolean isMusicPreTranscode1411k() {
@@ -1512,6 +1669,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets whether music should be pretranscoded to 1411Kbps
+     *
      * @param musicPreTranscode1411k true if yes
      */
     public void setMusicPreTranscode1411k(boolean musicPreTranscode1411k) {
@@ -1520,6 +1678,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Gets the music scan frequency
+     *
      * @return the duration
      */
     public int getMusicScanFrequencyTime() {
@@ -1528,6 +1687,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets the music scan frequency
+     *
      * @param musicScanFrequencyTime the duration
      */
     public void setMusicScanFrequencyTime(int musicScanFrequencyTime) {
@@ -1536,6 +1696,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Get the music scan frequency time
+     *
      * @return the scan frequency
      */
     public ScanFrequencyEnum getMusicScanFrequencyType() {
@@ -1544,6 +1705,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Set the music scan frequency type
+     *
      * @param musicScanFrequencyType the frequency type
      */
     public void setMusicScanFrequencyType(ScanFrequencyEnum musicScanFrequencyType) {
@@ -1552,6 +1714,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Gets the music pretranscode path
+     *
      * @return the path
      */
     public String getMusicPreTranscodeLibraryPath() {
@@ -1560,6 +1723,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets the music pretranscode library path
+     *
      * @param musicPreTranscodeLibraryPath the path
      */
     public void setMusicPreTranscodeLibraryPath(String musicPreTranscodeLibraryPath) {
@@ -1568,6 +1732,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Whether the tv show library is enabled
+     *
      * @return true if yes
      */
     public boolean isTvShowLibraryEnable() {
@@ -1576,6 +1741,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets whether the tv show library should be enabled
+     *
      * @param tvShowLibraryEnable true if yes
      */
     public void setTvShowLibraryEnable(boolean tvShowLibraryEnable) {
@@ -1584,6 +1750,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Get the tv show library path
+     *
      * @return the path
      */
     public String getTvShowLibraryPath() {
@@ -1592,6 +1759,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets the tv show library path
+     *
      * @param tvShowLibraryPath the path
      */
     public void setTvShowLibraryPath(String tvShowLibraryPath) {
@@ -1600,6 +1768,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Gets whether the tv show library scan is enabled
+     *
      * @return true if yes
      */
     public boolean isTvShowScanEnable() {
@@ -1608,6 +1777,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets whether scanning the tv show library should be enabled
+     *
      * @param tvShowScanEnable true if yes
      */
     public void setTvShowScanEnable(boolean tvShowScanEnable) {
@@ -1616,6 +1786,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Gets whether the tv show library pretrancoding is enabled
+     *
      * @return true if yes
      */
     public boolean isTvShowPreTranscodeEnable() {
@@ -1624,6 +1795,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets whether tv show pretranscoding is enabled
+     *
      * @param tvShowPreTranscodeEnable true if yes
      */
     public void setTvShowPreTranscodeEnable(boolean tvShowPreTranscodeEnable) {
@@ -1632,6 +1804,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Gets whether tv shows should be pretranscoded to 144p
+     *
      * @return true if yes
      */
     public boolean isTvShowPreTranscode144p() {
@@ -1640,6 +1813,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets whether the tv shows should be pretranscoded to 144p
+     *
      * @param tvShowPreTranscode144p true if yes
      */
     public void setTvShowPreTranscode144p(boolean tvShowPreTranscode144p) {
@@ -1648,6 +1822,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Gets whether tv shows should be pretranscoded to 240p
+     *
      * @return true if yes
      */
     public boolean isTvShowPreTranscode240p() {
@@ -1656,6 +1831,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets whether tv shows should be pretranscoded to 240p
+     *
      * @param tvShowPreTranscode240p true if yes
      */
     public void setTvShowPreTranscode240p(boolean tvShowPreTranscode240p) {
@@ -1664,6 +1840,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Gets whether tv shows should be pretranscoded to 360p
+     *
      * @return true if yes
      */
     public boolean isTvShowPreTranscode360p() {
@@ -1672,6 +1849,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets whether movies should be pretranscoded to 360p
+     *
      * @param tvShowPreTranscode360p true if yes
      */
     public void setTvShowPreTranscode360p(boolean tvShowPreTranscode360p) {
@@ -1680,6 +1858,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Gets whether tv shows should be pretranscoded to 480p
+     *
      * @return true if yes
      */
     public boolean isTvShowPreTranscode480p() {
@@ -1688,6 +1867,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets whether tv shows should be pretranscoded to 480p
+     *
      * @param tvShowPreTranscode480p true if yes
      */
     public void setTvShowPreTranscode480p(boolean tvShowPreTranscode480p) {
@@ -1696,6 +1876,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Gets whether tv shows should be pretranscoded to 720p
+     *
      * @return true if yes
      */
     public boolean isTvShowPreTranscode720p() {
@@ -1704,6 +1885,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets whether tv shows should be pretranscoded to 720p
+     *
      * @param tvShowPreTranscode720p true if yes
      */
     public void setTvShowPreTranscode720p(boolean tvShowPreTranscode720p) {
@@ -1712,6 +1894,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Gets whether tv shows should be pretranscoded to 1080p
+     *
      * @return true if yes
      */
     public boolean isTvShowPreTranscode1080p() {
@@ -1720,6 +1903,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets whether tv shows should be pretranscoded to 1080p
+     *
      * @param tvShowPreTranscode1080p true if yes
      */
     public void setTvShowPreTranscode1080p(boolean tvShowPreTranscode1080p) {
@@ -1728,6 +1912,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Gets whether tv shows should be pretranscoded to 2k
+     *
      * @return true if yes
      */
     public boolean isTvShowPreTranscode2k() {
@@ -1736,6 +1921,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets whether tv shows should be pretranscoded to 2k
+     *
      * @param tvShowPreTranscode2k true if yes
      */
     public void setTvShowPreTranscode2k(boolean tvShowPreTranscode2k) {
@@ -1744,6 +1930,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Gets whether tv shows should be pretranscoded to 4k
+     *
      * @return true if yes
      */
     public boolean isTvShowPreTranscode4k() {
@@ -1752,6 +1939,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Gets whether tv shows should be pretranscoded to 4k
+     *
      * @param tvShowPreTranscode4k true if yes
      */
     public void setTvShowPreTranscode4k(boolean tvShowPreTranscode4k) {
@@ -1760,6 +1948,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Gets whether tv shows should be pretranscoded to 8k
+     *
      * @return true if yes
      */
     public boolean isTvShowPreTranscode8k() {
@@ -1768,6 +1957,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets whether tv shows should be pretranscoded to 8k
+     *
      * @param tvShowPreTranscode8k true if yes
      */
     public void setTvShowPreTranscode8k(boolean tvShowPreTranscode8k) {
@@ -1776,6 +1966,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Gets the tv show library scan frequency time
+     *
      * @return the duration
      */
     public int getTvShowScanFrequencyTime() {
@@ -1784,6 +1975,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets the tv show scan frequency time
+     *
      * @param tvShowScanFrequencyTime the duration
      */
     public void setTvShowScanFrequencyTime(int tvShowScanFrequencyTime) {
@@ -1792,6 +1984,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Gets the tv show scan frequency type
+     *
      * @return the duration
      */
     public ScanFrequencyEnum getTvShowScanFrequencyType() {
@@ -1800,6 +1993,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets the tv show scan frequency type
+     *
      * @param tvShowScanFrequencyType the type (minutes, hours, etc)
      */
     public void setTvShowScanFrequencyType(ScanFrequencyEnum tvShowScanFrequencyType) {
@@ -1808,6 +2002,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Gets the tv show pretranscode library path
+     *
      * @return the path
      */
     public String getTvShowPreTranscodeLibraryPath() {
@@ -1816,6 +2011,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets the tv show pretranscode library path
+     *
      * @param tvShowPreTranscodeLibraryPath the path
      */
     public void setTvShowPreTranscodeLibraryPath(String tvShowPreTranscodeLibraryPath) {
@@ -1824,6 +2020,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Gets the server name
+     *
      * @return the server name
      */
     public String getServerName() {
@@ -1832,6 +2029,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets the server name
+     *
      * @param serverName the server name
      */
     public void setServerName(String serverName) {
@@ -1840,6 +2038,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Gets whether users are allow to register
+     *
      * @return true if yes
      */
     public boolean isAllowRegistration() {
@@ -1848,6 +2047,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets whether users are allowed to register
+     *
      * @param allowRegistration true if yes
      */
     public void setAllowRegistration(boolean allowRegistration) {
@@ -1856,6 +2056,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Gets whether new movies should be displayed on the home page
+     *
      * @param userSettingsEntity the users settings entity
      * @return the users preference
      */
@@ -1868,6 +2069,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Gets whether new tv shows should be displayed on the home page
+     *
      * @param userSettingsEntity the users settings entity
      * @return the users preference
      */
@@ -1880,6 +2082,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Gets whether new games should be displayed on the home page
+     *
      * @param userSettingsEntity the users settings entity
      * @return the users preference
      */
@@ -1892,6 +2095,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Gets whether new books should be displayed on the home page
+     *
      * @param userSettingsEntity the users settings entity
      * @return the users preference
      */
@@ -1904,6 +2108,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Gets whether new music should be displayed on the home page
+     *
      * @param userSettingsEntity the users settings entity
      * @return the users preference
      */
@@ -1916,6 +2121,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Gets whether popular movies should be displayed on the home page
+     *
      * @param userSettingsEntity the users settings entity
      * @return the users preference
      */
@@ -1928,6 +2134,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Gets whether popular tv shows should be displayed on the home page
+     *
      * @param userSettingsEntity the users settings entity
      * @return the users preference
      */
@@ -1940,6 +2147,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Gets whether popular games should be displayed on the home page
+     *
      * @param userSettingsEntity the users settings entity
      * @return the users preference
      */
@@ -1952,6 +2160,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Gets whether popular books should be displayed on the home page
+     *
      * @param userSettingsEntity the users settings entity
      * @return the users preference
      */
@@ -1964,6 +2173,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Gets whether popular music should be displayed on the home page
+     *
      * @param userSettingsEntity the users settings entity
      * @return the users preference
      */
@@ -1976,6 +2186,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Gets the search method (database, search server)
+     *
      * @return the method
      */
     public SearchMethodEnum getSearchMethod() {
@@ -1984,6 +2195,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets the search method (database, search server)
+     *
      * @param searchMethod the method
      */
     public void setSearchMethod(SearchMethodEnum searchMethod) {
@@ -1992,6 +2204,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Gets the maximum number of entities to return when searching
+     *
      * @param userSettingsEntity the users settings entity
      * @return the users preference
      */
@@ -2004,6 +2217,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Gets the maximum number of entities to return when browsing
+     *
      * @param userSettingsEntity the users settings entity
      * @return the users preference
      */
@@ -2016,6 +2230,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Gets the width of the cards in pixels
+     *
      * @param userSettingsEntity the users settings entity
      * @return the users preference
      */
@@ -2028,6 +2243,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets whether the top menu should be stuck to the top of the screen or not
+     *
      * @param userSettingsEntity the users settings entity
      * @return true if yes
      */
@@ -2040,6 +2256,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Gets whether caching should be enabled
+     *
      * @return true if yes
      */
     public boolean isCacheEnable() {
@@ -2048,6 +2265,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets whether caching should be enabled
+     *
      * @param cacheEnable true if yes
      */
     public void setCacheEnable(boolean cacheEnable) {
@@ -2056,6 +2274,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Gets the maximum asset cache duration
+     *
      * @return the max age in seconds
      */
     public int getMaxAssetCacheAge() {
@@ -2064,6 +2283,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets the maximum asset cache duration
+     *
      * @param maxAssetCacheAge the max age in seconds
      */
     public void setMaxAssetCacheAge(int maxAssetCacheAge) {
@@ -2072,6 +2292,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets the interface method
+     *
      * @param interfaceMethod the method
      */
     public void setInterfaceMethod(InterfaceMethodEnum interfaceMethod) {
@@ -2080,6 +2301,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets the default playback quality
+     *
      * @param defaultPlaybackQuality the quality
      */
     public void setDefaultPlaybackQuality(PlaybackQualityEnum defaultPlaybackQuality) {
@@ -2088,6 +2310,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets the display mode
+     *
      * @param displayMode the display mode
      */
     public void setDisplayMode(DisplayModeEnum displayMode) {
@@ -2096,6 +2319,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets whether poster should be displayed in the table view
+     *
      * @param tableShowPoster true if yes
      */
     public void setTableShowPoster(boolean tableShowPoster) {
@@ -2104,6 +2328,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets whether names should be displayed in the table view
+     *
      * @param tableShowName true if yes
      */
     public void setTableShowName(boolean tableShowName) {
@@ -2112,6 +2337,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets whether run time should be displayed in the table view
+     *
      * @param tableShowRuntime true if yes
      */
     public void setTableShowRuntime(boolean tableShowRuntime) {
@@ -2120,6 +2346,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets whether genres should be displayed in the table view
+     *
      * @param tableShowGenre true if yes
      */
     public void setTableShowGenre(boolean tableShowGenre) {
@@ -2128,6 +2355,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets whether mpaa ratings should be displayed in the table view
+     *
      * @param tableShowMpaaRating true if yes
      */
     public void setTableShowMpaaRating(boolean tableShowMpaaRating) {
@@ -2136,6 +2364,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets whether user ratings should be displayed in the table view
+     *
      * @param tableShowUserRating true if yes
      */
     public void setTableShowUserRating(boolean tableShowUserRating) {
@@ -2144,6 +2373,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets whether languages should be displayed in the table view
+     *
      * @param tableShowLanguage true if yes
      */
     public void setTableShowLanguage(boolean tableShowLanguage) {
@@ -2152,6 +2382,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets whether release dates should be displayed in the table view
+     *
      * @param tableShowReleaseDate true if yes
      */
     public void setTableShowReleaseDate(boolean tableShowReleaseDate) {
@@ -2160,6 +2391,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets whether actions should be displayed in the table view
+     *
      * @param tableShowActions true if yes
      */
     public void setTableShowActions(boolean tableShowActions) {
@@ -2168,6 +2400,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets whether new movies should be displayed on the home page
+     *
      * @param homePageShowNewMovie true if yes
      */
     public void setHomePageShowNewMovie(boolean homePageShowNewMovie) {
@@ -2176,6 +2409,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets whether new tv shows should be displayed on the home page
+     *
      * @param homePageShowNewTvShow true if yes
      */
     public void setHomePageShowNewTvShow(boolean homePageShowNewTvShow) {
@@ -2184,6 +2418,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets whether new games should be displayed on the home page
+     *
      * @param homePageShowNewGame true if yes
      */
     public void setHomePageShowNewGame(boolean homePageShowNewGame) {
@@ -2192,6 +2427,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets whether new books should be displayed on the home page
+     *
      * @param homePageShowNewBook true if yes
      */
     public void setHomePageShowNewBook(boolean homePageShowNewBook) {
@@ -2200,6 +2436,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets whether new music should be displayed on the home page
+     *
      * @param homePageShowNewMusic true if yes
      */
     public void setHomePageShowNewMusic(boolean homePageShowNewMusic) {
@@ -2208,6 +2445,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets whether popular movies should be displayed on the home page
+     *
      * @param homePageShowPopularMovie true if yes
      */
     public void setHomePageShowPopularMovie(boolean homePageShowPopularMovie) {
@@ -2216,6 +2454,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets whether popular tv shows should be displayed on the home page
+     *
      * @param homePageShowPopularTvShow true if yes
      */
     public void setHomePageShowPopularTvShow(boolean homePageShowPopularTvShow) {
@@ -2224,6 +2463,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets whether popular games should be displayed on the home page
+     *
      * @param homePageShowPopularGame true if yes
      */
     public void setHomePageShowPopularGame(boolean homePageShowPopularGame) {
@@ -2232,6 +2472,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets whether popular books should be displayed on the home page
+     *
      * @param homePageShowPopularBook true if yes
      */
     public void setHomePageShowPopularBook(boolean homePageShowPopularBook) {
@@ -2240,6 +2481,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets whether popular music should be displayed on the home page
+     *
      * @param homePageShowPopularMusic true if yes
      */
     public void setHomePageShowPopularMusic(boolean homePageShowPopularMusic) {
@@ -2248,6 +2490,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets the maximum number of entities to be returned when searching
+     *
      * @param maxSearchResults the max number
      */
     public void setMaxSearchResults(int maxSearchResults) {
@@ -2256,6 +2499,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets the maximum number of entities to be returned when browsing in the UI
+     *
      * @param maxUIBrowseResults the max ui browse number
      */
     public void setMaxUIBrowseResults(int maxUIBrowseResults) {
@@ -2264,6 +2508,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets the maximum number of entities to be returned when browsing with the API
+     *
      * @param maxAPIBrowseResults the max api browse number
      */
     public void setMaxAPIBrowseResults(int maxAPIBrowseResults) {
@@ -2272,6 +2517,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets the card width in pixels
+     *
      * @param cardWidth the width in pixels
      */
     public void setCardWidth(int cardWidth) {
@@ -2280,6 +2526,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets whether the top menu should sticky to the top of the screen
+     *
      * @param stickyTopMenu true if yes
      */
     public void setStickyTopMenu(boolean stickyTopMenu) {
@@ -2288,6 +2535,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Gets the database name
+     *
      * @return the database name
      */
     public String getDatabaseName() {
@@ -2296,6 +2544,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets the database name
+     *
      * @param databaseName the name of the database
      */
     public void setDatabaseName(String databaseName) {
@@ -2304,6 +2553,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Gets the minimum number of database connections
+     *
      * @return the number of connections
      */
     public int getMinDatabaseConnections() {
@@ -2312,6 +2562,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets the minimum number of database connections
+     *
      * @param minDatabaseConnections the number of connections
      */
     public void setMinDatabaseConnections(int minDatabaseConnections) {
@@ -2320,6 +2571,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Gets the maximum number of connections
+     *
      * @return the number of connections
      */
     public int getMaxDatabaseConnections() {
@@ -2328,6 +2580,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets the maximum number of database connections
+     *
      * @param maxDatabaseConnections the number of connections
      */
     public void setMaxDatabaseConnections(int maxDatabaseConnections) {
@@ -2336,6 +2589,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Gets whether logging is enabled
+     *
      * @return true if yes
      */
     public boolean isLoggingEnabled() {
@@ -2344,6 +2598,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets whether logging is enabled
+     *
      * @param loggingEnabled true if yes
      */
     public void setLoggingEnabled(boolean loggingEnabled) {
@@ -2352,6 +2607,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Gets the base library path where all libraries are kept
+     *
      * @return the path
      */
     public String getBaseLibraryPath() {
@@ -2360,6 +2616,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets the base library path
+     *
      * @param baseLibraryPath the path
      */
     public void setBaseLibraryPath(String baseLibraryPath) {
@@ -2368,6 +2625,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets the entity packages
+     *
      * @param entityPackages the entity packages
      */
     public void setEntityPackage(String[] entityPackages) {
@@ -2376,6 +2634,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Gets the entity packages
+     *
      * @return the packages
      */
     public String[] getEntityPackages() {
@@ -2384,6 +2643,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Gets whether history is enabled. Nothing is deleted when enabled, but moved to a %table%_history table
+     *
      * @return true if enabled
      */
     public boolean isEnableHistory() {
@@ -2392,6 +2652,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets whether history is enabled. Nothing is deleted when enabled, but moved to a %table%_history table
+     *
      * @param enableHistory true if enabled
      */
     public void setEnableHistory(boolean enableHistory) {
@@ -2400,6 +2661,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Gets whether uploading files in enabled
+     *
      * @return true if yes
      */
     public boolean isEnableUpload() {
@@ -2408,6 +2670,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets whether uploading is enabled
+     *
      * @param enableUpload true if yes
      */
     public void setEnableUpload(boolean enableUpload) {
@@ -2416,6 +2679,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Gets the path where profile photos are kept
+     *
      * @return the path
      */
     public String getProfilePhotoFolder() {
@@ -2424,6 +2688,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets the path of the profile photo library
+     *
      * @param profilePhotoFolder the path
      */
     public void setProfilePhotoFolder(String profilePhotoFolder) {
@@ -2432,6 +2697,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Gets the HTTP 206 chunk size
+     *
      * @return the size
      */
     public int getChunk() {
@@ -2440,6 +2706,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets the HTTP 206 chunk size
+     *
      * @param chunk the size
      */
     public void setChunk(int chunk) {
@@ -2448,6 +2715,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Gets the type of database being used
+     *
      * @return the database type
      */
     public DatabaseTypeEnum getDatabaseType() {
@@ -2456,6 +2724,7 @@ public class SettingsController extends BasicController {
 
     /**
      * Sets the type of database to use
+     *
      * @param databaseType the database type
      */
     public void setDatabaseType(DatabaseTypeEnum databaseType) {

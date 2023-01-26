@@ -13,6 +13,7 @@ public class NewsEndpoints extends AbstractModule {
 
     /**
      * Creates the endpoints and maps them to their respective methods
+     *
      * @return the routing servlet
      */
     @Provides

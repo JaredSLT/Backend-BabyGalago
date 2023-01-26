@@ -31,12 +31,13 @@ public class LoginEndpointsController extends BasicController {
 
     /**
      * Returns the users entity as way of logging in using the API
+     *
      * @param userEntity the user attempting to login
      * @return the user entity fetched from the database, with the password removed
-     * @throws SQLException if it fails
+     * @throws SQLException              if it fails
      * @throws InvocationTargetException if it fails
-     * @throws IllegalAccessException if it fails
-     * @throws InstantiationException if it fails
+     * @throws IllegalAccessException    if it fails
+     * @throws InstantiationException    if it fails
      */
     public byte[] login(ExtendedUserEntity userEntity) throws SQLException, InvocationTargetException, IllegalAccessException, InstantiationException {
         ExtendedUserEntity databaseUser = extendedUserEntityController.getUserByUsernameAndPassword(userEntity.getUsername(), userEntity.getPassword());
@@ -46,8 +47,9 @@ public class LoginEndpointsController extends BasicController {
 
     /**
      * Returns a user entity
-     * @param username the username
-     * @param password the password
+     *
+     * @param username    the username
+     * @param password    the password
      * @param httpRequest the request
      * @return the user entity
      * @throws Exception if it fails
@@ -67,6 +69,7 @@ public class LoginEndpointsController extends BasicController {
 
     /**
      * Creates a password hash using BCrypt
+     *
      * @param password the plain text password
      * @return the hashed password
      */
@@ -77,6 +80,7 @@ public class LoginEndpointsController extends BasicController {
 
     /**
      * Logs in using the API
+     *
      * @param httpRequest
      * @return
      */

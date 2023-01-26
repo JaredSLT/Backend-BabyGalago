@@ -33,15 +33,16 @@ public class PlayEndpointsController extends BasicController {
 
     /**
      * Renders the player page for a media type
+     *
      * @param httpRequest the request
      * @return the page
-     * @throws IOException if it fails
-     * @throws SQLException if it fails
+     * @throws IOException               if it fails
+     * @throws SQLException              if it fails
      * @throws InvocationTargetException if it fails
-     * @throws NoSuchMethodException if it fails
-     * @throws IllegalAccessException if it fails
-     * @throws InstantiationException if it fails
-     * @throws ClassNotFoundException if it fails
+     * @throws NoSuchMethodException     if it fails
+     * @throws IllegalAccessException    if it fails
+     * @throws InstantiationException    if it fails
+     * @throws ClassNotFoundException    if it fails
      */
     public Promisable<HttpResponse> play(HttpRequest httpRequest) throws IOException, SQLException, InvocationTargetException, NoSuchMethodException, IllegalAccessException, InstantiationException, ClassNotFoundException {
         if (!settingsController.isBookLibraryEnable()) {

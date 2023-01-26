@@ -8,7 +8,8 @@ import static j2html.TagCreator.a;
 public class ViewMoreComponent {
     /**
      * Renders the view more component
-     * @param type the type of endpoint to redirect to (eg new)
+     *
+     * @param type      the type of endpoint to redirect to (eg new)
      * @param mediaType the type of media to redirect to (eg movieentity)
      * @return the component
      */

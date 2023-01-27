@@ -7,7 +7,6 @@ import tech.tresearchgroup.babygalago.controller.controllers.QueueEntityControll
 import tech.tresearchgroup.babygalago.view.components.HeadComponent;
 import tech.tresearchgroup.babygalago.view.components.SideBarComponent;
 import tech.tresearchgroup.babygalago.view.components.TopBarComponent;
-import tech.tresearchgroup.cao.controller.GenericCAO;
 import tech.tresearchgroup.palila.controller.components.InputBoxComponent;
 import tech.tresearchgroup.palila.model.enums.PermissionGroupEnum;
 import tech.tresearchgroup.palila.model.enums.RegistrationErrorsEnum;
@@ -64,8 +63,7 @@ public class RegisterPage implements RenderablePage {
                          boolean isTvShowLibraryEnable,
                          boolean isGameLibraryEnable,
                          boolean isMusicLibraryEnable,
-                         boolean isBookLibraryEnable,
-                         GenericCAO genericCAO) {
+                         boolean isBookLibraryEnable) {
         boolean emailError = false;
         boolean passwordError = false;
         boolean usernameError = false;

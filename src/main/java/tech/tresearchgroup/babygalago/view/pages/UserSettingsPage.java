@@ -5,7 +5,6 @@ import tech.tresearchgroup.babygalago.controller.controllers.QueueEntityControll
 import tech.tresearchgroup.babygalago.view.components.HeadComponent;
 import tech.tresearchgroup.babygalago.view.components.SideBarComponent;
 import tech.tresearchgroup.babygalago.view.components.TopBarComponent;
-import tech.tresearchgroup.cao.controller.GenericCAO;
 import tech.tresearchgroup.palila.controller.components.CheckboxComponent;
 import tech.tresearchgroup.palila.controller.components.DropDownBoxComponent;
 import tech.tresearchgroup.palila.controller.components.InputBoxComponent;
@@ -100,8 +99,7 @@ public class UserSettingsPage implements RenderablePage {
                          String maxSearchResults,
                          String maxBrowseResults,
                          String cardWidth,
-                         boolean isStickyTopMenu,
-                         GenericCAO genericCAO) {
+                         boolean isStickyTopMenu) {
         return document(
             html(
                 HeadComponent.render(serverName),

@@ -6,7 +6,6 @@ import tech.tresearchgroup.babygalago.view.components.HeadComponent;
 import tech.tresearchgroup.babygalago.view.components.SideBarComponent;
 import tech.tresearchgroup.babygalago.view.components.TopBarComponent;
 import tech.tresearchgroup.babygalago.view.components.ViewMoreComponent;
-import tech.tresearchgroup.cao.controller.GenericCAO;
 import tech.tresearchgroup.palila.controller.components.EditableScrollingComponent;
 import tech.tresearchgroup.palila.model.Card;
 import tech.tresearchgroup.palila.model.enums.PermissionGroupEnum;
@@ -64,8 +63,7 @@ public class IndexPage implements RenderablePage {
                          boolean isTvShowLibraryEnable,
                          boolean isGameLibraryEnable,
                          boolean isMusicLibraryEnable,
-                         boolean isBookLibraryEnable,
-                         GenericCAO genericCAO) {
+                         boolean isBookLibraryEnable) {
         boolean isHomePageShowNewBook = newBooks != null;
         boolean isHomePageShowPopularBook = popBooks != null;
         boolean isHomePageShowNewGame = newGames != null;

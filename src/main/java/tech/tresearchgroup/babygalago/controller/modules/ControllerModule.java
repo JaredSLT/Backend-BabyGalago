@@ -19,7 +19,6 @@ import tech.tresearchgroup.babygalago.controller.endpoints.ui.CRUDEndpointsContr
 import tech.tresearchgroup.babygalago.controller.endpoints.ui.MainEndpointsController;
 import tech.tresearchgroup.babygalago.controller.endpoints.ui.PlayEndpointsController;
 import tech.tresearchgroup.babygalago.view.pages.*;
-import tech.tresearchgroup.cao.controller.GenericCAO;
 import tech.tresearchgroup.dao.model.LockType;
 import tech.tresearchgroup.palila.controller.GenericController;
 import tech.tresearchgroup.palila.model.entities.*;
@@ -53,16 +52,14 @@ public class ControllerModule extends AbstractModule {
                                                 SettingsController settingsController,
                                                 ViewPage viewPage,
                                                 EntityPage entityPage,
-                                                NotificationEntityController notificationEntityController,
-                                                GenericCAO genericCAO) {
+                                                NotificationEntityController notificationEntityController) {
         return new CRUDEndpointsController(
             controllers,
             extendedUserEntityController,
             settingsController,
             viewPage,
             entityPage,
-            notificationEntityController,
-            genericCAO
+            notificationEntityController
         );
     }
 
@@ -96,8 +93,7 @@ public class ControllerModule extends AbstractModule {
                                                     ErrorPage errorPage,
                                                     NotFoundPage notFoundPage,
                                                     UnderConstructionPage underConstructionPage,
-                                                    Map<String, GenericController> controllers,
-                                                    GenericCAO genericCAO) {
+                                                    Map<String, GenericController> controllers) {
         return new MainEndpointsController(
             movieEntityController,
             tvShowEntityController,
@@ -127,8 +123,7 @@ public class ControllerModule extends AbstractModule {
             errorPage,
             notFoundPage,
             underConstructionPage,
-            controllers,
-            genericCAO
+            controllers
         );
     }
 
@@ -139,8 +134,7 @@ public class ControllerModule extends AbstractModule {
                                                     VideoFileEntityController videoFileEntityController,
                                                     UserSettingsEntityController userSettingsEntityController,
                                                     PlayPage playPage,
-                                                    NotificationEntityController notificationEntityController,
-                                                    GenericCAO genericCAO) {
+                                                    NotificationEntityController notificationEntityController) {
         return new PlayEndpointsController(
             controllers,
             extendedUserEntityController,
@@ -148,8 +142,7 @@ public class ControllerModule extends AbstractModule {
             videoFileEntityController,
             userSettingsEntityController,
             playPage,
-            notificationEntityController,
-            genericCAO
+            notificationEntityController
         );
     }
 
@@ -1123,13 +1116,11 @@ public class ControllerModule extends AbstractModule {
     @Provides
     MediaTypeEndpointsController mediaTypeEndpointsController(Map<String, GenericController> controllers,
                                                               SettingsController settingsController,
-                                                              ExtendedUserEntityController extendedUserEntityController,
-                                                              GenericCAO genericCAO) {
+                                                              ExtendedUserEntityController extendedUserEntityController) {
         return new MediaTypeEndpointsController(
             controllers,
             settingsController,
-            extendedUserEntityController,
-            genericCAO
+            extendedUserEntityController
         );
     }
 
@@ -1161,8 +1152,7 @@ public class ControllerModule extends AbstractModule {
                                                         Gson gson,
                                                         SearchPage searchPage,
                                                         EmptySearchPage emptySearchPage,
-                                                        NotificationEntityController notificationEntityController,
-                                                        GenericCAO genericCAO) {
+                                                        NotificationEntityController notificationEntityController) {
         return new SearchEndpointsController(
             extendedUserEntityController,
             settingsController,
@@ -1170,8 +1160,7 @@ public class ControllerModule extends AbstractModule {
             gson,
             searchPage,
             emptySearchPage,
-            notificationEntityController,
-            genericCAO
+            notificationEntityController
         );
     }
 }

@@ -3,7 +3,6 @@ package tech.tresearchgroup.babygalago.view.pages;
 import lombok.AllArgsConstructor;
 import tech.tresearchgroup.babygalago.controller.controllers.QueueEntityController;
 import tech.tresearchgroup.babygalago.view.components.*;
-import tech.tresearchgroup.cao.controller.GenericCAO;
 import tech.tresearchgroup.palila.controller.components.PaginationComponent;
 import tech.tresearchgroup.palila.controller.components.PosterViewComponent;
 import tech.tresearchgroup.palila.model.Card;
@@ -65,8 +64,7 @@ public class ViewPage implements RenderablePage {
                          boolean isTvShowLibraryEnable,
                          boolean isGameLibraryEnable,
                          boolean isMusicLibraryEnable,
-                         boolean isBookLibraryEnable,
-                         GenericCAO genericCAO) {
+                         boolean isBookLibraryEnable) {
         return document(
             html(
                 HeadComponent.render(serverName),

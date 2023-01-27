@@ -120,8 +120,7 @@ public class UserSettingsEntityController extends GenericController {
                 String.valueOf(settingsController.getMaxSearchResults(userSettingsEntity)),
                 String.valueOf(settingsController.getMaxBrowseResults(userSettingsEntity)),
                 String.valueOf(settingsController.getCardWidth(userSettingsEntity)),
-                settingsController.isStickyTopMenu(userSettingsEntity),
-                genericCAO
+                settingsController.isStickyTopMenu(userSettingsEntity)
             ).getBytes()
         );
     }

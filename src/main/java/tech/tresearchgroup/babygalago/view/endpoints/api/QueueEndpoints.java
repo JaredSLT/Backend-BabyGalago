@@ -6,9 +6,12 @@ import io.activej.inject.annotation.Provides;
 import io.activej.inject.module.AbstractModule;
 import lombok.AllArgsConstructor;
 import tech.tresearchgroup.babygalago.controller.endpoints.api.QueueEndpointsController;
+import tech.tresearchgroup.palila.controller.EndpointsRouter;
+import tech.tresearchgroup.palila.controller.RoutingServletBuilder;
+import tech.tresearchgroup.palila.model.endpoints.Endpoint;
 
 @AllArgsConstructor
-public class QueueEndpoints extends AbstractModule {
+public class QueueEndpoints extends AbstractModule implements EndpointsRouter {
     private final QueueEndpointsController queueEndpointsController;
 
     /**
@@ -18,11 +21,17 @@ public class QueueEndpoints extends AbstractModule {
      */
     @Provides
     public RoutingServlet servlet() {
-        return RoutingServlet.create()
-            .map(HttpMethod.GET, "/v1/queues", queueEndpointsController::getQueues)
-            .map(HttpMethod.GET, "/v1/queue/:queueType", queueEndpointsController::getQueue)
-            .map(HttpMethod.PUT, "/v1/queue/:queueType", queueEndpointsController::putQueue)
-            .map(HttpMethod.DELETE, "/v1/queue/:queueType", queueEndpointsController::deleteQueue)
-            .map(HttpMethod.OPTIONS, "/v1/queue/:queueType", queueEndpointsController::optionsQueue);
+        return RoutingServletBuilder.build(getEndpoints());
+    }
+
+    @Override
+    public Endpoint[] getEndpoints() {
+        return new Endpoint[]{
+            new Endpoint(HttpMethod.GET, "/v1/queues", queueEndpointsController::getQueues),
+            new Endpoint(HttpMethod.GET, "/v1/queue/:queueType", queueEndpointsController::getQueue),
+            new Endpoint(HttpMethod.PUT, "/v1/queue/:queueType", queueEndpointsController::putQueue),
+            new Endpoint(HttpMethod.DELETE, "/v1/queue/:queueType", queueEndpointsController::deleteQueue),
+            new Endpoint(HttpMethod.OPTIONS, "/v1/queue/:queueType", queueEndpointsController::optionsQueue)
+        };
     }
 }

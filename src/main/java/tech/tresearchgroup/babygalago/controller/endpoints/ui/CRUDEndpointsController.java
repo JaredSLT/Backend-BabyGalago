@@ -11,12 +11,12 @@ import tech.tresearchgroup.babygalago.controller.controllers.ExtendedUserEntityC
 import tech.tresearchgroup.babygalago.controller.controllers.NotificationEntityController;
 import tech.tresearchgroup.babygalago.view.pages.EntityPage;
 import tech.tresearchgroup.babygalago.view.pages.ViewPage;
-import tech.tresearchgroup.cao.controller.GenericCAO;
 import tech.tresearchgroup.palila.controller.BasicController;
 import tech.tresearchgroup.palila.controller.CompressionController;
 import tech.tresearchgroup.palila.controller.GenericController;
 import tech.tresearchgroup.palila.controller.ReflectionMethods;
 import tech.tresearchgroup.palila.model.Card;
+import tech.tresearchgroup.palila.model.enums.PermissionGroupEnum;
 import tech.tresearchgroup.palila.model.enums.ReturnType;
 import tech.tresearchgroup.schemas.galago.entities.BookEntity;
 import tech.tresearchgroup.schemas.galago.entities.ExtendedUserEntity;
@@ -41,7 +41,6 @@ public class CRUDEndpointsController extends BasicController {
     private final ViewPage viewPage;
     private final EntityPage entityPage;
     private final NotificationEntityController notificationEntityController;
-    private final GenericCAO genericCAO;
 
     /**
      * loads the data for and renders the browse page
@@ -57,7 +56,7 @@ public class CRUDEndpointsController extends BasicController {
     public Promisable<HttpResponse> browse(HttpRequest httpRequest) throws SQLException, InvocationTargetException, NoSuchMethodException, IllegalAccessException, InstantiationException {
         try {
             String mediaType = httpRequest.getPathParameter("mediaType");
-            Class theClass = ReflectionMethods.findClass(mediaType, settingsController.getEntityPackages(), genericCAO);
+            Class theClass = ReflectionMethods.findClass(mediaType, settingsController.getEntityPackages());
             if (theClass != null) {
                 if (settingsController.isLibraryDisabled(theClass)) {
                     return redirect("/disabled");
@@ -81,6 +80,10 @@ public class CRUDEndpointsController extends BasicController {
                     }
                 }
                 boolean loggedIn = verifyApiKey(httpRequest);
+                PermissionGroupEnum permission = PermissionGroupEnum.ALL;
+                if(userEntity != null) {
+                    permission = userEntity.getPermissionGroup();
+                }
                 byte[] data = viewPage.render(
                     loggedIn,
                     theClass.getSimpleName(),
@@ -96,15 +99,14 @@ public class CRUDEndpointsController extends BasicController {
                     sortBy,
                     true,
                     notificationEntityController.getNumberOfUnread(userEntity),
-                    userEntity.getPermissionGroup(),
+                    permission,
                     settingsController.getServerName(),
                     settingsController.isEnableUpload(),
                     settingsController.isMovieLibraryEnable(),
                     settingsController.isTvShowLibraryEnable(),
                     settingsController.isGameLibraryEnable(),
                     settingsController.isMusicLibraryEnable(),
-                    settingsController.isBookLibraryEnable(),
-                    genericCAO
+                    settingsController.isBookLibraryEnable()
                 ).getBytes();
                 return ok(data);
             }
@@ -126,7 +128,7 @@ public class CRUDEndpointsController extends BasicController {
     public Promisable<HttpResponse> view(HttpRequest httpRequest) {
         try {
             String mediaType = httpRequest.getPathParameter("mediaType");
-            Class theClass = ReflectionMethods.findClass(mediaType, settingsController.getEntityPackages(), genericCAO);
+            Class theClass = ReflectionMethods.findClass(mediaType, settingsController.getEntityPackages());
             if (theClass != null) {
                 if (settingsController.isLibraryDisabled(theClass)) {
                     return redirect("/disabled");
@@ -151,8 +153,7 @@ public class CRUDEndpointsController extends BasicController {
                         settingsController.isTvShowLibraryEnable(),
                         settingsController.isGameLibraryEnable(),
                         settingsController.isMusicLibraryEnable(),
-                        settingsController.isBookLibraryEnable(),
-                        genericCAO
+                        settingsController.isBookLibraryEnable()
                     ).getBytes());
             }
             return redirect("/notfound");
@@ -173,7 +174,7 @@ public class CRUDEndpointsController extends BasicController {
     public Promisable<HttpResponse> delete(HttpRequest httpRequest) {
         try {
             String mediaType = httpRequest.getPathParameter("mediaType");
-            Class theClass = ReflectionMethods.findClass(mediaType, settingsController.getEntityPackages(), genericCAO);
+            Class theClass = ReflectionMethods.findClass(mediaType, settingsController.getEntityPackages());
             if (theClass != null) {
                 if (settingsController.isLibraryDisabled(theClass)) {
                     return redirect("/disabled");
@@ -203,7 +204,7 @@ public class CRUDEndpointsController extends BasicController {
     public Promisable<HttpResponse> edit(HttpRequest httpRequest) {
         try {
             String mediaType = httpRequest.getPathParameter("mediaType");
-            Class theClass = ReflectionMethods.findClass(mediaType, settingsController.getEntityPackages(), genericCAO);
+            Class theClass = ReflectionMethods.findClass(mediaType, settingsController.getEntityPackages());
             if (theClass != null) {
                 if (settingsController.isLibraryDisabled(theClass)) {
                     return redirect("/disabled");
@@ -228,8 +229,7 @@ public class CRUDEndpointsController extends BasicController {
                         settingsController.isTvShowLibraryEnable(),
                         settingsController.isGameLibraryEnable(),
                         settingsController.isMusicLibraryEnable(),
-                        settingsController.isBookLibraryEnable(),
-                        genericCAO
+                        settingsController.isBookLibraryEnable()
                     ).getBytes()
                 );
             }
@@ -271,7 +271,7 @@ public class CRUDEndpointsController extends BasicController {
     public Promisable<HttpResponse> add(HttpRequest httpRequest) {
         try {
             String mediaType = httpRequest.getPathParameter("mediaType");
-            Class theClass = ReflectionMethods.findClass(mediaType, settingsController.getEntityPackages(), genericCAO);
+            Class theClass = ReflectionMethods.findClass(mediaType, settingsController.getEntityPackages());
             if (theClass != null) {
                 if (settingsController.isLibraryDisabled(theClass)) {
                     return redirect("/disabled");
@@ -292,8 +292,7 @@ public class CRUDEndpointsController extends BasicController {
                     settingsController.isTvShowLibraryEnable(),
                     settingsController.isGameLibraryEnable(),
                     settingsController.isMusicLibraryEnable(),
-                    settingsController.isBookLibraryEnable(),
-                    genericCAO
+                    settingsController.isBookLibraryEnable()
                 ).getBytes();
                 byte[] compressed = CompressionController.compress(data);
                 return okResponseCompressed(compressed);
@@ -319,7 +318,7 @@ public class CRUDEndpointsController extends BasicController {
     public Promisable<HttpResponse> newEntities(HttpRequest httpRequest) {
         try {
             String mediaType = httpRequest.getPathParameter("mediaType");
-            Class theClass = ReflectionMethods.findClass(mediaType, settingsController.getEntityPackages(), genericCAO);
+            Class theClass = ReflectionMethods.findClass(mediaType, settingsController.getEntityPackages());
             if (theClass != null) {
                 if (settingsController.isLibraryDisabled(theClass)) {
                     return redirect("/disabled");
@@ -362,8 +361,7 @@ public class CRUDEndpointsController extends BasicController {
                     settingsController.isTvShowLibraryEnable(),
                     settingsController.isGameLibraryEnable(),
                     settingsController.isMusicLibraryEnable(),
-                    settingsController.isBookLibraryEnable(),
-                    genericCAO
+                    settingsController.isBookLibraryEnable()
                 ).getBytes();
                 byte[] compressed = CompressionController.compress(data);
                 return okResponseCompressed(compressed);
@@ -386,7 +384,7 @@ public class CRUDEndpointsController extends BasicController {
     public Promisable<HttpResponse> popularEntities(HttpRequest httpRequest) {
         try {
             String mediaType = httpRequest.getPathParameter("mediaType");
-            Class theClass = ReflectionMethods.findClass(mediaType, settingsController.getEntityPackages(), genericCAO);
+            Class theClass = ReflectionMethods.findClass(mediaType, settingsController.getEntityPackages());
             if (theClass != null) {
                 if (settingsController.isLibraryDisabled(theClass)) {
                     return redirect("/disabled");
@@ -443,8 +441,7 @@ public class CRUDEndpointsController extends BasicController {
                     settingsController.isTvShowLibraryEnable(),
                     settingsController.isGameLibraryEnable(),
                     settingsController.isMusicLibraryEnable(),
-                    settingsController.isBookLibraryEnable(),
-                    genericCAO
+                    settingsController.isBookLibraryEnable()
                 ).getBytes();
                 byte[] compressed = CompressionController.compress(data);
                 return okResponseCompressed(compressed);
@@ -468,7 +465,7 @@ public class CRUDEndpointsController extends BasicController {
     public Promisable<HttpResponse> createObjectFromForm(HttpRequest httpRequest) throws Exception {
         String className = httpRequest.getPostParameter("mediaClassName");
         if (className != null) {
-            Class theClass = ReflectionMethods.findClass(className, settingsController.getEntityPackages(), genericCAO);
+            Class theClass = ReflectionMethods.findClass(className, settingsController.getEntityPackages());
             Object object = ReflectionMethods.getObjectFromForm(theClass, httpRequest);
             GenericController controller = getController(theClass, controllers);
             if (controller.createSecureResponse(object, ReturnType.OBJECT, httpRequest) != null) {
@@ -489,7 +486,7 @@ public class CRUDEndpointsController extends BasicController {
         try {
             String className = httpRequest.getPostParameter("mediaClassName");
             if (className != null) {
-                Class theClass = ReflectionMethods.findClass(className, settingsController.getEntityPackages(), genericCAO);
+                Class theClass = ReflectionMethods.findClass(className, settingsController.getEntityPackages());
                 if (theClass != null) {
                     String parameter = httpRequest.getPostParameter("id");
                     if (parameter != null) {
@@ -539,8 +536,7 @@ public class CRUDEndpointsController extends BasicController {
             settingsController.getEntityPackages(),
             settingsController.getBaseLibraryPath(),
             controllers,
-            httpRequest,
-            genericCAO
+            httpRequest
         );
     }
 }

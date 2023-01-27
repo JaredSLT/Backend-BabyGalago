@@ -2,7 +2,6 @@ package tech.tresearchgroup.babygalago.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import tech.tresearchgroup.cao.controller.GenericCAO;
 import tech.tresearchgroup.palila.controller.BasicController;
 import tech.tresearchgroup.palila.controller.ReflectionMethods;
 
@@ -12,13 +11,11 @@ import java.util.List;
 
 public class HTMLProjectGenerator extends BasicController {
     private static final Logger logger = LoggerFactory.getLogger(HTMLProjectGenerator.class);
-    private static final GenericCAO cacheCAO = new GenericCAO(1000, 1000, 1000, 1000);
 
     public static void main(String[] args) {
         List<String> pages = new LinkedList<>();
         List<String> classNames = ReflectionMethods.getClassNames(
-            new String[]{"tech.tresearchgroup.babygalago.view.pages"},
-            cacheCAO
+            new String[]{"tech.tresearchgroup.babygalago.view.pages"}
         );
         for (String theClassName : classNames) {
             try {
@@ -26,8 +23,7 @@ public class HTMLProjectGenerator extends BasicController {
                 String noPackage = classParts[classParts.length - 1];
                 Class theClass = ReflectionMethods.findClass(
                     noPackage.toLowerCase(),
-                    new String[]{"tech.tresearchgroup.babygalago.view.pages"},
-                    cacheCAO
+                    new String[]{"tech.tresearchgroup.babygalago.view.pages"}
                 );
                 if (theClass != null) {
                     Method getter = theClass.getMethod("render");

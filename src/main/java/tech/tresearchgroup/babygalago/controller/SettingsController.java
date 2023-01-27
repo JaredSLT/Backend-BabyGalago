@@ -154,12 +154,6 @@ public class SettingsController extends BasicController {
         SettingsEntity.maxAPIBrowseResults = settingsFileEntity.getMaxAPIBrowseResults();
         SettingsEntity.cardWidth = settingsFileEntity.getCardWidth();
         SettingsEntity.stickyTopMenu = settingsFileEntity.isStickyTopMenu();
-        SettingsEntity.cacheEnable = settingsFileEntity.isCacheEnable();
-        SettingsEntity.apiCacheSize = settingsFileEntity.getApiCacheSize();
-        SettingsEntity.databaseCacheSize = settingsFileEntity.getDatabaseCacheSize();
-        SettingsEntity.maxAssetCacheAge = settingsFileEntity.getMaxAssetCacheAge();
-        SettingsEntity.pageCacheSize = settingsFileEntity.getPageCacheSize();
-        SettingsEntity.cacheMethodEnum = settingsFileEntity.getCacheMethodEnum();
         SettingsEntity.databaseType = settingsFileEntity.getDatabaseType();
         SettingsEntity.databaseName = settingsFileEntity.getDatabaseName();
         SettingsEntity.minDatabaseConnections = settingsFileEntity.getMinDatabaseConnections();
@@ -203,19 +197,19 @@ public class SettingsController extends BasicController {
      */
     public boolean isLibraryDisabled(Class theClass) {
         switch (theClass.getSimpleName().toLowerCase()) {
-            case "bookentity": {
+            case "bookentity" -> {
                 return !isBookLibraryEnable();
             }
-            case "movieentity": {
+            case "movieentity" -> {
                 return !isMovieLibraryEnable();
             }
-            case "songentity": {
+            case "songentity" -> {
                 return !isMusicLibraryEnable();
             }
-            case "tvshowentity": {
+            case "tvshowentity" -> {
                 return !isTvShowLibraryEnable();
             }
-            case "gameentity": {
+            case "gameentity" -> {
                 return !isGameLibraryEnable();
             }
         }

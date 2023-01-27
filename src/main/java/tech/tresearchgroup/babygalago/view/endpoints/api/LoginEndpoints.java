@@ -6,9 +6,12 @@ import io.activej.inject.annotation.Provides;
 import io.activej.inject.module.AbstractModule;
 import lombok.AllArgsConstructor;
 import tech.tresearchgroup.babygalago.controller.endpoints.LoginEndpointsController;
+import tech.tresearchgroup.palila.controller.EndpointsRouter;
+import tech.tresearchgroup.palila.controller.RoutingServletBuilder;
+import tech.tresearchgroup.palila.model.endpoints.Endpoint;
 
 @AllArgsConstructor
-public class LoginEndpoints extends AbstractModule {
+public class LoginEndpoints extends AbstractModule implements EndpointsRouter {
     private final LoginEndpointsController loginEndpointsController;
 
     /**
@@ -18,7 +21,13 @@ public class LoginEndpoints extends AbstractModule {
      */
     @Provides
     public RoutingServlet servlet() {
-        return RoutingServlet.create()
-            .map(HttpMethod.POST, "/v1/login", loginEndpointsController::apiLogin);
+        return RoutingServletBuilder.build(getEndpoints());
+    }
+
+    @Override
+    public Endpoint[] getEndpoints() {
+        return new Endpoint[]{
+            new Endpoint(HttpMethod.POST, "/v1/login", loginEndpointsController::apiLogin)
+        };
     }
 }

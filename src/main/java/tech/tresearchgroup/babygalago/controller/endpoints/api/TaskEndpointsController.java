@@ -26,25 +26,20 @@ public class TaskEndpointsController extends BasicController {
         BaseMediaTypeEnum baseMediaTypeEnum = Enum.valueOf(BaseMediaTypeEnum.class, baseMediaType);
         boolean returnThis = false;
         switch (baseMediaTypeEnum) {
-            case BOOK: {
+            case BOOK -> {
                 returnThis = scheduleController.isBookRunning();
-                break;
             }
-            case GAME: {
+            case GAME -> {
                 returnThis = scheduleController.isGameRunning();
-                break;
             }
-            case MOVIE: {
+            case MOVIE -> {
                 returnThis = scheduleController.isMovieRunning();
-                break;
             }
-            case MUSIC: {
+            case MUSIC -> {
                 returnThis = scheduleController.isMusicRunning();
-                break;
             }
-            case TVSHOW: {
+            case TVSHOW -> {
                 returnThis = scheduleController.isTvShowRunning();
-                break;
             }
         }
         if (returnThis) {
@@ -65,25 +60,20 @@ public class TaskEndpointsController extends BasicController {
         BaseMediaTypeEnum baseMediaTypeEnum = Enum.valueOf(BaseMediaTypeEnum.class, baseMediaType);
         boolean returnThis = false;
         switch (baseMediaTypeEnum) {
-            case BOOK: {
+            case BOOK -> {
                 returnThis = scheduleController.startBookJob();
-                break;
             }
-            case GAME: {
+            case GAME -> {
                 returnThis = scheduleController.startGameJob();
-                break;
             }
-            case MOVIE: {
+            case MOVIE -> {
                 returnThis = scheduleController.startMovieJob();
-                break;
             }
-            case MUSIC: {
+            case MUSIC -> {
                 returnThis = scheduleController.startMusicJob();
-                break;
             }
-            case TVSHOW: {
+            case TVSHOW -> {
                 returnThis = scheduleController.startTvShowJob();
-                break;
             }
         }
         if (returnThis) {
@@ -104,25 +94,20 @@ public class TaskEndpointsController extends BasicController {
         BaseMediaTypeEnum baseMediaTypeEnum = Enum.valueOf(BaseMediaTypeEnum.class, baseMediaType);
         boolean returnThis = false;
         switch (baseMediaTypeEnum) {
-            case BOOK: {
+            case BOOK -> {
                 returnThis = scheduleController.stopBookJob();
-                break;
             }
-            case GAME: {
+            case GAME -> {
                 returnThis = scheduleController.stopGameJob();
-                break;
             }
-            case MOVIE: {
+            case MOVIE -> {
                 returnThis = scheduleController.stopMovieJob();
-                break;
             }
-            case MUSIC: {
+            case MUSIC -> {
                 returnThis = scheduleController.stopMusicJob();
-                break;
             }
-            case TVSHOW: {
+            case TVSHOW -> {
                 returnThis = scheduleController.stopTvShowJob();
-                break;
             }
         }
         if (returnThis) {

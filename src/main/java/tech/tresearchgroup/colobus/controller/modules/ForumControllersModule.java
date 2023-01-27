@@ -5,7 +5,6 @@ import io.activej.inject.module.AbstractModule;
 import tech.tresearchgroup.babygalago.controller.SettingsController;
 import tech.tresearchgroup.babygalago.controller.controllers.ExtendedUserEntityController;
 import tech.tresearchgroup.babygalago.controller.controllers.NotificationEntityController;
-import tech.tresearchgroup.cao.controller.GenericCAO;
 import tech.tresearchgroup.colobus.controller.IndexController;
 import tech.tresearchgroup.colobus.view.IndexPage;
 
@@ -15,14 +14,12 @@ public class ForumControllersModule extends AbstractModule {
     IndexController indexController(ExtendedUserEntityController extendedUserEntityController,
                                     IndexPage indexPage,
                                     NotificationEntityController notificationEntityController,
-                                    SettingsController settingsController,
-                                    GenericCAO genericCAO) {
+                                    SettingsController settingsController) {
         return new IndexController(
             extendedUserEntityController,
             indexPage,
             notificationEntityController,
-            settingsController,
-            genericCAO
+            settingsController
         );
     }
 }

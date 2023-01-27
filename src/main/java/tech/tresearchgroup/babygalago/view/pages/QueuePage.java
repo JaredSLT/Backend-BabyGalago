@@ -7,7 +7,6 @@ import tech.tresearchgroup.babygalago.view.components.BulkActionsComponent;
 import tech.tresearchgroup.babygalago.view.components.HeadComponent;
 import tech.tresearchgroup.babygalago.view.components.SideBarComponent;
 import tech.tresearchgroup.babygalago.view.components.TopBarComponent;
-import tech.tresearchgroup.cao.controller.GenericCAO;
 import tech.tresearchgroup.palila.controller.components.PaginationComponent;
 import tech.tresearchgroup.palila.controller.components.SelectCheckboxComponent;
 import tech.tresearchgroup.palila.model.enums.PermissionGroupEnum;
@@ -77,8 +76,7 @@ public class QueuePage implements RenderablePage {
                          boolean isTvShowLibraryEnable,
                          boolean isGameLibraryEnable,
                          boolean isMusicLibraryEnable,
-                         boolean isBookLibraryEnable,
-                         GenericCAO genericCAO) {
+                         boolean isBookLibraryEnable) {
         return document(
             html(
                 HeadComponent.render(serverName),

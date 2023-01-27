@@ -9,7 +9,6 @@ import tech.tresearchgroup.babygalago.controller.controllers.ExtendedUserEntityC
 import tech.tresearchgroup.babygalago.controller.controllers.NotificationEntityController;
 import tech.tresearchgroup.babygalago.view.pages.EmptySearchPage;
 import tech.tresearchgroup.babygalago.view.pages.SearchPage;
-import tech.tresearchgroup.cao.controller.GenericCAO;
 import tech.tresearchgroup.palila.controller.BasicController;
 import tech.tresearchgroup.palila.controller.GenericController;
 import tech.tresearchgroup.palila.controller.ReflectionMethods;
@@ -35,7 +34,6 @@ public class SearchEndpointsController extends BasicController {
     private final SearchPage searchPage;
     private final EmptySearchPage emptySearchPage;
     private final NotificationEntityController notificationEntityController;
-    private final GenericCAO genericCAO;
 
     public SearchEndpointsController(ExtendedUserEntityController extendedUserEntityController,
                                      SettingsController settingsController,
@@ -43,8 +41,7 @@ public class SearchEndpointsController extends BasicController {
                                      Gson gson,
                                      SearchPage searchPage,
                                      EmptySearchPage emptySearchPage,
-                                     NotificationEntityController notificationEntityController,
-                                     GenericCAO genericCAO) {
+                                     NotificationEntityController notificationEntityController) {
         this.extendedUserEntityController = extendedUserEntityController;
         this.settingsController = settingsController;
         this.controllers = controllers;
@@ -52,7 +49,6 @@ public class SearchEndpointsController extends BasicController {
         this.searchPage = searchPage;
         this.emptySearchPage = emptySearchPage;
         this.notificationEntityController = notificationEntityController;
-        this.genericCAO = genericCAO;
     }
 
     /**
@@ -71,11 +67,11 @@ public class SearchEndpointsController extends BasicController {
      */
     private GlobalSearchResultEntity search(String query, HttpRequest httpRequest) throws SQLException, InvocationTargetException, NoSuchMethodException, IllegalAccessException, InstantiationException, ClassNotFoundException, IOException {
         httpRequest.loadBody();
-        List<String> classNames = ReflectionMethods.getClassNames(settingsController.getEntityPackages(), genericCAO);
+        List<String> classNames = ReflectionMethods.getClassNames(settingsController.getEntityPackages());
         List<ResultEntity> searchResultEntities = new LinkedList<>();
         for (String className : classNames) {
             String[] splitClass = className.split("\\.");
-            Class theClass = ReflectionMethods.findClass(splitClass[splitClass.length - 1].toLowerCase(), settingsController.getEntityPackages(), genericCAO);
+            Class theClass = ReflectionMethods.findClass(splitClass[splitClass.length - 1].toLowerCase(), settingsController.getEntityPackages());
             if (theClass != null) {
                 GenericController genericController = getController(theClass, controllers);
                 if (genericController != null) {
@@ -189,8 +185,7 @@ public class SearchEndpointsController extends BasicController {
                 settingsController.isTvShowLibraryEnable(),
                 settingsController.isGameLibraryEnable(),
                 settingsController.isMusicLibraryEnable(),
-                settingsController.isBookLibraryEnable(),
-                genericCAO
+                settingsController.isBookLibraryEnable()
             ).getBytes()
         );
     }
@@ -206,7 +201,7 @@ public class SearchEndpointsController extends BasicController {
         String query = httpRequest.getQueryParameter("query");
         String mediaType = httpRequest.getPathParameter("mediaType");
         if (canAccess(httpRequest, PermissionGroupEnum.USER, extendedUserEntityController)) {
-            Class theClass = ReflectionMethods.findClass(mediaType, settingsController.getEntityPackages(), genericCAO);
+            Class theClass = ReflectionMethods.findClass(mediaType, settingsController.getEntityPackages());
             if (theClass != null) {
                 GenericController genericController = getController(theClass, controllers);
                 List data = (List) genericController.search(query, "*", ReturnType.OBJECT, httpRequest);

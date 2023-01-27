@@ -5,7 +5,6 @@ import tech.tresearchgroup.babygalago.controller.controllers.QueueEntityControll
 import tech.tresearchgroup.babygalago.view.components.HeadComponent;
 import tech.tresearchgroup.babygalago.view.components.SideBarComponent;
 import tech.tresearchgroup.babygalago.view.components.TopBarComponent;
-import tech.tresearchgroup.cao.controller.GenericCAO;
 import tech.tresearchgroup.palila.model.enums.PermissionGroupEnum;
 import tech.tresearchgroup.palila.view.RenderablePage;
 
@@ -47,8 +46,7 @@ public class EntityPage implements RenderablePage {
                          boolean isTvShowLibraryEnable,
                          boolean isGameLibraryEnable,
                          boolean isMusicLibraryEnable,
-                         boolean isBookLibraryEnable,
-                         GenericCAO genericCAO) {
+                         boolean isBookLibraryEnable) {
         return document(
             html(
                 HeadComponent.render(serverName),

@@ -17,7 +17,7 @@ public class BookLibraryScanTask implements Job {
     private static final Logger logger = LoggerFactory.getLogger(BookLibraryScanTask.class);
 
     public static void processBook(Path libraryPath) throws IOException {
-        List<Path> files = Files.list(libraryPath).collect(Collectors.toList());
+        List<Path> files = Files.list(libraryPath).toList();
         List<String> submissions = new LinkedList<>();
         for (Path filePath : files) {
             logger.info(String.valueOf(filePath.toAbsolutePath()));

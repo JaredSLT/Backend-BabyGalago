@@ -6,9 +6,12 @@ import io.activej.inject.annotation.Provides;
 import io.activej.inject.module.AbstractModule;
 import lombok.AllArgsConstructor;
 import tech.tresearchgroup.babygalago.controller.endpoints.api.TaskEndpointsController;
+import tech.tresearchgroup.palila.controller.EndpointsRouter;
+import tech.tresearchgroup.palila.controller.RoutingServletBuilder;
+import tech.tresearchgroup.palila.model.endpoints.Endpoint;
 
 @AllArgsConstructor
-public class TaskEndpoints extends AbstractModule {
+public class TaskEndpoints extends AbstractModule implements EndpointsRouter {
     private final TaskEndpointsController taskEndpointsController;
 
     /**
@@ -18,10 +21,16 @@ public class TaskEndpoints extends AbstractModule {
      */
     @Provides
     public RoutingServlet servlet() {
-        return RoutingServlet.create()
-            .map(HttpMethod.GET, "/v1/tasks/:taskType", taskEndpointsController::getTask)
-            .map(HttpMethod.PUT, "/v1/tasks/:taskType", taskEndpointsController::putTask)
-            .map(HttpMethod.DELETE, "/v1/tasks/:taskType", taskEndpointsController::deleteTask)
-            .map(HttpMethod.OPTIONS, "/v1/tasks/:taskType", taskEndpointsController::optionsTask);
+        return RoutingServletBuilder.build(getEndpoints());
+    }
+
+    @Override
+    public Endpoint[] getEndpoints() {
+        return new Endpoint[]{
+            new Endpoint(HttpMethod.GET, "/v1/tasks/:taskType", taskEndpointsController::getTask),
+            new Endpoint(HttpMethod.PUT, "/v1/tasks/:taskType", taskEndpointsController::putTask),
+            new Endpoint(HttpMethod.DELETE, "/v1/tasks/:taskType", taskEndpointsController::deleteTask),
+            new Endpoint(HttpMethod.OPTIONS, "/v1/tasks/:taskType", taskEndpointsController::optionsTask)
+        };
     }
 }

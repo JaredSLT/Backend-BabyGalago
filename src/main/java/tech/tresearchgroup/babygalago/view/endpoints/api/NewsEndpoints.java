@@ -6,9 +6,12 @@ import io.activej.inject.annotation.Provides;
 import io.activej.inject.module.AbstractModule;
 import lombok.AllArgsConstructor;
 import tech.tresearchgroup.babygalago.controller.endpoints.api.NewsEndpointsController;
+import tech.tresearchgroup.palila.controller.EndpointsRouter;
+import tech.tresearchgroup.palila.controller.RoutingServletBuilder;
+import tech.tresearchgroup.palila.model.endpoints.Endpoint;
 
 @AllArgsConstructor
-public class NewsEndpoints extends AbstractModule {
+public class NewsEndpoints extends AbstractModule implements EndpointsRouter {
     private final NewsEndpointsController newsEndpointsController;
 
     /**
@@ -18,14 +21,20 @@ public class NewsEndpoints extends AbstractModule {
      */
     @Provides
     public RoutingServlet servlet() {
-        return RoutingServlet.create()
-            .map(HttpMethod.PUT, "/v1/news", newsEndpointsController::putNews)
-            .map(HttpMethod.POST, "/v1/news", newsEndpointsController::postNews)
-            .map(HttpMethod.GET, "/v1/news", newsEndpointsController::getNews)
-            .map(HttpMethod.OPTIONS, "/v1/news", newsEndpointsController::optionsNews)
-            .map(HttpMethod.GET, "/v1/news/:newsId", newsEndpointsController::getNewsById)
-            .map(HttpMethod.DELETE, "/v1/news/:newsId", newsEndpointsController::deleteNewsById)
-            .map(HttpMethod.PATCH, "/v1/news/:newsId", newsEndpointsController::patchNews)
-            .map(HttpMethod.OPTIONS, "/v1/news/:newsId", newsEndpointsController::optionsNewsById);
+        return RoutingServletBuilder.build(getEndpoints());
+    }
+
+    @Override
+    public Endpoint[] getEndpoints() {
+        return new Endpoint[]{
+            new Endpoint(HttpMethod.PUT, "/v1/news", newsEndpointsController::putNews),
+            new Endpoint(HttpMethod.POST, "/v1/news", newsEndpointsController::postNews),
+            new Endpoint(HttpMethod.GET, "/v1/news", newsEndpointsController::getNews),
+            new Endpoint(HttpMethod.OPTIONS, "/v1/news", newsEndpointsController::optionsNews),
+            new Endpoint(HttpMethod.GET, "/v1/news/:newsId", newsEndpointsController::getNewsById),
+            new Endpoint(HttpMethod.DELETE, "/v1/news/:newsId", newsEndpointsController::deleteNewsById),
+            new Endpoint(HttpMethod.PATCH, "/v1/news/:newsId", newsEndpointsController::patchNews),
+            new Endpoint(HttpMethod.OPTIONS, "/v1/news/:newsId", newsEndpointsController::optionsNewsById)
+        };
     }
 }

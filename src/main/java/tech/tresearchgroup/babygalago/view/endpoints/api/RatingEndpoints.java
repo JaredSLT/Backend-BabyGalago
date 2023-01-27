@@ -6,9 +6,12 @@ import io.activej.inject.annotation.Provides;
 import io.activej.inject.module.AbstractModule;
 import lombok.AllArgsConstructor;
 import tech.tresearchgroup.babygalago.controller.endpoints.api.RatingEndpointsController;
+import tech.tresearchgroup.palila.controller.EndpointsRouter;
+import tech.tresearchgroup.palila.controller.RoutingServletBuilder;
+import tech.tresearchgroup.palila.model.endpoints.Endpoint;
 
 @AllArgsConstructor
-public class RatingEndpoints extends AbstractModule {
+public class RatingEndpoints extends AbstractModule implements EndpointsRouter {
     private final RatingEndpointsController ratingEndpointsController;
 
     /**
@@ -18,12 +21,18 @@ public class RatingEndpoints extends AbstractModule {
      */
     @Provides
     public RoutingServlet servlet() {
-        return RoutingServlet.create()
-            .map(HttpMethod.GET, "/v1/ratings/:ratingId", ratingEndpointsController::getRating)
-            .map(HttpMethod.PATCH, "/v1/ratings/:ratingId", ratingEndpointsController::patchRating)
-            .map(HttpMethod.DELETE, "/v1/ratings/:ratingId", ratingEndpointsController::deleteRating)
-            .map(HttpMethod.PUT, "/v1/ratings/:ratingId", ratingEndpointsController::putRating)
-            .map(HttpMethod.POST, "/v1/ratings/:ratingId", ratingEndpointsController::postRating)
-            .map(HttpMethod.OPTIONS, "/v1/ratings/:ratingId", ratingEndpointsController::optionsRatingById);
+        return RoutingServletBuilder.build(getEndpoints());
+    }
+
+    @Override
+    public Endpoint[] getEndpoints() {
+        return new Endpoint[]{
+            new Endpoint(HttpMethod.GET, "/v1/ratings/:ratingId", ratingEndpointsController::getRating),
+            new Endpoint(HttpMethod.PATCH, "/v1/ratings/:ratingId", ratingEndpointsController::patchRating),
+            new Endpoint(HttpMethod.DELETE, "/v1/ratings/:ratingId", ratingEndpointsController::deleteRating),
+            new Endpoint(HttpMethod.PUT, "/v1/ratings/:ratingId", ratingEndpointsController::putRating),
+            new Endpoint(HttpMethod.POST, "/v1/ratings/:ratingId", ratingEndpointsController::postRating),
+            new Endpoint(HttpMethod.OPTIONS, "/v1/ratings/:ratingId", ratingEndpointsController::optionsRatingById)
+        };
     }
 }

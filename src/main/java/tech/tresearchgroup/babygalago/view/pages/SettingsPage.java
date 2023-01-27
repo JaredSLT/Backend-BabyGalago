@@ -6,7 +6,6 @@ import tech.tresearchgroup.babygalago.controller.controllers.QueueEntityControll
 import tech.tresearchgroup.babygalago.view.components.HeadComponent;
 import tech.tresearchgroup.babygalago.view.components.SideBarComponent;
 import tech.tresearchgroup.babygalago.view.components.TopBarComponent;
-import tech.tresearchgroup.cao.controller.GenericCAO;
 import tech.tresearchgroup.palila.controller.components.*;
 import tech.tresearchgroup.palila.model.EnumValuePair;
 import tech.tresearchgroup.palila.model.enums.CompressionMethodEnum;
@@ -48,8 +47,7 @@ public class SettingsPage implements RenderablePage {
                          boolean isTvShowLibraryEnable,
                          boolean isGameLibraryEnable,
                          boolean isMusicLibraryEnable,
-                         boolean isBookLibraryEnable,
-                         GenericCAO genericCAO) {
+                         boolean isBookLibraryEnable) {
         return document(
             html(
                 HeadComponent.render(serverName),

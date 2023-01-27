@@ -7,7 +7,6 @@ import lombok.AllArgsConstructor;
 import tech.tresearchgroup.babygalago.controller.SettingsController;
 import tech.tresearchgroup.babygalago.controller.controllers.ExtendedUserEntityController;
 import tech.tresearchgroup.babygalago.controller.controllers.NotificationEntityController;
-import tech.tresearchgroup.cao.controller.GenericCAO;
 import tech.tresearchgroup.colobus.view.IndexPage;
 import tech.tresearchgroup.palila.controller.BasicController;
 import tech.tresearchgroup.schemas.galago.entities.ExtendedUserEntity;
@@ -22,7 +21,6 @@ public class IndexController extends BasicController {
     private final IndexPage indexPage;
     private final NotificationEntityController notificationEntityController;
     private final SettingsController settingsController;
-    private final GenericCAO genericCAO;
 
     public Promisable<HttpResponse> index(HttpRequest httpRequest) throws IOException, SQLException, InvocationTargetException, IllegalAccessException, InstantiationException {
         ExtendedUserEntity userEntity = (ExtendedUserEntity) getUser(httpRequest, extendedUserEntityController);
@@ -38,8 +36,7 @@ public class IndexController extends BasicController {
                 settingsController.isTvShowLibraryEnable(),
                 settingsController.isGameLibraryEnable(),
                 settingsController.isMusicLibraryEnable(),
-                settingsController.isBookLibraryEnable(),
-                genericCAO
+                settingsController.isBookLibraryEnable()
             )
         );
     }

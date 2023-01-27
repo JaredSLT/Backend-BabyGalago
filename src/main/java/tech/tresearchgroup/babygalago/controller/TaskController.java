@@ -90,19 +90,19 @@ public class TaskController {
      */
     private boolean isEnabled(BaseMediaTypeEnum mediaType) {
         switch (mediaType) {
-            case TVSHOW: {
+            case TVSHOW -> {
                 return SettingsEntity.tvShowScanEnable;
             }
-            case MUSIC: {
+            case MUSIC -> {
                 return SettingsEntity.musicScanEnable;
             }
-            case MOVIE: {
+            case MOVIE -> {
                 return SettingsEntity.movieScanEnable;
             }
-            case GAME: {
+            case GAME -> {
                 return SettingsEntity.gameScanEnable;
             }
-            case BOOK: {
+            case BOOK -> {
                 return SettingsEntity.bookScanEnable;
             }
         }
@@ -117,19 +117,19 @@ public class TaskController {
      */
     private int calculateTime(BaseMediaTypeEnum mediaType) {
         switch (mediaType) {
-            case GAME: {
+            case GAME -> {
                 return calculateSeconds(SettingsEntity.gameScanFrequencyTime, SettingsEntity.gameScanFrequencyType);
             }
-            case BOOK: {
+            case BOOK -> {
                 return calculateSeconds(SettingsEntity.bookScanFrequencyTime, SettingsEntity.bookScanFrequencyType);
             }
-            case MOVIE: {
+            case MOVIE -> {
                 return calculateSeconds(SettingsEntity.movieScanFrequencyTime, SettingsEntity.movieScanFrequencyType);
             }
-            case MUSIC: {
+            case MUSIC -> {
                 return calculateSeconds(SettingsEntity.musicScanFrequencyTime, SettingsEntity.musicScanFrequencyType);
             }
-            case TVSHOW: {
+            case TVSHOW -> {
                 return calculateSeconds(SettingsEntity.tvShowScanFrequencyTime, SettingsEntity.tvShowScanFrequencyType);
             }
         }
@@ -145,13 +145,13 @@ public class TaskController {
      */
     private int calculateSeconds(int number, ScanFrequencyEnum scanFrequencyEnum) {
         switch (scanFrequencyEnum) {
-            case DAYS: {
+            case DAYS -> {
                 return number * 24 * 60 * 60;
             }
-            case HOURS: {
+            case HOURS -> {
                 return number * 60 * 60;
             }
-            case MINUTES: {
+            case MINUTES -> {
                 return number * 60;
             }
         }

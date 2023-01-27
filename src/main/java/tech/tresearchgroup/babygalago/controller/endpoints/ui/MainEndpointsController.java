@@ -15,7 +15,6 @@ import tech.tresearchgroup.babygalago.controller.SettingsController;
 import tech.tresearchgroup.babygalago.controller.controllers.*;
 import tech.tresearchgroup.babygalago.controller.endpoints.LoginEndpointsController;
 import tech.tresearchgroup.babygalago.view.pages.*;
-import tech.tresearchgroup.cao.controller.GenericCAO;
 import tech.tresearchgroup.dao.model.DatabaseTypeEnum;
 import tech.tresearchgroup.palila.controller.BasicController;
 import tech.tresearchgroup.palila.controller.CompressionController;
@@ -67,7 +66,6 @@ public class MainEndpointsController extends BasicController {
     private final NotFoundPage notFoundPage;
     private final UnderConstructionPage underConstructionPage;
     private final Map<String, GenericController> controllers;
-    private final GenericCAO genericCAO;
 
     /**
      * Renders the about section
@@ -203,8 +201,7 @@ public class MainEndpointsController extends BasicController {
             settingsController.isTvShowLibraryEnable(),
             settingsController.isGameLibraryEnable(),
             settingsController.isMusicLibraryEnable(),
-            settingsController.isBookLibraryEnable(),
-            genericCAO
+            settingsController.isBookLibraryEnable()
         ).getBytes();
         byte[] compressed = CompressionController.compress(data);
         return okResponseCompressed(compressed);
@@ -355,8 +352,7 @@ public class MainEndpointsController extends BasicController {
                 settingsController.isTvShowLibraryEnable(),
                 settingsController.isGameLibraryEnable(),
                 settingsController.isMusicLibraryEnable(),
-                settingsController.isBookLibraryEnable(),
-                genericCAO
+                settingsController.isBookLibraryEnable()
             ).getBytes()
         );
     }
@@ -419,8 +415,7 @@ public class MainEndpointsController extends BasicController {
                     settingsController.isTvShowLibraryEnable(),
                     settingsController.isGameLibraryEnable(),
                     settingsController.isMusicLibraryEnable(),
-                    settingsController.isBookLibraryEnable(),
-                    genericCAO
+                    settingsController.isBookLibraryEnable()
                 ).getBytes()
             );
         }
@@ -436,8 +431,7 @@ public class MainEndpointsController extends BasicController {
                 settingsController.isTvShowLibraryEnable(),
                 settingsController.isGameLibraryEnable(),
                 settingsController.isMusicLibraryEnable(),
-                settingsController.isBookLibraryEnable(),
-                genericCAO
+                settingsController.isBookLibraryEnable()
             ).getBytes()
         );
     }
@@ -524,8 +518,7 @@ public class MainEndpointsController extends BasicController {
                 settingsController.isTvShowLibraryEnable(),
                 settingsController.isGameLibraryEnable(),
                 settingsController.isMusicLibraryEnable(),
-                settingsController.isBookLibraryEnable(),
-                genericCAO
+                settingsController.isBookLibraryEnable()
             ).getBytes()
         );
     }
@@ -565,8 +558,7 @@ public class MainEndpointsController extends BasicController {
                 settingsController.isTvShowLibraryEnable(),
                 settingsController.isGameLibraryEnable(),
                 settingsController.isMusicLibraryEnable(),
-                settingsController.isBookLibraryEnable(),
-                genericCAO
+                settingsController.isBookLibraryEnable()
             ).getBytes()
         );
     }
@@ -604,8 +596,7 @@ public class MainEndpointsController extends BasicController {
                     settingsController.isTvShowLibraryEnable(),
                     settingsController.isGameLibraryEnable(),
                     settingsController.isMusicLibraryEnable(),
-                    settingsController.isBookLibraryEnable(),
-                    genericCAO
+                    settingsController.isBookLibraryEnable()
                 ).getBytes()
             );
         } else {
@@ -723,8 +714,7 @@ public class MainEndpointsController extends BasicController {
                 settingsController.isTvShowLibraryEnable(),
                 settingsController.isGameLibraryEnable(),
                 settingsController.isMusicLibraryEnable(),
-                settingsController.isBookLibraryEnable(),
-                genericCAO
+                settingsController.isBookLibraryEnable()
             ).getBytes()
         );
     }
@@ -754,8 +744,7 @@ public class MainEndpointsController extends BasicController {
                 settingsController.isTvShowLibraryEnable(),
                 settingsController.isGameLibraryEnable(),
                 settingsController.isMusicLibraryEnable(),
-                settingsController.isBookLibraryEnable(),
-                genericCAO
+                settingsController.isBookLibraryEnable()
             ).getBytes()
         );
     }
@@ -1029,11 +1018,6 @@ public class MainEndpointsController extends BasicController {
                 maxAPIBrowseResults,
                 cardWidth,
                 stickyTopMenu,
-                cacheEnable,
-                apiCacheSize,
-                databaseCacheSize,
-                pageCacheSize,
-                maxAssetCacheAge,
                 databaseType,
                 databaseName,
                 minDatabaseConnections,
@@ -1192,13 +1176,17 @@ public class MainEndpointsController extends BasicController {
      */
     public Promisable<HttpResponse> upload(HttpRequest httpRequest) throws IOException, SQLException, InvocationTargetException, IllegalAccessException, InstantiationException {
         ExtendedUserEntity userEntity = (ExtendedUserEntity) getUser(httpRequest, extendedUserEntityController);
+        PermissionGroupEnum permission = PermissionGroupEnum.ALL;
+        if (userEntity != null) {
+            userEntity.getPermissionGroup();
+        }
         boolean loggedIn = verifyApiKey(httpRequest);
         if (settingsController.isEnableUpload()) {
             return ok(uploadPage.render(
                     true,
                     loggedIn,
                     notificationEntityController.getNumberOfUnread(userEntity),
-                    userEntity.getPermissionGroup(),
+                    permission,
                     settingsController.getServerName(),
                     settingsController.isEnableUpload(),
                     settingsController.isMovieLibraryEnable(),
@@ -1263,8 +1251,7 @@ public class MainEndpointsController extends BasicController {
                     settingsController.isTvShowLibraryEnable(),
                     settingsController.isGameLibraryEnable(),
                     settingsController.isMusicLibraryEnable(),
-                    settingsController.isBookLibraryEnable(),
-                    genericCAO
+                    settingsController.isBookLibraryEnable()
                 ).getBytes()
             );
         } catch (Exception e) {
@@ -1296,8 +1283,7 @@ public class MainEndpointsController extends BasicController {
                     settingsController.isTvShowLibraryEnable(),
                     settingsController.isGameLibraryEnable(),
                     settingsController.isMusicLibraryEnable(),
-                    settingsController.isBookLibraryEnable(),
-                    genericCAO
+                    settingsController.isBookLibraryEnable()
                 ).getBytes()
             );
         } catch (Exception e) {
@@ -1328,8 +1314,7 @@ public class MainEndpointsController extends BasicController {
                     settingsController.isTvShowLibraryEnable(),
                     settingsController.isGameLibraryEnable(),
                     settingsController.isMusicLibraryEnable(),
-                    settingsController.isBookLibraryEnable(),
-                    genericCAO
+                    settingsController.isBookLibraryEnable()
                 ).getBytes()
             );
         } catch (Exception e) {
@@ -1360,8 +1345,7 @@ public class MainEndpointsController extends BasicController {
                     settingsController.isTvShowLibraryEnable(),
                     settingsController.isGameLibraryEnable(),
                     settingsController.isMusicLibraryEnable(),
-                    settingsController.isBookLibraryEnable(),
-                    genericCAO
+                    settingsController.isBookLibraryEnable()
                 ).getBytes()
             );
         } catch (Exception e) {
@@ -1383,7 +1367,7 @@ public class MainEndpointsController extends BasicController {
         String mediaType = httpRequest.getPathParameter("mediaType");
         switch (mediaType) {
             case "movieentity", "bookentity", "gameentity", "musicentity", "tvshowentity" -> {
-                return handleUpload(mediaType, "files", settingsController.getEntityPackages(), settingsController.getBaseLibraryPath(), controllers, httpRequest, genericCAO);
+                return handleUpload(mediaType, "files", settingsController.getEntityPackages(), settingsController.getBaseLibraryPath(), controllers, httpRequest);
             }
         }
         return error();

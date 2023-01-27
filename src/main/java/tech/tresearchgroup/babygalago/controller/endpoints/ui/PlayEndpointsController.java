@@ -8,7 +8,6 @@ import lombok.AllArgsConstructor;
 import tech.tresearchgroup.babygalago.controller.SettingsController;
 import tech.tresearchgroup.babygalago.controller.controllers.*;
 import tech.tresearchgroup.babygalago.view.pages.PlayPage;
-import tech.tresearchgroup.cao.controller.GenericCAO;
 import tech.tresearchgroup.palila.controller.*;
 import tech.tresearchgroup.palila.model.entities.VideoFileEntity;
 import tech.tresearchgroup.palila.model.enums.PlaybackQualityEnum;
@@ -29,7 +28,6 @@ public class PlayEndpointsController extends BasicController {
     private final UserSettingsEntityController userSettingsEntityController;
     private final PlayPage playPage;
     private final NotificationEntityController notificationEntityController;
-    private final GenericCAO genericCAO;
 
     /**
      * Renders the player page for a media type
@@ -50,7 +48,7 @@ public class PlayEndpointsController extends BasicController {
         }
         String mediaType = httpRequest.getPathParameter("mediaType");
         long id = Integer.parseInt(httpRequest.getPathParameter("id"));
-        Class className = ReflectionMethods.findClass(mediaType, settingsController.getEntityPackages(), genericCAO);
+        Class className = ReflectionMethods.findClass(mediaType, settingsController.getEntityPackages());
         if (className == null) {
             return redirect("/error");
         }
@@ -91,8 +89,7 @@ public class PlayEndpointsController extends BasicController {
             settingsController.isTvShowLibraryEnable(),
             settingsController.isGameLibraryEnable(),
             settingsController.isMusicLibraryEnable(),
-            settingsController.isBookLibraryEnable(),
-            genericCAO
+            settingsController.isBookLibraryEnable()
         ).getBytes();
         byte[] compressed = CompressionController.compress(data);
         return okResponseCompressed(compressed);

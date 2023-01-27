@@ -6,9 +6,12 @@ import io.activej.inject.annotation.Provides;
 import io.activej.inject.module.AbstractModule;
 import lombok.AllArgsConstructor;
 import tech.tresearchgroup.babygalago.controller.endpoints.api.NotificationsEndpointsController;
+import tech.tresearchgroup.palila.controller.EndpointsRouter;
+import tech.tresearchgroup.palila.controller.RoutingServletBuilder;
+import tech.tresearchgroup.palila.model.endpoints.Endpoint;
 
 @AllArgsConstructor
-public class NotificationsEndpoints extends AbstractModule {
+public class NotificationsEndpoints extends AbstractModule implements EndpointsRouter {
     private final NotificationsEndpointsController notificationsEndpointsController;
 
     /**
@@ -18,13 +21,19 @@ public class NotificationsEndpoints extends AbstractModule {
      */
     @Provides
     public RoutingServlet servlet() {
-        return RoutingServlet.create()
-            .map(HttpMethod.PUT, "/v1/notifications", notificationsEndpointsController::putNotification)
-            .map(HttpMethod.POST, "/v1/notifications", notificationsEndpointsController::postNotification)
-            .map(HttpMethod.GET, "/v1/notifications", notificationsEndpointsController::getNotifications)
-            .map(HttpMethod.OPTIONS, "/v1/notifications", notificationsEndpointsController::optionsNotifications)
-            .map(HttpMethod.DELETE, "/v1/notifications/:notificationId", notificationsEndpointsController::deleteNotificationById)
-            .map(HttpMethod.GET, "/v1/notifications/:notificationId", notificationsEndpointsController::getNotificationById)
-            .map(HttpMethod.OPTIONS, "/v1/notifications/:notificationId", notificationsEndpointsController::optionsNotificationsById);
+        return RoutingServletBuilder.build(getEndpoints());
+    }
+
+    @Override
+    public Endpoint[] getEndpoints() {
+        return new Endpoint[]{
+            new Endpoint(HttpMethod.PUT, "/v1/notifications", notificationsEndpointsController::putNotification),
+            new Endpoint(HttpMethod.POST, "/v1/notifications", notificationsEndpointsController::postNotification),
+            new Endpoint(HttpMethod.GET, "/v1/notifications", notificationsEndpointsController::getNotifications),
+            new Endpoint(HttpMethod.OPTIONS, "/v1/notifications", notificationsEndpointsController::optionsNotifications),
+            new Endpoint(HttpMethod.DELETE, "/v1/notifications/:notificationId", notificationsEndpointsController::deleteNotificationById),
+            new Endpoint(HttpMethod.GET, "/v1/notifications/:notificationId", notificationsEndpointsController::getNotificationById),
+            new Endpoint(HttpMethod.OPTIONS, "/v1/notifications/:notificationId", notificationsEndpointsController::optionsNotificationsById)
+        };
     }
 }

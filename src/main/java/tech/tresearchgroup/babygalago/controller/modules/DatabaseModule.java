@@ -7,7 +7,6 @@ import io.activej.inject.module.AbstractModule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import tech.tresearchgroup.babygalago.controller.SettingsController;
-import tech.tresearchgroup.cao.controller.GenericCAO;
 import tech.tresearchgroup.palila.model.BaseSettings;
 import tech.tresearchgroup.schemas.galago.entities.SettingsEntity;
 
@@ -70,10 +69,5 @@ public class DatabaseModule extends AbstractModule {
         config.setMaximumPoolSize(settingsController.getMaxDatabaseConnections());
         config.setMinimumIdle(settingsController.getMinDatabaseConnections());
         return new HikariDataSource(config);
-    }
-
-    @Provides
-    GenericCAO genericCAO() {
-        return new GenericCAO(BaseSettings.apiCacheSize, BaseSettings.databaseCacheSize, BaseSettings.apiCacheSize, BaseSettings.pageCacheSize);
     }
 }

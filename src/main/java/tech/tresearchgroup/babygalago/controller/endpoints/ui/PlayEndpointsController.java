@@ -4,7 +4,6 @@ import io.activej.http.HttpRequest;
 import io.activej.http.HttpResponse;
 import io.activej.promise.Promisable;
 import j2html.tags.DomContent;
-import lombok.AllArgsConstructor;
 import tech.tresearchgroup.babygalago.controller.SettingsController;
 import tech.tresearchgroup.babygalago.controller.controllers.*;
 import tech.tresearchgroup.babygalago.view.pages.PlayPage;
@@ -19,7 +18,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLException;
 import java.util.Map;
 
-@AllArgsConstructor
 public class PlayEndpointsController extends BasicController {
     private final Map<String, GenericController> controllers;
     private final ExtendedUserEntityController extendedUserEntityController;
@@ -28,6 +26,22 @@ public class PlayEndpointsController extends BasicController {
     private final UserSettingsEntityController userSettingsEntityController;
     private final PlayPage playPage;
     private final NotificationEntityController notificationEntityController;
+
+    public PlayEndpointsController(Map<String, GenericController> controllers,
+                                   ExtendedUserEntityController extendedUserEntityController,
+                                   SettingsController settingsController,
+                                   VideoFileEntityController videoFileEntityController,
+                                   UserSettingsEntityController userSettingsEntityController,
+                                   PlayPage playPage,
+                                   NotificationEntityController notificationEntityController) {
+        this.controllers = controllers;
+        this.extendedUserEntityController = extendedUserEntityController;
+        this.settingsController = settingsController;
+        this.videoFileEntityController = videoFileEntityController;
+        this.userSettingsEntityController = userSettingsEntityController;
+        this.playPage = playPage;
+        this.notificationEntityController = notificationEntityController;
+    }
 
     /**
      * Renders the player page for a media type

@@ -1,6 +1,5 @@
 package tech.tresearchgroup.babygalago.view.pages;
 
-import lombok.AllArgsConstructor;
 import tech.tresearchgroup.babygalago.controller.controllers.QueueEntityController;
 import tech.tresearchgroup.babygalago.view.components.HeadComponent;
 import tech.tresearchgroup.babygalago.view.components.SideBarComponent;
@@ -13,7 +12,6 @@ import java.util.List;
 
 import static j2html.TagCreator.*;
 
-@AllArgsConstructor
 public class LoginPage implements RenderablePage {
     /**
      * Renders the page

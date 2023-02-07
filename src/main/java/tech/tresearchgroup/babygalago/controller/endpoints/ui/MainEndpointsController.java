@@ -5,7 +5,6 @@ import io.activej.http.HttpCookie;
 import io.activej.http.HttpRequest;
 import io.activej.http.HttpResponse;
 import io.activej.promise.Promisable;
-import lombok.AllArgsConstructor;
 import org.bouncycastle.crypto.generators.BCrypt;
 import org.bouncycastle.util.encoders.Hex;
 import org.jetbrains.annotations.NotNull;
@@ -34,7 +33,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-@AllArgsConstructor
 public class MainEndpointsController extends BasicController {
     private static final Logger logger = LoggerFactory.getLogger(MainEndpointsController.class);
     private final MovieEntityController movieEntityController;
@@ -67,6 +65,66 @@ public class MainEndpointsController extends BasicController {
     private final UnderConstructionPage underConstructionPage;
     private final Map<String, GenericController> controllers;
 
+    public MainEndpointsController(MovieEntityController movieEntityController,
+                                   TvShowEntityController tvShowEntityController,
+                                   GameEntityController gameEntityController,
+                                   SongEntityController songEntityController,
+                                   BookEntityController bookEntityController,
+                                   NotificationEntityController notificationEntityController,
+                                   NewsArticleEntityController newsArticleEntityController,
+                                   QueueEntityController queueEntityController,
+                                   ExtendedUserEntityController extendedUserEntityController,
+                                   SettingsController settingsController,
+                                   LoginEndpointsController loginEndpointsController,
+                                   AboutPage aboutPage,
+                                   IndexPage indexPage,
+                                   LoginPage loginPage,
+                                   ResetPage resetPage,
+                                   RegisterPage registerPage,
+                                   LicensesPage licensesPage,
+                                   NewsPage newsPage,
+                                   NotificationsPage notificationsPage,
+                                   ProfilePage profilePage,
+                                   QueuePage queuePage,
+                                   SettingsPage settingsPage,
+                                   UploadPage uploadPage,
+                                   DeniedPage deniedPage,
+                                   DisabledPage disabledPage,
+                                   ErrorPage errorPage,
+                                   NotFoundPage notFoundPage,
+                                   UnderConstructionPage underConstructionPage,
+                                   Map<String, GenericController> controllers) {
+        this.movieEntityController = movieEntityController;
+        this.tvShowEntityController = tvShowEntityController;
+        this.gameEntityController = gameEntityController;
+        this.songEntityController = songEntityController;
+        this.bookEntityController = bookEntityController;
+        this.notificationEntityController = notificationEntityController;
+        this.newsArticleEntityController = newsArticleEntityController;
+        this.queueEntityController = queueEntityController;
+        this.extendedUserEntityController = extendedUserEntityController;
+        this.settingsController = settingsController;
+        this.loginEndpointsController = loginEndpointsController;
+        this.aboutPage = aboutPage;
+        this.indexPage = indexPage;
+        this.loginPage = loginPage;
+        this.resetPage = resetPage;
+        this.registerPage = registerPage;
+        this.licensesPage = licensesPage;
+        this.newsPage = newsPage;
+        this.notificationsPage = notificationsPage;
+        this.profilePage = profilePage;
+        this.queuePage = queuePage;
+        this.settingsPage = settingsPage;
+        this.uploadPage = uploadPage;
+        this.deniedPage = deniedPage;
+        this.disabledPage = disabledPage;
+        this.errorPage = errorPage;
+        this.notFoundPage = notFoundPage;
+        this.underConstructionPage = underConstructionPage;
+        this.controllers = controllers;
+    }
+
     /**
      * Renders the about section
      *
@@ -81,11 +139,15 @@ public class MainEndpointsController extends BasicController {
     public Promisable<HttpResponse> about(HttpRequest httpRequest) throws IOException, SQLException, InvocationTargetException, IllegalAccessException, InstantiationException {
         boolean loggedIn = verifyApiKey(httpRequest);
         ExtendedUserEntity userEntity = (ExtendedUserEntity) getUser(httpRequest, extendedUserEntityController);
+        PermissionGroupEnum permissionGroupEnum = PermissionGroupEnum.ALL;
+        if(userEntity != null) {
+            permissionGroupEnum = userEntity.getPermissionGroup();
+        }
         return ok(
             aboutPage.render(
                 loggedIn,
                 notificationEntityController.getNumberOfUnread(userEntity),
-                userEntity.getPermissionGroup(),
+                permissionGroupEnum,
                 settingsController.getServerName(),
                 settingsController.isEnableUpload(),
                 settingsController.isMovieLibraryEnable(),
@@ -507,11 +569,15 @@ public class MainEndpointsController extends BasicController {
     public Promisable<HttpResponse> licenses(HttpRequest httpRequest) throws IOException, SQLException, InvocationTargetException, IllegalAccessException, InstantiationException {
         boolean loggedIn = verifyApiKey(httpRequest);
         ExtendedUserEntity userEntity = (ExtendedUserEntity) getUser(httpRequest, extendedUserEntityController);
+        PermissionGroupEnum permissionGroupEnum = PermissionGroupEnum.ALL;
+        if(userEntity != null) {
+            permissionGroupEnum = userEntity.getPermissionGroup();
+        }
         return ok(
             licensesPage.render(
                 loggedIn,
                 notificationEntityController.getNumberOfUnread(userEntity),
-                userEntity.getPermissionGroup(),
+                permissionGroupEnum,
                 settingsController.getServerName(),
                 settingsController.isEnableUpload(),
                 settingsController.isMovieLibraryEnable(),
@@ -618,11 +684,15 @@ public class MainEndpointsController extends BasicController {
     public Promisable<HttpResponse> profile(HttpRequest httpRequest) throws IOException, SQLException, InvocationTargetException, IllegalAccessException, InstantiationException {
         boolean loggedIn = verifyApiKey(httpRequest);
         ExtendedUserEntity userEntity = (ExtendedUserEntity) getUser(httpRequest, extendedUserEntityController);
+        PermissionGroupEnum permissionGroupEnum = PermissionGroupEnum.ALL;
+        if(userEntity != null) {
+            permissionGroupEnum = userEntity.getPermissionGroup();
+        }
         return ok(
             profilePage.render(
                 loggedIn,
                 notificationEntityController.getNumberOfUnread(userEntity),
-                userEntity.getPermissionGroup(),
+                permissionGroupEnum,
                 settingsController.getServerName(),
                 settingsController.isEnableUpload(),
                 settingsController.isMovieLibraryEnable(),

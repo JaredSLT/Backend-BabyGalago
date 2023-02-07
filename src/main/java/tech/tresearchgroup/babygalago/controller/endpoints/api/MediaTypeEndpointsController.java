@@ -5,7 +5,6 @@ import io.activej.http.HttpHeaders;
 import io.activej.http.HttpRequest;
 import io.activej.http.HttpResponse;
 import io.activej.promise.Promisable;
-import lombok.AllArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +13,7 @@ import tech.tresearchgroup.babygalago.controller.controllers.ExtendedUserEntityC
 import tech.tresearchgroup.palila.controller.BasicController;
 import tech.tresearchgroup.palila.controller.GenericController;
 import tech.tresearchgroup.palila.controller.ReflectionMethods;
+import tech.tresearchgroup.palila.model.BaseSettings;
 import tech.tresearchgroup.palila.model.entities.*;
 import tech.tresearchgroup.palila.model.enums.ReturnType;
 
@@ -25,12 +25,19 @@ import java.sql.SQLException;
 import java.util.Map;
 import java.util.Objects;
 
-@AllArgsConstructor
 public class MediaTypeEndpointsController extends BasicController {
     private static final Logger logger = LoggerFactory.getLogger(MediaTypeEndpointsController.class);
     private final Map<String, GenericController> controllers;
     private final SettingsController settingsController;
     private final ExtendedUserEntityController extendedUserEntityController;
+
+    public MediaTypeEndpointsController(Map<String, GenericController> controllers,
+                                        SettingsController settingsController,
+                                        ExtendedUserEntityController extendedUserEntityController) {
+        this.controllers = controllers;
+        this.settingsController = settingsController;
+        this.extendedUserEntityController = extendedUserEntityController;
+    }
 
     /**
      * Gets the ratings for the media type
@@ -54,12 +61,16 @@ public class MediaTypeEndpointsController extends BasicController {
         String mediaType = httpRequest.getPathParameter("mediaType");
         Class className = ReflectionMethods.findClass(mediaType, settingsController.getEntityPackages());
         if (className == null) {
-            logger.info("Class null");
+            if(BaseSettings.debug) {
+                logger.info("Class null");
+            }
             return error();
         }
         GenericController genericController = getController(className, controllers);
         if (genericController == null) {
-            logger.info("Controller null");
+            if(BaseSettings.debug) {
+                logger.info("Controller null");
+            }
             return error();
         }
         if (genericController.delete(mediaId, httpRequest)) {
@@ -286,7 +297,9 @@ public class MediaTypeEndpointsController extends BasicController {
                 logger.info("IMAGE");
             } else if (VideoFileEntity.class.equals(theClass)) {
                 VideoFileEntity videoFileEntity = (VideoFileEntity) controller.readSecureResponse(mediaId, ReturnType.OBJECT, httpRequest);
-                logger.info(videoFileEntity.getPath());
+                if(BaseSettings.debug) {
+                    logger.info(videoFileEntity.getPath());
+                }
                 return handle206(Path.of(videoFileEntity.getPath()), settingsController.getChunk(), httpRequest);
             }
         }

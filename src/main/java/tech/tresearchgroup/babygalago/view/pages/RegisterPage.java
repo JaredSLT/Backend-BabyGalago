@@ -1,7 +1,6 @@
 package tech.tresearchgroup.babygalago.view.pages;
 
 import j2html.tags.specialized.DivTag;
-import lombok.AllArgsConstructor;
 import org.jetbrains.annotations.Nullable;
 import tech.tresearchgroup.babygalago.controller.controllers.QueueEntityController;
 import tech.tresearchgroup.babygalago.view.components.HeadComponent;
@@ -17,7 +16,6 @@ import java.util.List;
 
 import static j2html.TagCreator.*;
 
-@AllArgsConstructor
 public class RegisterPage implements RenderablePage {
     /**
      * Creates an error di

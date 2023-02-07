@@ -4,15 +4,20 @@ import io.activej.http.HttpMethod;
 import io.activej.http.RoutingServlet;
 import io.activej.inject.annotation.Provides;
 import io.activej.inject.module.AbstractModule;
-import lombok.AllArgsConstructor;
 import tech.tresearchgroup.babygalago.controller.endpoints.LoginEndpointsController;
 import tech.tresearchgroup.palila.controller.EndpointsRouter;
 import tech.tresearchgroup.palila.controller.RoutingServletBuilder;
 import tech.tresearchgroup.palila.model.endpoints.Endpoint;
 
-@AllArgsConstructor
 public class LoginEndpoints extends AbstractModule implements EndpointsRouter {
-    private final LoginEndpointsController loginEndpointsController;
+    private LoginEndpointsController loginEndpointsController;
+
+    public LoginEndpoints() {
+    }
+
+    public LoginEndpoints(LoginEndpointsController loginEndpointsController) {
+        this.loginEndpointsController = loginEndpointsController;
+    }
 
     /**
      * Creates the endpoints and maps them to their respective methods

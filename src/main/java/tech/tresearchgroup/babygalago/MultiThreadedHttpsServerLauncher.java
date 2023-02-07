@@ -19,6 +19,7 @@ import io.activej.worker.WorkerPools;
 import io.activej.worker.annotation.Worker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import tech.tresearchgroup.palila.model.BaseSettings;
 
 import javax.net.ssl.KeyManager;
 import javax.net.ssl.TrustManager;
@@ -95,7 +96,9 @@ public class MultiThreadedHttpsServerLauncher extends Launcher {
             if (store != null && System.getenv("KEY") != null && file.exists()) {
                 keyManagers = createKeyManagers(file, store, key);
             } else {
-                logger.error("Failed to setup SSL. Defaulting to HTTP");
+                if(BaseSettings.debug) {
+                    logger.error("Failed to setup SSL. Defaulting to HTTP");
+                }
                 https = false;
             }
         } catch (Exception e) {

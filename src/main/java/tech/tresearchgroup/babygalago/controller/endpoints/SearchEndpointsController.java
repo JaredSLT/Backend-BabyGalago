@@ -12,6 +12,7 @@ import tech.tresearchgroup.babygalago.view.pages.SearchPage;
 import tech.tresearchgroup.palila.controller.BasicController;
 import tech.tresearchgroup.palila.controller.GenericController;
 import tech.tresearchgroup.palila.controller.ReflectionMethods;
+import tech.tresearchgroup.palila.model.BaseSettings;
 import tech.tresearchgroup.palila.model.Card;
 import tech.tresearchgroup.palila.model.enums.PermissionGroupEnum;
 import tech.tresearchgroup.palila.model.enums.ReturnType;
@@ -115,47 +116,54 @@ public class SearchEndpointsController extends BasicController {
      * @throws Exception if it fails
      */
     public Promisable<HttpResponse> searchUIResponse(HttpRequest httpRequest) throws Exception {
-        long start = System.currentTimeMillis();
-        String query = httpRequest.getPostParameter("query");
-        if (query != null) {
-            if (query.length() > 0) {
-                GlobalSearchResultEntity resultEntity = search(query, httpRequest);
-                boolean loggedIn = verifyApiKey(httpRequest);
-                ExtendedUserEntity extendedUserEntity = (ExtendedUserEntity) getUser(httpRequest, extendedUserEntityController);
-                if (resultEntity != null) {
-                    for (ResultEntity searchResult : resultEntity.getSearchResultList()) {
-                        List<Card> cards = new LinkedList<>();
-                        for (Object object : searchResult.getList()) {
-                            GenericController genericController = getController(object.getClass(), controllers);
-                            cards.add(genericController.toCard(object, "view"));
+        try {
+            long start = System.currentTimeMillis();
+            httpRequest.loadBody().getResult();
+            String query = httpRequest.getPostParameter("query");
+            if (query != null) {
+                if (query.length() > 0) {
+                    GlobalSearchResultEntity resultEntity = search(query, httpRequest);
+                    boolean loggedIn = verifyApiKey(httpRequest);
+                    ExtendedUserEntity extendedUserEntity = (ExtendedUserEntity) getUser(httpRequest, extendedUserEntityController);
+                    if (resultEntity != null) {
+                        for (ResultEntity searchResult : resultEntity.getSearchResultList()) {
+                            List<Card> cards = new LinkedList<>();
+                            for (Object object : searchResult.getList()) {
+                                GenericController genericController = getController(object.getClass(), controllers);
+                                cards.add(genericController.toCard(object, "view"));
+                            }
+                            searchResult.setList(cards);
                         }
-                        searchResult.setList(cards);
-                    }
-                    if (extendedUserEntity != null) {
-                        long timeTaken = (System.currentTimeMillis() - start);
-                        return ok(
-                            searchPage.render(
-                                loggedIn,
-                                resultEntity,
-                                timeTaken,
-                                settingsController.getCardWidth(extendedUserEntity.getUserSettings()),
-                                notificationEntityController.getNumberOfUnread(extendedUserEntity),
-                                extendedUserEntity.getPermissionGroup(),
-                                settingsController.getServerName(),
-                                settingsController.isEnableUpload(),
-                                settingsController.isMovieLibraryEnable(),
-                                settingsController.isTvShowLibraryEnable(),
-                                settingsController.isGameLibraryEnable(),
-                                settingsController.isMusicLibraryEnable(),
-                                settingsController.isBookLibraryEnable()
-                            ).getBytes()
-                        );
+                        if (extendedUserEntity != null) {
+                            long timeTaken = (System.currentTimeMillis() - start);
+                            return ok(
+                                searchPage.render(
+                                    loggedIn,
+                                    resultEntity,
+                                    timeTaken,
+                                    settingsController.getCardWidth(extendedUserEntity.getUserSettings()),
+                                    notificationEntityController.getNumberOfUnread(extendedUserEntity),
+                                    extendedUserEntity.getPermissionGroup(),
+                                    settingsController.getServerName(),
+                                    settingsController.isEnableUpload(),
+                                    settingsController.isMovieLibraryEnable(),
+                                    settingsController.isTvShowLibraryEnable(),
+                                    settingsController.isGameLibraryEnable(),
+                                    settingsController.isMusicLibraryEnable(),
+                                    settingsController.isBookLibraryEnable()
+                                ).getBytes()
+                            );
+                        }
+                    } else {
+                        return redirect("/search");
                     }
                 } else {
-                    return redirect("/search");
+                    return redirect("/search?errorType=length");
                 }
-            } else {
-                return redirect("/search?errorType=length");
+            }
+        } catch (Exception e){
+            if(BaseSettings.debug) {
+                e.printStackTrace();
             }
         }
         return redirect("/error");
@@ -172,13 +180,17 @@ public class SearchEndpointsController extends BasicController {
         long start = System.currentTimeMillis();
         boolean loggedIn = verifyApiKey(httpRequest);
         ExtendedUserEntity extendedUserEntity = (ExtendedUserEntity) getUser(httpRequest, extendedUserEntityController);
+        PermissionGroupEnum permissionGroupEnum = PermissionGroupEnum.ALL;
+        if(extendedUserEntity != null) {
+            permissionGroupEnum = extendedUserEntity.getPermissionGroup();
+        }
         long timeTaken = (System.currentTimeMillis() - start);
         return ok(
             emptySearchPage.render(
                 loggedIn,
                 timeTaken,
                 notificationEntityController.getNumberOfUnread(extendedUserEntity),
-                extendedUserEntity.getPermissionGroup(),
+                permissionGroupEnum,
                 settingsController.getServerName(),
                 settingsController.isEnableUpload(),
                 settingsController.isMovieLibraryEnable(),

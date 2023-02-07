@@ -1,7 +1,6 @@
 package tech.tresearchgroup.babygalago.view.pages;
 
 import j2html.tags.specialized.TrTag;
-import lombok.AllArgsConstructor;
 import tech.tresearchgroup.babygalago.controller.controllers.QueueEntityController;
 import tech.tresearchgroup.babygalago.view.components.BulkActionsComponent;
 import tech.tresearchgroup.babygalago.view.components.HeadComponent;
@@ -18,7 +17,6 @@ import java.util.List;
 
 import static j2html.TagCreator.*;
 
-@AllArgsConstructor
 public class NotificationsPage implements RenderablePage {
     /**
      * Generates a notification item

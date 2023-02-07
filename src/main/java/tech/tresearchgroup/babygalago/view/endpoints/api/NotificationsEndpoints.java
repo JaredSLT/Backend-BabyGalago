@@ -4,15 +4,20 @@ import io.activej.http.HttpMethod;
 import io.activej.http.RoutingServlet;
 import io.activej.inject.annotation.Provides;
 import io.activej.inject.module.AbstractModule;
-import lombok.AllArgsConstructor;
 import tech.tresearchgroup.babygalago.controller.endpoints.api.NotificationsEndpointsController;
 import tech.tresearchgroup.palila.controller.EndpointsRouter;
 import tech.tresearchgroup.palila.controller.RoutingServletBuilder;
 import tech.tresearchgroup.palila.model.endpoints.Endpoint;
 
-@AllArgsConstructor
 public class NotificationsEndpoints extends AbstractModule implements EndpointsRouter {
-    private final NotificationsEndpointsController notificationsEndpointsController;
+    private NotificationsEndpointsController notificationsEndpointsController;
+
+    public NotificationsEndpoints() {
+    }
+
+    public NotificationsEndpoints(NotificationsEndpointsController notificationsEndpointsController) {
+        this.notificationsEndpointsController = notificationsEndpointsController;
+    }
 
     /**
      * Creates the endpoints and maps them to their respective methods

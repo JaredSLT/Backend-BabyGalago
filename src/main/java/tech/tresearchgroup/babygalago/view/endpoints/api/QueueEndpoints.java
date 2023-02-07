@@ -4,15 +4,20 @@ import io.activej.http.HttpMethod;
 import io.activej.http.RoutingServlet;
 import io.activej.inject.annotation.Provides;
 import io.activej.inject.module.AbstractModule;
-import lombok.AllArgsConstructor;
 import tech.tresearchgroup.babygalago.controller.endpoints.api.QueueEndpointsController;
 import tech.tresearchgroup.palila.controller.EndpointsRouter;
 import tech.tresearchgroup.palila.controller.RoutingServletBuilder;
 import tech.tresearchgroup.palila.model.endpoints.Endpoint;
 
-@AllArgsConstructor
 public class QueueEndpoints extends AbstractModule implements EndpointsRouter {
-    private final QueueEndpointsController queueEndpointsController;
+    private QueueEndpointsController queueEndpointsController;
+
+    public QueueEndpoints() {
+    }
+
+    public QueueEndpoints(QueueEndpointsController queueEndpointsController) {
+        this.queueEndpointsController = queueEndpointsController;
+    }
 
     /**
      * Creates the endpoints and maps them to their respective methods

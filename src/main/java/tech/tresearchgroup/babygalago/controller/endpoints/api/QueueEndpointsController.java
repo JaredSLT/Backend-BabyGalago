@@ -6,7 +6,6 @@ import io.activej.http.HttpHeaders;
 import io.activej.http.HttpRequest;
 import io.activej.http.HttpResponse;
 import io.activej.promise.Promisable;
-import lombok.AllArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import tech.tresearchgroup.babygalago.controller.controllers.QueueEntityController;
 import tech.tresearchgroup.palila.controller.BasicController;
@@ -14,10 +13,15 @@ import tech.tresearchgroup.schemas.galago.enums.QueueTypeEnum;
 
 import java.io.IOException;
 
-@AllArgsConstructor
 public class QueueEndpointsController extends BasicController {
     private final QueueEntityController queueEntityController;
     private final Gson gson;
+
+    public QueueEndpointsController(QueueEntityController queueEntityController,
+                                    Gson gson) {
+        this.queueEntityController = queueEntityController;
+        this.gson = gson;
+    }
 
     /**
      * Gets the possible queue values

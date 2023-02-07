@@ -19,8 +19,6 @@ import io.activej.inject.module.Modules;
 import io.activej.worker.annotation.Worker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import tech.tresearchgroup.babygalago.controller.HTMLProjectGenerator;
-import tech.tresearchgroup.babygalago.controller.PostmanProjectGenerator;
 import tech.tresearchgroup.babygalago.controller.SettingsController;
 import tech.tresearchgroup.babygalago.controller.modules.*;
 import tech.tresearchgroup.babygalago.view.endpoints.AssetEndpoint;
@@ -84,14 +82,21 @@ public class Main extends MultiThreadedHttpsServerLauncher {
         });
         actionListBox.addItem("Generate HTML project", () -> {
             try {
-                HTMLProjectGenerator.main(null);
+                //HTMLProjectGenerator.main(null);
             } catch (Exception e) {
                 e.printStackTrace();
             }
         });
         actionListBox.addItem("Generate Postman project", () -> {
             try {
-                PostmanProjectGenerator.main(null);
+                //PostmanProjectGenerator.main(null);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+        actionListBox.addItem("Generate OpenAPI spec", () -> {
+            try {
+                //OpenAPIGenerator.main(null);
             } catch (Exception e) {
                 e.printStackTrace();
             }

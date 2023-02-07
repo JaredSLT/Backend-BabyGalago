@@ -4,17 +4,24 @@ import io.activej.http.HttpMethod;
 import io.activej.http.RoutingServlet;
 import io.activej.inject.annotation.Provides;
 import io.activej.inject.module.AbstractModule;
-import lombok.AllArgsConstructor;
 import tech.tresearchgroup.babygalago.controller.endpoints.SearchEndpointsController;
 import tech.tresearchgroup.babygalago.controller.endpoints.api.MediaTypeEndpointsController;
 import tech.tresearchgroup.palila.controller.EndpointsRouter;
 import tech.tresearchgroup.palila.controller.RoutingServletBuilder;
 import tech.tresearchgroup.palila.model.endpoints.Endpoint;
 
-@AllArgsConstructor
 public class MediaTypeEndpoints extends AbstractModule implements EndpointsRouter {
-    private final MediaTypeEndpointsController mediaTypeEndpointsController;
-    private final SearchEndpointsController searchEndpointsController;
+    private MediaTypeEndpointsController mediaTypeEndpointsController;
+    private SearchEndpointsController searchEndpointsController;
+
+    public MediaTypeEndpoints() {
+    }
+
+    public MediaTypeEndpoints(MediaTypeEndpointsController mediaTypeEndpointsController,
+                              SearchEndpointsController searchEndpointsController) {
+        this.mediaTypeEndpointsController = mediaTypeEndpointsController;
+        this.searchEndpointsController = searchEndpointsController;
+    }
 
     /**
      * Creates the endpoints and maps them to their respective methods

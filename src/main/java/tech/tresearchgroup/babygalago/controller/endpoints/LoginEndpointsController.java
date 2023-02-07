@@ -6,7 +6,6 @@ import io.activej.http.HttpRequest;
 import io.activej.http.HttpResponse;
 import io.activej.promise.Promisable;
 import io.activej.promise.Promise;
-import lombok.AllArgsConstructor;
 import org.bouncycastle.crypto.generators.BCrypt;
 import org.bouncycastle.util.encoders.Hex;
 import org.jetbrains.annotations.NotNull;
@@ -15,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import tech.tresearchgroup.babygalago.controller.SettingsController;
 import tech.tresearchgroup.babygalago.controller.controllers.ExtendedUserEntityController;
 import tech.tresearchgroup.palila.controller.BasicController;
+import tech.tresearchgroup.palila.model.BaseSettings;
 import tech.tresearchgroup.schemas.galago.entities.ExtendedUserEntity;
 
 import java.lang.reflect.InvocationTargetException;
@@ -22,12 +22,17 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
 
-@AllArgsConstructor
 public class LoginEndpointsController extends BasicController {
     private static final Logger logger = LoggerFactory.getLogger(LoginEndpointsController.class);
     private final ExtendedUserEntityController extendedUserEntityController;
     private final SettingsController settingsController;
     private final Gson gson;
+
+    public LoginEndpointsController(ExtendedUserEntityController extendedUserEntityController, SettingsController settingsController, Gson gson) {
+        this.extendedUserEntityController = extendedUserEntityController;
+        this.settingsController = settingsController;
+        this.gson = gson;
+    }
 
     /**
      * Returns the users entity as way of logging in using the API
@@ -96,7 +101,9 @@ public class LoginEndpointsController extends BasicController {
                     ExtendedUserEntity userEntity = getUser(jsonUser.getUsername(), jsonUser.getPassword(), httpRequest);
                     if (userEntity != null) {
                         if (settingsController.isDebug()) {
-                            logger.info("Successfully logged in: " + userEntity.getUsername());
+                            if(BaseSettings.debug) {
+                                logger.info("Successfully logged in: " + userEntity.getUsername());
+                            }
                         }
                         return HttpResponse.ok200().withBody(login(userEntity));
                     }

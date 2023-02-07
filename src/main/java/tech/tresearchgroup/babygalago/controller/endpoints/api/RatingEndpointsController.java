@@ -5,7 +5,6 @@ import io.activej.http.HttpHeaders;
 import io.activej.http.HttpRequest;
 import io.activej.http.HttpResponse;
 import io.activej.promise.Promisable;
-import lombok.AllArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import tech.tresearchgroup.babygalago.controller.controllers.RatingEntityController;
 import tech.tresearchgroup.palila.controller.BasicController;
@@ -16,9 +15,12 @@ import java.lang.reflect.InvocationTargetException;
 import java.nio.charset.Charset;
 import java.sql.SQLException;
 
-@AllArgsConstructor
 public class RatingEndpointsController extends BasicController {
     private final RatingEntityController ratingEntityController;
+
+    public RatingEndpointsController(RatingEntityController ratingEntityController) {
+        this.ratingEntityController = ratingEntityController;
+    }
 
     /**
      * Gets a rating by its id

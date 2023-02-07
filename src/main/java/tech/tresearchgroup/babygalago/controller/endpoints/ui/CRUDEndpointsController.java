@@ -4,7 +4,6 @@ import io.activej.http.HttpRequest;
 import io.activej.http.HttpResponse;
 import io.activej.promise.Promisable;
 import jdk.jshell.spi.ExecutionControl;
-import lombok.AllArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import tech.tresearchgroup.babygalago.controller.SettingsController;
 import tech.tresearchgroup.babygalago.controller.controllers.ExtendedUserEntityController;
@@ -31,7 +30,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-@AllArgsConstructor
 public class CRUDEndpointsController extends BasicController {
     private final Map<String, GenericController> controllers;
 
@@ -41,6 +39,20 @@ public class CRUDEndpointsController extends BasicController {
     private final ViewPage viewPage;
     private final EntityPage entityPage;
     private final NotificationEntityController notificationEntityController;
+
+    public CRUDEndpointsController(Map<String, GenericController> controllers,
+                                   ExtendedUserEntityController extendedUserEntityController,
+                                   SettingsController settingsController,
+                                   ViewPage viewPage,
+                                   EntityPage entityPage,
+                                   NotificationEntityController notificationEntityController) {
+        this.controllers = controllers;
+        this.extendedUserEntityController = extendedUserEntityController;
+        this.settingsController = settingsController;
+        this.viewPage = viewPage;
+        this.entityPage = entityPage;
+        this.notificationEntityController = notificationEntityController;
+    }
 
     /**
      * loads the data for and renders the browse page

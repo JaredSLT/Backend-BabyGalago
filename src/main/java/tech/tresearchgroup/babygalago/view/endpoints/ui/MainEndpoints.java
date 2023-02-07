@@ -4,7 +4,6 @@ import io.activej.http.HttpMethod;
 import io.activej.http.RoutingServlet;
 import io.activej.inject.annotation.Provides;
 import io.activej.inject.module.AbstractModule;
-import lombok.AllArgsConstructor;
 import tech.tresearchgroup.babygalago.controller.endpoints.SearchEndpointsController;
 import tech.tresearchgroup.babygalago.controller.endpoints.ui.MainEndpointsController;
 import tech.tresearchgroup.colobus.controller.IndexController;
@@ -12,11 +11,21 @@ import tech.tresearchgroup.palila.controller.EndpointsRouter;
 import tech.tresearchgroup.palila.controller.RoutingServletBuilder;
 import tech.tresearchgroup.palila.model.endpoints.Endpoint;
 
-@AllArgsConstructor
 public class MainEndpoints extends AbstractModule implements EndpointsRouter {
-    private final MainEndpointsController mainEndpointsController;
-    private final IndexController indexController;
-    private final SearchEndpointsController searchEndpointsController;
+    private MainEndpointsController mainEndpointsController;
+    private IndexController indexController;
+    private SearchEndpointsController searchEndpointsController;
+
+    public MainEndpoints() {
+    }
+
+    public MainEndpoints(MainEndpointsController mainEndpointsController,
+                         IndexController indexController,
+                         SearchEndpointsController searchEndpointsController) {
+        this.mainEndpointsController = mainEndpointsController;
+        this.indexController = indexController;
+        this.searchEndpointsController = searchEndpointsController;
+    }
 
     /**
      * Creates the endpoints and maps them to their respective methods

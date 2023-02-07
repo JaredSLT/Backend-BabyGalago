@@ -5,6 +5,7 @@ import org.quartz.impl.StdSchedulerFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import tech.tresearchgroup.babygalago.controller.tasks.*;
+import tech.tresearchgroup.palila.model.BaseSettings;
 import tech.tresearchgroup.schemas.galago.entities.SettingsEntity;
 import tech.tresearchgroup.schemas.galago.enums.BaseMediaTypeEnum;
 import tech.tresearchgroup.schemas.galago.enums.ScanFrequencyEnum;
@@ -70,7 +71,9 @@ public class TaskController {
     private Trigger setupTrigger(BaseMediaTypeEnum mediaType) {
         int time = calculateTime(mediaType);
         if (time == -1) {
-            logger.error("Failed to calculate time for: " + mediaType);
+            if(BaseSettings.debug) {
+                logger.error("Failed to calculate time for: " + mediaType);
+            }
             return null;
         }
         return TriggerBuilder.newTrigger()

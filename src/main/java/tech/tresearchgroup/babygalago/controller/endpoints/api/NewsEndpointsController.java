@@ -5,7 +5,6 @@ import io.activej.http.HttpHeaders;
 import io.activej.http.HttpRequest;
 import io.activej.http.HttpResponse;
 import io.activej.promise.Promisable;
-import lombok.AllArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import tech.tresearchgroup.babygalago.controller.controllers.NewsArticleEntityController;
 import tech.tresearchgroup.palila.controller.BasicController;
@@ -17,9 +16,12 @@ import java.nio.charset.Charset;
 import java.sql.SQLException;
 import java.util.Objects;
 
-@AllArgsConstructor
 public class NewsEndpointsController extends BasicController {
     private final NewsArticleEntityController newsArticleEntityController;
+
+    public NewsEndpointsController(NewsArticleEntityController newsArticleEntityController) {
+        this.newsArticleEntityController = newsArticleEntityController;
+    }
 
     /**
      * Creates a news entity

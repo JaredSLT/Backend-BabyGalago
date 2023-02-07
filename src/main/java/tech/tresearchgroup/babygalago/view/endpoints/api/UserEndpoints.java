@@ -4,17 +4,24 @@ import io.activej.http.HttpMethod;
 import io.activej.http.RoutingServlet;
 import io.activej.inject.annotation.Provides;
 import io.activej.inject.module.AbstractModule;
-import lombok.AllArgsConstructor;
 import tech.tresearchgroup.babygalago.controller.endpoints.api.SettingsEndpointsController;
 import tech.tresearchgroup.babygalago.controller.endpoints.api.UserEndpointsController;
 import tech.tresearchgroup.palila.controller.EndpointsRouter;
 import tech.tresearchgroup.palila.controller.RoutingServletBuilder;
 import tech.tresearchgroup.palila.model.endpoints.Endpoint;
 
-@AllArgsConstructor
 public class UserEndpoints extends AbstractModule implements EndpointsRouter {
-    private final UserEndpointsController userEndpointsController;
-    private final SettingsEndpointsController settingsEndpointsController;
+    private UserEndpointsController userEndpointsController;
+    private SettingsEndpointsController settingsEndpointsController;
+
+    public UserEndpoints() {
+    }
+
+    public UserEndpoints(UserEndpointsController userEndpointsController,
+                         SettingsEndpointsController settingsEndpointsController) {
+        this.userEndpointsController = userEndpointsController;
+        this.settingsEndpointsController = settingsEndpointsController;
+    }
 
     /**
      * Creates the endpoints and maps them to their respective methods

@@ -5,7 +5,6 @@ import io.activej.http.HttpHeaders;
 import io.activej.http.HttpRequest;
 import io.activej.http.HttpResponse;
 import io.activej.promise.Promisable;
-import lombok.AllArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import tech.tresearchgroup.babygalago.controller.controllers.UserSettingsEntityController;
 import tech.tresearchgroup.palila.controller.BasicController;
@@ -20,10 +19,14 @@ import java.nio.file.Path;
 import java.sql.SQLException;
 import java.util.Objects;
 
-@AllArgsConstructor
 public class SettingsEndpointsController extends BasicController {
     private final BasicUserController userController;
     private final UserSettingsEntityController userSettingsEntityController;
+
+    public SettingsEndpointsController(BasicUserController userController, UserSettingsEntityController userSettingsEntityController) {
+        this.userController = userController;
+        this.userSettingsEntityController = userSettingsEntityController;
+    }
 
     /**
      * Loads and returns the Settings.json file

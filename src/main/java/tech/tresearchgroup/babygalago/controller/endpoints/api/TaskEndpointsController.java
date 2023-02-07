@@ -5,15 +5,17 @@ import io.activej.http.HttpHeaders;
 import io.activej.http.HttpRequest;
 import io.activej.http.HttpResponse;
 import io.activej.promise.Promisable;
-import lombok.AllArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import tech.tresearchgroup.babygalago.controller.TaskController;
 import tech.tresearchgroup.palila.controller.BasicController;
 import tech.tresearchgroup.schemas.galago.enums.BaseMediaTypeEnum;
 
-@AllArgsConstructor
 public class TaskEndpointsController extends BasicController {
     private final TaskController scheduleController;
+
+    public TaskEndpointsController(TaskController scheduleController) {
+        this.scheduleController = scheduleController;
+    }
 
     /**
      * Gets whether the queue for a media type is running

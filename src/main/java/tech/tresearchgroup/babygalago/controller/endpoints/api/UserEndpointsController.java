@@ -5,7 +5,6 @@ import io.activej.http.HttpHeaders;
 import io.activej.http.HttpRequest;
 import io.activej.http.HttpResponse;
 import io.activej.promise.Promisable;
-import lombok.AllArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import tech.tresearchgroup.babygalago.controller.SettingsController;
 import tech.tresearchgroup.babygalago.controller.controllers.ExtendedUserEntityController;
@@ -20,10 +19,15 @@ import java.nio.charset.Charset;
 import java.sql.SQLException;
 import java.util.Objects;
 
-@AllArgsConstructor
 public class UserEndpointsController extends BasicController {
     private final ExtendedUserEntityController extendedUserEntityController;
     private final SettingsController settingsController;
+
+    public UserEndpointsController(ExtendedUserEntityController extendedUserEntityController,
+                                   SettingsController settingsController) {
+        this.extendedUserEntityController = extendedUserEntityController;
+        this.settingsController = settingsController;
+    }
 
     /**
      * Gets a list of extended user entities

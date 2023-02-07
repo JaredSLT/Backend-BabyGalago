@@ -1,6 +1,5 @@
 package tech.tresearchgroup.babygalago.view.pages;
 
-import lombok.AllArgsConstructor;
 import tech.tresearchgroup.babygalago.controller.controllers.QueueEntityController;
 import tech.tresearchgroup.babygalago.view.components.*;
 import tech.tresearchgroup.palila.controller.components.PaginationComponent;
@@ -14,7 +13,6 @@ import java.util.List;
 
 import static j2html.TagCreator.*;
 
-@AllArgsConstructor
 public class ViewPage implements RenderablePage {
     /**
      * Renders the page

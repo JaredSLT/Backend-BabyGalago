@@ -4,7 +4,6 @@ import io.activej.csp.file.ChannelFileWriter;
 import io.activej.http.*;
 import io.activej.inject.annotation.Provides;
 import io.activej.promise.Promisable;
-import lombok.AllArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import tech.tresearchgroup.babygalago.Main;
 import tech.tresearchgroup.babygalago.controller.SettingsController;
@@ -22,10 +21,15 @@ import java.util.concurrent.Executor;
 
 import static java.util.concurrent.Executors.newSingleThreadExecutor;
 
-@AllArgsConstructor
 public class GeneralEndpointsController extends BasicController {
     private final ExtendedUserEntityController extendedUserEntityController;
     private final SettingsController settingsController;
+
+    public GeneralEndpointsController(ExtendedUserEntityController extendedUserEntityController,
+                                      SettingsController settingsController) {
+        this.extendedUserEntityController = extendedUserEntityController;
+        this.settingsController = settingsController;
+    }
 
     /**
      * Provides an executor for file uploads

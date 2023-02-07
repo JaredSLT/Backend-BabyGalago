@@ -5,6 +5,7 @@ import org.quartz.JobExecutionContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import tech.tresearchgroup.babygalago.controller.controllers.QueueEntityController;
+import tech.tresearchgroup.palila.model.BaseSettings;
 import tech.tresearchgroup.schemas.galago.entities.SettingsEntity;
 
 public class ConverterWorker implements Job {
@@ -16,7 +17,9 @@ public class ConverterWorker implements Job {
             try {
                 //Todo accept incoming requests
                 for (int i = 0; i < QueueEntityController.jobs.size(); i++) {
-                    logger.info(QueueEntityController.jobs.get(i).toString());
+                    if(BaseSettings.debug) {
+                        logger.info(QueueEntityController.jobs.get(i).toString());
+                    }
                     QueueEntityController.jobs.remove(i);
                     i--;
                 }

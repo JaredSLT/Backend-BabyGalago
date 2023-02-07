@@ -1,6 +1,5 @@
 package tech.tresearchgroup.colobus.view;
 
-import lombok.AllArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import tech.tresearchgroup.babygalago.controller.controllers.QueueEntityController;
 import tech.tresearchgroup.babygalago.view.components.HeadComponent;
@@ -10,7 +9,6 @@ import tech.tresearchgroup.palila.model.enums.PermissionGroupEnum;
 
 import static j2html.TagCreator.*;
 
-@AllArgsConstructor
 public class IndexPage {
     public byte @NotNull [] render(boolean loggedIn,
                                    long unreadCount,

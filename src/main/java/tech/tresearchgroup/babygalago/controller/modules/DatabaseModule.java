@@ -28,10 +28,14 @@ public class DatabaseModule extends AbstractModule {
                 String username = System.getenv("DB_USER");
                 String password = System.getenv("DB_PASS");
                 if (username == null) {
-                    logger.info("Cannot connect to DB because your DB_USER environment variable is null");
+                    if(BaseSettings.debug) {
+                        logger.info("Cannot connect to DB because your DB_USER environment variable is null");
+                    }
                     System.exit(0);
                 } else if (password == null) {
-                    logger.info("Cannot connect to DB because your DB_PASS environment variable is null");
+                    if(BaseSettings.debug) {
+                        logger.info("Cannot connect to DB because your DB_PASS environment variable is null");
+                    }
                     System.exit(0);
                 }
                 return getConfig(settingsController, username, password, settingsController.getDatabaseName());

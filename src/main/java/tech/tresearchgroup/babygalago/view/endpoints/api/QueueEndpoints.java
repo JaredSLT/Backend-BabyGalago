@@ -1,46 +1,42 @@
 package tech.tresearchgroup.babygalago.view.endpoints.api;
 
-import io.activej.http.*;
+import io.activej.http.HttpMethod;
+import io.activej.http.RoutingServlet;
 import io.activej.inject.annotation.Provides;
-import io.activej.promise.Promisable;
-import lombok.AllArgsConstructor;
-import org.jetbrains.annotations.NotNull;
+import io.activej.inject.module.AbstractModule;
 import tech.tresearchgroup.babygalago.controller.endpoints.api.QueueEndpointsController;
-import tech.tresearchgroup.palila.controller.HttpResponses;
-import tech.tresearchgroup.schemas.galago.enums.QueueTypeEnum;
+import tech.tresearchgroup.palila.controller.EndpointsRouter;
+import tech.tresearchgroup.palila.controller.RoutingServletBuilder;
+import tech.tresearchgroup.palila.model.endpoints.Endpoint;
 
-@AllArgsConstructor
-public class QueueEndpoints extends HttpResponses {
-    private final QueueEndpointsController queueEndpointsController;
+public class QueueEndpoints extends AbstractModule implements EndpointsRouter {
+    private QueueEndpointsController queueEndpointsController;
 
+    public QueueEndpoints() {
+    }
+
+    public QueueEndpoints(QueueEndpointsController queueEndpointsController) {
+        this.queueEndpointsController = queueEndpointsController;
+    }
+
+    /**
+     * Creates the endpoints and maps them to their respective methods
+     *
+     * @return the routing servlet
+     */
     @Provides
     public RoutingServlet servlet() {
-        return RoutingServlet.create()
-            .map(HttpMethod.GET, "/v1/queue/:queueType", this::getQueue)
-            .map(HttpMethod.PUT, "/v1/queue/:queueType", this::putQueue)
-            .map(HttpMethod.DELETE, "/v1/queue/:queueType", this::deleteQueue)
-            .map(HttpMethod.OPTIONS, "/v1/queue/:queueType", this::optionsQueue);
+        return RoutingServletBuilder.build(getEndpoints());
     }
 
-    private @NotNull Promisable<HttpResponse> getQueue(@NotNull HttpRequest httpRequest) {
-        String baseMediaType = httpRequest.getPathParameter("queueType").toUpperCase();
-        QueueTypeEnum queueTypeEnum = Enum.valueOf(QueueTypeEnum.class, baseMediaType);
-        return queueEndpointsController.getTask(queueTypeEnum, httpRequest);
-    }
-
-    private @NotNull Promisable<HttpResponse> putQueue(@NotNull HttpRequest httpRequest) {
-        String baseMediaType = httpRequest.getPathParameter("queueType").toUpperCase();
-        QueueTypeEnum queueTypeEnum = Enum.valueOf(QueueTypeEnum.class, baseMediaType);
-        return queueEndpointsController.putTask(queueTypeEnum, httpRequest);
-    }
-
-    private @NotNull Promisable<HttpResponse> deleteQueue(@NotNull HttpRequest httpRequest) {
-        String baseMediaType = httpRequest.getPathParameter("queueType").toUpperCase();
-        QueueTypeEnum queueTypeEnum = Enum.valueOf(QueueTypeEnum.class, baseMediaType);
-        return queueEndpointsController.deleteTask(queueTypeEnum, httpRequest);
-    }
-
-    private @NotNull Promisable<HttpResponse> optionsQueue(@NotNull HttpRequest httpRequest) {
-        return HttpResponse.ok200().withHeader(HttpHeaders.ALLOW, HttpHeaderValue.of("GET, PUT, DELETE"));
+    @Override
+    public Endpoint[] getEndpoints() {
+        return new Endpoint[]{
+            new Endpoint(HttpMethod.GET, "/v1/queues", queueEndpointsController::getQueues),
+            new Endpoint(HttpMethod.GET, "/v1/queue/:queueType", queueEndpointsController::getQueue),
+            new Endpoint(HttpMethod.PUT, "/v1/queue/:queueType", queueEndpointsController::putQueue),
+            new Endpoint(HttpMethod.DELETE, "/v1/queue/:queueType", queueEndpointsController::deleteQueue),
+            new Endpoint(HttpMethod.OPTIONS, "/v1/queue/:queueType", queueEndpointsController::optionsQueue)
+        };
     }
 }

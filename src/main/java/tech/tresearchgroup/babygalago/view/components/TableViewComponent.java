@@ -11,6 +11,12 @@ import java.util.List;
 import static j2html.TagCreator.*;
 
 public class TableViewComponent {
+    /**
+     * Renders entity lists in table view
+     *
+     * @param cards the cards to list
+     * @return the component
+     */
     public static @NotNull DomContent render(List<Card> cards) {
         return table(
             thead(
@@ -42,12 +48,12 @@ public class TableViewComponent {
                 img().withAlt("Poster image").withClass("table-image").withSrc("/assets/poster.webp")
             ),
             td(card.getTitle()),
-            td(card.getRuntime()),
+            td(card.getTopLeft()),
             td("GENRE"),
-            td(card.getMpaaRating()),
-            td(card.getUserRating()),
+            td(card.getTopRight()),
+            td(card.getBottomLeft()),
             td("LANGUAGE"),
-            td(card.getReleaseDate()),
+            td(card.getBottomRight()),
             ModalComponent.render(
                 "Confirm deletion",
                 span(text("Are you sure you want to delete: " + card.getTitle() + "?"),
@@ -59,10 +65,10 @@ public class TableViewComponent {
                 "delete-" + card.getId()
             ),
             td(
-                a(" Play").withClass("btn btn-link fas fa-play").withHref("/play/" + card.getMediaType() + "/" + card.getId()),
-                a(" Edit").withClass("btn btn-link fa fa-edit").withHref("/edit/" + card.getMediaType() + "/" + card.getId()),
+                a(" Play").withClass("btn btn-link fas fa-play").withHref("/play/" + card.getClassName() + "/" + card.getId()),
+                a(" Edit").withClass("btn btn-link fa fa-edit").withHref("/edit/" + card.getClassName() + "/" + card.getId()),
                 br(),
-                a(" View").withClass("btn btn-link fa fa-eye").withHref("/view/" + card.getMediaType() + "/" + card.getId()),
+                a(" View").withClass("btn btn-link fa fa-eye").withHref("/view/" + card.getClassName() + "/" + card.getId()),
                 a(" Delete").withClass("btn btn-link fa fa-trash").withHref("#delete-" + card.getId())
             )
         );

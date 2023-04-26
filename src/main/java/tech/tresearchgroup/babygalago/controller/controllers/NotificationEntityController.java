@@ -5,6 +5,7 @@ import com.meilisearch.sdk.Client;
 import com.zaxxer.hikari.HikariDataSource;
 import io.activej.serializer.BinarySerializer;
 import tech.tresearchgroup.palila.controller.GenericController;
+import tech.tresearchgroup.palila.model.Card;
 import tech.tresearchgroup.palila.model.enums.PermissionGroupEnum;
 import tech.tresearchgroup.schemas.galago.entities.ExtendedUserEntity;
 import tech.tresearchgroup.schemas.galago.entities.NotificationEntity;
@@ -15,13 +16,18 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class NotificationEntityController extends GenericController {
+    private final HikariDataSource hikariDataSource;
+
+    /**
+     * Sets up the notification entity controller. To understand this class better, have a look at the class it extends (GenericController)
+     */
     public NotificationEntityController(HikariDataSource hikariDataSource,
                                         Gson gson,
                                         Client client,
                                         BinarySerializer<NotificationEntity> serializer,
                                         int reindexSize,
                                         Object sample,
-                                        UserEntityController userEntityController) throws Exception {
+                                        ExtendedUserEntityController extendedUserEntityController) throws Exception {
         super(
             hikariDataSource,
             gson,
@@ -36,13 +42,15 @@ public class NotificationEntityController extends GenericController {
             PermissionGroupEnum.USER,
             PermissionGroupEnum.USER,
             PermissionGroupEnum.USER,
-            userEntityController
+            extendedUserEntityController,
+            new Card()
         );
+        this.hikariDataSource = hikariDataSource;
     }
 
     public Long getNumberOfUnread(ExtendedUserEntity userEntity) throws SQLException {
-        if (userEntity == null) {
-            return null;
+        if (userEntity == null || userEntity.getId() == null) {
+            return 0L;
         }
         Connection connection = hikariDataSource.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement("SELECT COUNT(*) AS COUNT FROM " + NotificationEntity.class.getSimpleName().toLowerCase() + " WHERE userEntity=? AND unread=?");
@@ -54,6 +62,6 @@ public class NotificationEntityController extends GenericController {
         if (resultSet.next()) {
             return resultSet.getLong("COUNT");
         }
-        return null;
+        return 0L;
     }
 }

@@ -1,86 +1,43 @@
 package tech.tresearchgroup.babygalago.view.endpoints.api;
 
-import io.activej.http.*;
+import io.activej.http.HttpMethod;
+import io.activej.http.RoutingServlet;
 import io.activej.inject.annotation.Provides;
-import io.activej.promise.Promisable;
-import lombok.AllArgsConstructor;
-import org.jetbrains.annotations.NotNull;
-import tech.tresearchgroup.babygalago.controller.SettingsController;
+import io.activej.inject.module.AbstractModule;
 import tech.tresearchgroup.babygalago.controller.endpoints.api.RatingEndpointsController;
-import tech.tresearchgroup.palila.controller.HttpResponses;
+import tech.tresearchgroup.palila.controller.EndpointsRouter;
+import tech.tresearchgroup.palila.controller.RoutingServletBuilder;
+import tech.tresearchgroup.palila.model.endpoints.Endpoint;
 
-@AllArgsConstructor
-public class RatingEndpoints extends HttpResponses {
-    private final RatingEndpointsController ratingEndpointsController;
-    private final SettingsController settingsController;
+public class RatingEndpoints extends AbstractModule implements EndpointsRouter {
+    private RatingEndpointsController ratingEndpointsController;
 
+    public RatingEndpoints() {
+    }
+
+    public RatingEndpoints(RatingEndpointsController ratingEndpointsController) {
+        this.ratingEndpointsController = ratingEndpointsController;
+    }
+
+    /**
+     * Creates the endpoints and maps them to their respective methods
+     *
+     * @return the routing servlet
+     */
     @Provides
     public RoutingServlet servlet() {
-        return RoutingServlet.create()
-            .map(HttpMethod.GET, "/v1/ratings/:ratingId", this::getRating)
-            .map(HttpMethod.PATCH, "/v1/ratings/:ratingId", this::patchRating)
-            .map(HttpMethod.DELETE, "/v1/ratings/:ratingId", this::deleteRating)
-            .map(HttpMethod.PUT, "/v1/ratings/:ratingId", this::putRating)
-            .map(HttpMethod.POST, "/v1/ratings/:ratingId", this::postRating)
-            .map(HttpMethod.OPTIONS, "/v1/ratings/:ratingId", this::optionsRatingById);
+        return RoutingServletBuilder.build(getEndpoints());
     }
 
-    private @NotNull Promisable<HttpResponse> getRating(@NotNull HttpRequest httpRequest) {
-        try {
-            return ratingEndpointsController.getRating(httpRequest);
-        } catch (Exception e) {
-            if (settingsController.isDebug()) {
-                e.printStackTrace();
-            }
-        }
-        return error();
-    }
-
-    private @NotNull Promisable<HttpResponse> patchRating(@NotNull HttpRequest httpRequest) {
-        try {
-            return ratingEndpointsController.patchRating(httpRequest);
-        } catch (Exception e) {
-            if (settingsController.isDebug()) {
-                e.printStackTrace();
-            }
-        }
-        return error();
-    }
-
-    private @NotNull Promisable<HttpResponse> deleteRating(@NotNull HttpRequest httpRequest) {
-        try {
-            return ratingEndpointsController.deleteRating(httpRequest);
-        } catch (Exception e) {
-            if (settingsController.isDebug()) {
-                e.printStackTrace();
-            }
-        }
-        return error();
-    }
-
-    private @NotNull Promisable<HttpResponse> putRating(@NotNull HttpRequest httpRequest) {
-        try {
-            return ratingEndpointsController.putRating(httpRequest);
-        } catch (Exception e) {
-            if (settingsController.isDebug()) {
-                e.printStackTrace();
-            }
-        }
-        return error();
-    }
-
-    private @NotNull Promisable<HttpResponse> postRating(@NotNull HttpRequest httpRequest) {
-        try {
-            return ratingEndpointsController.postRating(httpRequest);
-        } catch (Exception e) {
-            if (settingsController.isDebug()) {
-                return error(e);
-            }
-        }
-        return error();
-    }
-
-    private @NotNull Promisable<HttpResponse> optionsRatingById(@NotNull HttpRequest httpRequest) {
-        return HttpResponse.ok200().withHeader(HttpHeaders.ALLOW, HttpHeaderValue.of("GET, PATCH, DELETE, PUT, POST"));
+    @Override
+    public Endpoint[] getEndpoints() {
+        return new Endpoint[]{
+            new Endpoint(HttpMethod.GET, "/v1/ratings/:ratingId", ratingEndpointsController::getRating),
+            new Endpoint(HttpMethod.PATCH, "/v1/ratings/:ratingId", ratingEndpointsController::patchRating),
+            new Endpoint(HttpMethod.DELETE, "/v1/ratings/:ratingId", ratingEndpointsController::deleteRating),
+            new Endpoint(HttpMethod.PUT, "/v1/ratings/:ratingId", ratingEndpointsController::putRating),
+            new Endpoint(HttpMethod.POST, "/v1/ratings/:ratingId", ratingEndpointsController::postRating),
+            new Endpoint(HttpMethod.OPTIONS, "/v1/ratings/:ratingId", ratingEndpointsController::optionsRatingById)
+        };
     }
 }

@@ -1,170 +1,56 @@
 package tech.tresearchgroup.babygalago.view.endpoints.api;
 
-import io.activej.http.*;
+import io.activej.http.HttpMethod;
+import io.activej.http.RoutingServlet;
 import io.activej.inject.annotation.Provides;
-import io.activej.promise.Promisable;
-import lombok.AllArgsConstructor;
-import org.jetbrains.annotations.NotNull;
-import tech.tresearchgroup.babygalago.controller.SettingsController;
+import io.activej.inject.module.AbstractModule;
 import tech.tresearchgroup.babygalago.controller.endpoints.api.SettingsEndpointsController;
 import tech.tresearchgroup.babygalago.controller.endpoints.api.UserEndpointsController;
-import tech.tresearchgroup.palila.controller.HttpResponses;
+import tech.tresearchgroup.palila.controller.EndpointsRouter;
+import tech.tresearchgroup.palila.controller.RoutingServletBuilder;
+import tech.tresearchgroup.palila.model.endpoints.Endpoint;
 
-@AllArgsConstructor
-public class UserEndpoints extends HttpResponses {
-    private final UserEndpointsController userEndpointsController;
-    private final SettingsController settingsController;
-    private final SettingsEndpointsController settingsEndpointsController;
+public class UserEndpoints extends AbstractModule implements EndpointsRouter {
+    private UserEndpointsController userEndpointsController;
+    private SettingsEndpointsController settingsEndpointsController;
 
+    public UserEndpoints() {
+    }
+
+    public UserEndpoints(UserEndpointsController userEndpointsController,
+                         SettingsEndpointsController settingsEndpointsController) {
+        this.userEndpointsController = userEndpointsController;
+        this.settingsEndpointsController = settingsEndpointsController;
+    }
+
+    /**
+     * Creates the endpoints and maps them to their respective methods
+     *
+     * @return the routing servlet
+     */
     @Provides
     public RoutingServlet servlet() {
-        return RoutingServlet.create()
-            .map(HttpMethod.GET, "/v1/user", this::getUsers)
-            .map(HttpMethod.POST, "/v1/user", this::postUser)
-            .map(HttpMethod.PUT, "/v1/user", this::putUser)
-            .map(HttpMethod.OPTIONS, "/v1/user", this::optionsUsers)
-            .map(HttpMethod.GET, "/v1/user/:userId/settings", this::getUserSettings)
-            .map(HttpMethod.POST, "/v1/user/:userId/settings", this::createUserSettings)
-            .map(HttpMethod.PATCH, "/v1/user/:userId/settings", this::patchUserSettings)
-            .map(HttpMethod.DELETE, "/v1/user/:userId/settings", this::deleteUserSettings)
-            .map(HttpMethod.OPTIONS, "/v1/user/:userId/settings", this::optionsSettingsById)
-            .map(HttpMethod.GET, "/v1/user/:userId", this::getUserById)
-            .map(HttpMethod.DELETE, "/v1/user/:userId", this::deleteUserById)
-            .map(HttpMethod.POST, "/v1/user/:userId", this::postUserById)
-            .map(HttpMethod.PATCH, "/v1/user/:userId", this::patchUser)
-            .map(HttpMethod.OPTIONS, "/v1/user/:userId", this::optionsUserById);
+        return RoutingServletBuilder.build(getEndpoints());
     }
 
-    private @NotNull Promisable<HttpResponse> getUsers(@NotNull HttpRequest httpRequest) {
-        try {
-            return userEndpointsController.getUsers(httpRequest);
-        } catch (Exception e) {
-            if (settingsController.isDebug()) {
-                e.printStackTrace();
-            }
-        }
-        return error();
-    }
-
-    private @NotNull Promisable<HttpResponse> postUser(@NotNull HttpRequest httpRequest) {
-        try {
-            return userEndpointsController.postUser(httpRequest);
-        } catch (Exception e) {
-            if (settingsController.isDebug()) {
-                e.printStackTrace();
-            }
-        }
-        return error();
-    }
-
-    private @NotNull Promisable<HttpResponse> putUser(@NotNull HttpRequest httpRequest) {
-        try {
-            return userEndpointsController.putUser(httpRequest);
-        } catch (Exception e) {
-            if (settingsController.isDebug()) {
-                e.printStackTrace();
-            }
-        }
-        return error();
-    }
-
-    private @NotNull Promisable<HttpResponse> getUserById(@NotNull HttpRequest httpRequest) {
-        try {
-            return userEndpointsController.getUserById(httpRequest);
-        } catch (Exception e) {
-            if (settingsController.isDebug()) {
-                e.printStackTrace();
-            }
-        }
-        return error();
-    }
-
-    private @NotNull Promisable<HttpResponse> patchUser(@NotNull HttpRequest httpRequest) {
-        try {
-            return userEndpointsController.patchUser(httpRequest);
-        } catch (Exception e) {
-            if (settingsController.isDebug()) {
-                e.printStackTrace();
-            }
-        }
-        return error();
-    }
-
-    private @NotNull Promisable<HttpResponse> optionsUsers(@NotNull HttpRequest httpRequest) {
-        return HttpResponse.ok200().withHeader(HttpHeaders.ALLOW, HttpHeaderValue.of("GET, POST, PUT, PATCH"));
-    }
-
-    private @NotNull Promisable<HttpResponse> getUserSettings(@NotNull HttpRequest httpRequest) {
-        try {
-            return settingsEndpointsController.getUserSettings(httpRequest);
-        } catch (Exception e) {
-            if (settingsController.isDebug()) {
-                e.printStackTrace();
-            }
-        }
-        return error();
-    }
-
-    private @NotNull Promisable<HttpResponse> createUserSettings(@NotNull HttpRequest httpRequest) {
-        try {
-            return settingsEndpointsController.createUserSettings(httpRequest);
-        } catch (Exception e) {
-            if (settingsController.isDebug()) {
-                e.printStackTrace();
-            }
-        }
-        return error();
-    }
-
-    private @NotNull Promisable<HttpResponse> patchUserSettings(@NotNull HttpRequest httpRequest) {
-        try {
-            return settingsEndpointsController.patchUserSettings(httpRequest);
-        } catch (Exception e) {
-            if (settingsController.isDebug()) {
-                e.printStackTrace();
-            }
-        }
-        return error();
-    }
-
-    private @NotNull Promisable<HttpResponse> deleteUserSettings(@NotNull HttpRequest httpRequest) {
-        try {
-            return settingsEndpointsController.deleteUserSettings(httpRequest);
-        } catch (Exception e) {
-            if (settingsController.isDebug()) {
-                e.printStackTrace();
-            }
-        }
-        return error();
-    }
-
-    private @NotNull Promisable<HttpResponse> optionsSettingsById(@NotNull HttpRequest httpRequest) {
-        return HttpResponse.ok200().withHeader(HttpHeaders.ALLOW, HttpHeaderValue.of("GET, POST, PATCH, DELETE"));
-    }
-
-    private @NotNull Promisable<HttpResponse> deleteUserById(@NotNull HttpRequest httpRequest) {
-        try {
-            return userEndpointsController.deleteUserById(httpRequest);
-        } catch (Exception e) {
-            if (settingsController.isDebug()) {
-                e.printStackTrace();
-            }
-        }
-        return error();
-    }
-
-    private @NotNull Promisable<HttpResponse> postUserById(@NotNull HttpRequest httpRequest) {
-        try {
-            userEndpointsController.postUserById(httpRequest);
-        } catch (Exception e) {
-            if (settingsController.isDebug()) {
-                e.printStackTrace();
-            }
-        }
-        return error();
-    }
-
-    private @NotNull Promisable<HttpResponse> optionsUserById(@NotNull HttpRequest httpRequest) {
-        return HttpResponse.ok200().withHeader(HttpHeaders.ALLOW, HttpHeaderValue.of("GET, DELETE, POST"));
+    @Override
+    public Endpoint[] getEndpoints() {
+        return new Endpoint[]{
+            new Endpoint(HttpMethod.GET, "/v1/user", userEndpointsController::getUsers),
+            new Endpoint(HttpMethod.POST, "/v1/user", userEndpointsController::postUser),
+            new Endpoint(HttpMethod.PUT, "/v1/user", userEndpointsController::putUser),
+            new Endpoint(HttpMethod.OPTIONS, "/v1/user", userEndpointsController::optionsUsers),
+            new Endpoint(HttpMethod.GET, "/v1/user/sample", userEndpointsController::getSample),
+            new Endpoint(HttpMethod.GET, "/v1/user/:userId/settings", settingsEndpointsController::getUserSettings),
+            new Endpoint(HttpMethod.POST, "/v1/user/:userId/settings", settingsEndpointsController::createUserSettings),
+            new Endpoint(HttpMethod.PATCH, "/v1/user/:userId/settings", settingsEndpointsController::patchUserSettings),
+            new Endpoint(HttpMethod.DELETE, "/v1/user/:userId/settings", settingsEndpointsController::deleteUserSettings),
+            new Endpoint(HttpMethod.OPTIONS, "/v1/user/:userId/settings", settingsEndpointsController::optionsSettingsById),
+            new Endpoint(HttpMethod.GET, "/v1/user/:userId", userEndpointsController::getUserById),
+            new Endpoint(HttpMethod.DELETE, "/v1/user/:userId", userEndpointsController::deleteUserById),
+            new Endpoint(HttpMethod.POST, "/v1/user/:userId", userEndpointsController::postUserById),
+            new Endpoint(HttpMethod.PATCH, "/v1/user/:userId", userEndpointsController::patchUser),
+            new Endpoint(HttpMethod.OPTIONS, "/v1/user/:userId", userEndpointsController::optionsUserById)
+        };
     }
 }

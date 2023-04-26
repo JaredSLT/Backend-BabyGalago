@@ -1,20 +1,24 @@
 package tech.tresearchgroup.babygalago.view.pages;
 
-import lombok.AllArgsConstructor;
-import org.jetbrains.annotations.NotNull;
-import tech.tresearchgroup.babygalago.controller.SettingsController;
 import tech.tresearchgroup.babygalago.view.components.HeadComponent;
+import tech.tresearchgroup.palila.view.RenderablePage;
+
+import java.util.LinkedList;
+import java.util.List;
 
 import static j2html.TagCreator.*;
 
-@AllArgsConstructor
-public class MaintenancePage {
-    private final SettingsController settingsController;
-
-    public byte @NotNull [] render() {
+public class MaintenancePage implements RenderablePage {
+    /**
+     * Renders the page
+     *
+     * @param serverName the name of the server
+     * @return the page as a string
+     */
+    public String render(String serverName) {
         return document(
             html(
-                HeadComponent.render(settingsController.getServerName()),
+                HeadComponent.render(serverName),
                 body(
                     div(
                         div(
@@ -30,6 +34,18 @@ public class MaintenancePage {
                     ).withClass("body")
                 )
             )
-        ).getBytes();
+        );
+    }
+
+    /**
+     * Renders out the page with dummy data
+     *
+     * @return the page as a string
+     */
+    @Override
+    public List<String> render() {
+        List<String> pages = new LinkedList<>();
+        //pages.add(render("Baby galago server"));
+        return pages;
     }
 }

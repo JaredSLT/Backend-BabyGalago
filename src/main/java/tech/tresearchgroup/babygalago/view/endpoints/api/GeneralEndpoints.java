@@ -1,143 +1,51 @@
 package tech.tresearchgroup.babygalago.view.endpoints.api;
 
-import io.activej.http.*;
+import io.activej.http.HttpMethod;
+import io.activej.http.RoutingServlet;
 import io.activej.inject.annotation.Provides;
-import io.activej.promise.Promisable;
-import lombok.AllArgsConstructor;
-import org.jetbrains.annotations.NotNull;
-import tech.tresearchgroup.babygalago.controller.SettingsController;
+import io.activej.inject.module.AbstractModule;
+import tech.tresearchgroup.babygalago.controller.endpoints.SearchEndpointsController;
 import tech.tresearchgroup.babygalago.controller.endpoints.api.GeneralEndpointsController;
-import tech.tresearchgroup.palila.controller.HttpResponses;
+import tech.tresearchgroup.palila.controller.EndpointsRouter;
+import tech.tresearchgroup.palila.controller.RoutingServletBuilder;
+import tech.tresearchgroup.palila.model.endpoints.Endpoint;
 
-@AllArgsConstructor
-public class GeneralEndpoints extends HttpResponses {
-    private final GeneralEndpointsController generalEndpointsController;
-    private final SettingsController settingsController;
+public class GeneralEndpoints extends AbstractModule implements EndpointsRouter {
+    private GeneralEndpointsController generalEndpointsController;
+    private SearchEndpointsController searchEndpointsController;
 
+    public GeneralEndpoints() {
+    }
+
+    public GeneralEndpoints(GeneralEndpointsController generalEndpointsController,
+                            SearchEndpointsController searchEndpointsController) {
+        this.generalEndpointsController = generalEndpointsController;
+        this.searchEndpointsController = searchEndpointsController;
+    }
+
+    /**
+     * Creates the endpoints and maps them to their respective methods
+     *
+     * @return the routing servlet
+     */
     @Provides
     public RoutingServlet servlet() {
-        return RoutingServlet.create()
-            .map(HttpMethod.GET, "/v1/version", this::getVersion)
-            .map(HttpMethod.OPTIONS, "/v1/version", this::optionsVersion)
-            .map(HttpMethod.GET, "/v1/version/latest", this::getLatest)
-            .map(HttpMethod.OPTIONS, "/v1/version/latest", this::optionsVersionLatest)
-            .map(HttpMethod.PUT, "/v1/update", this::putUpdate)
-            .map(HttpMethod.OPTIONS, "/v1/update", this::optionsUpdate)
-            .map(HttpMethod.POST, "/v1/upload", this::postUpload)
-            .map(HttpMethod.OPTIONS, "/v1/upload", this::optionsUpload)
-            .map(HttpMethod.GET, "/v1/search", this::getSearch)
-            .map(HttpMethod.OPTIONS, "/v1/search", this::optionsSearch);
+        return RoutingServletBuilder.build(getEndpoints());
     }
 
-    private @NotNull Promisable<HttpResponse> getVersion(@NotNull HttpRequest httpRequest) {
-        try {
-            return generalEndpointsController.getVersion(httpRequest);
-        } catch (Exception e) {
-            if (settingsController.isDebug()) {
-                e.printStackTrace();
-            }
-            return error();
-        }
-    }
-
-    private @NotNull Promisable<HttpResponse> optionsVersion(@NotNull HttpRequest httpRequest) {
-        try {
-            return HttpResponse.ok200().withHeader(HttpHeaders.ALLOW, HttpHeaderValue.of("GET"));
-        } catch (Exception e) {
-            if (settingsController.isDebug()) {
-                e.printStackTrace();
-            }
-            return error();
-        }
-    }
-
-    private @NotNull Promisable<HttpResponse> getLatest(@NotNull HttpRequest httpRequest) {
-        try {
-            return generalEndpointsController.getLatest(httpRequest);
-        } catch (Exception e) {
-            if (settingsController.isDebug()) {
-                e.printStackTrace();
-            }
-            return error();
-        }
-    }
-
-    private @NotNull Promisable<HttpResponse> optionsVersionLatest(@NotNull HttpRequest httpRequest) {
-        try {
-            return HttpResponse.ok200().withHeader(HttpHeaders.ALLOW, HttpHeaderValue.of("GET"));
-        } catch (Exception e) {
-            if (settingsController.isDebug()) {
-                e.printStackTrace();
-            }
-            return error();
-        }
-    }
-
-    private Promisable<HttpResponse> putUpdate(@NotNull HttpRequest httpRequest) {
-        try {
-            return generalEndpointsController.putUpdate(httpRequest);
-        } catch (Exception e) {
-            if (settingsController.isDebug()) {
-                e.printStackTrace();
-            }
-            return error();
-        }
-    }
-
-    private Promisable<HttpResponse> optionsUpdate(@NotNull HttpRequest httpRequest) {
-        try {
-            return HttpResponse.ok200().withHeader(HttpHeaders.ALLOW, HttpHeaderValue.of("PUT"));
-        } catch (Exception e) {
-            if (settingsController.isDebug()) {
-                e.printStackTrace();
-            }
-            return error();
-        }
-    }
-
-    private @NotNull Promisable<HttpResponse> postUpload(@NotNull HttpRequest httpRequest) {
-        try {
-            return generalEndpointsController.postUpload(httpRequest);
-        } catch (Exception e) {
-            if (settingsController.isDebug()) {
-                e.printStackTrace();
-            }
-            return error();
-        }
-    }
-
-    private @NotNull Promisable<HttpResponse> optionsUpload(@NotNull HttpRequest httpRequest) {
-        try {
-            return HttpResponse.ok200().withHeader(HttpHeaders.ALLOW, HttpHeaderValue.of("POST"));
-        } catch (Exception e) {
-            if (settingsController.isDebug()) {
-                e.printStackTrace();
-            }
-            return error();
-        }
-    }
-
-    private @NotNull Promisable<HttpResponse> getSearch(@NotNull HttpRequest httpRequest) {
-        try {
-            String query = httpRequest.getQueryParameter("query");
-            String mediaType = httpRequest.getQueryParameter("type");
-            return generalEndpointsController.getSearch(mediaType, query, httpRequest);
-        } catch (Exception e) {
-            if (settingsController.isDebug()) {
-                e.printStackTrace();
-            }
-            return error();
-        }
-    }
-
-    private @NotNull Promisable<HttpResponse> optionsSearch(@NotNull HttpRequest httpRequest) {
-        try {
-            return HttpResponse.ok200().withHeader(HttpHeaders.ALLOW, HttpHeaderValue.of("GET"));
-        } catch (Exception e) {
-            if (settingsController.isDebug()) {
-                e.printStackTrace();
-            }
-            return error();
-        }
+    @Override
+    public Endpoint[] getEndpoints() {
+        return new Endpoint[]{
+            new Endpoint(HttpMethod.GET, "/v1/version", generalEndpointsController::getVersion),
+            new Endpoint(HttpMethod.OPTIONS, "/v1/version", generalEndpointsController::optionsVersion),
+            new Endpoint(HttpMethod.GET, "/v1/version/latest", generalEndpointsController::getLatest),
+            new Endpoint(HttpMethod.OPTIONS, "/v1/version/latest", generalEndpointsController::optionsVersionLatest),
+            new Endpoint(HttpMethod.PUT, "/v1/update", generalEndpointsController::putUpdate),
+            new Endpoint(HttpMethod.OPTIONS, "/v1/update", generalEndpointsController::optionsUpdate),
+            new Endpoint(HttpMethod.POST, "/v1/upload", generalEndpointsController::postUpload),
+            new Endpoint(HttpMethod.OPTIONS, "/v1/upload", generalEndpointsController::optionsUpload),
+            new Endpoint(HttpMethod.GET, "/v1/search", searchEndpointsController::searchAPIResponse),
+            new Endpoint(HttpMethod.OPTIONS, "/v1/search", generalEndpointsController::optionsSearch)
+        };
     }
 }

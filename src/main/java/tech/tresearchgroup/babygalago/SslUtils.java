@@ -11,13 +11,36 @@ import java.security.SecureRandom;
 
 @SuppressWarnings("SameParameterValue")
 public class SslUtils {
+    /**
+     * Where the keystore file is located
+     */
     private static final String KEYSTORE_PATH = "./src/test/resources/keystore.jks";
+    /**
+     * The password for the keystore file
+     */
     private static final String KEYSTORE_PASS = null;
+    /**
+     * The password for the key in the keystore
+     */
     private static final String KEY_PASS = null;
 
+    /**
+     * Where the truststore is located
+     */
     private static final String TRUSTSTORE_PATH = "./src/test/resources/truststore.jks";
+    /**
+     * The password for the truststore
+     */
     private static final String TRUSTSTORE_PASS = null;
 
+    /**
+     * Creates the trust managers
+     *
+     * @param path the location of the truststore
+     * @param pass the password of the truststore
+     * @return the trust managers
+     * @throws Exception should something crash
+     */
     static TrustManager[] createTrustManagers(File path, String pass) throws Exception {
         KeyStore trustStore = KeyStore.getInstance("JKS");
 
@@ -29,6 +52,15 @@ public class SslUtils {
         return trustFactory.getTrustManagers();
     }
 
+    /**
+     * Creates the key managers
+     *
+     * @param path      the path
+     * @param storePass the password for the keystore
+     * @param keyPass   the password for the key in the keystore
+     * @return the key managers
+     * @throws Exception if something should crash
+     */
     static KeyManager[] createKeyManagers(File path, String storePass, String keyPass) throws Exception {
         KeyStore store = KeyStore.getInstance("JKS");
         try (InputStream is = new FileInputStream(path)) {
@@ -39,6 +71,17 @@ public class SslUtils {
         return kmf.getKeyManagers();
     }
 
+    /**
+     * Creates the SSL context
+     *
+     * @param algorithm     the algorithm to use for the context
+     * @param keyManagers   the key managers
+     * @param trustManagers the trust managers
+     * @param secureRandom  a secure random
+     * @return the context
+     * @throws NoSuchAlgorithmException if the specified algorithm doesn't exist
+     * @throws KeyManagementException   if the key manager crashes
+     */
     static SSLContext createSslContext(String algorithm, KeyManager[] keyManagers, TrustManager[] trustManagers,
                                        SecureRandom secureRandom) throws NoSuchAlgorithmException, KeyManagementException {
         SSLContext instance = SSLContext.getInstance(algorithm);
@@ -46,6 +89,11 @@ public class SslUtils {
         return instance;
     }
 
+    /**
+     * Creates the SSL context
+     *
+     * @return the ssl context
+     */
     public static SSLContext createTestSslContext() {
         try {
             SSLContext instance = SSLContext.getInstance("TLSv1.2");

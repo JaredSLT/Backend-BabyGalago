@@ -13,18 +13,28 @@ import tech.tresearchgroup.babygalago.controller.TaskController;
 import tech.tresearchgroup.babygalago.controller.controllers.*;
 import tech.tresearchgroup.babygalago.controller.endpoints.AssetEndpointController;
 import tech.tresearchgroup.babygalago.controller.endpoints.LoginEndpointsController;
+import tech.tresearchgroup.babygalago.controller.endpoints.SearchEndpointsController;
 import tech.tresearchgroup.babygalago.controller.endpoints.api.*;
 import tech.tresearchgroup.babygalago.controller.endpoints.ui.CRUDEndpointsController;
 import tech.tresearchgroup.babygalago.controller.endpoints.ui.MainEndpointsController;
 import tech.tresearchgroup.babygalago.controller.endpoints.ui.PlayEndpointsController;
 import tech.tresearchgroup.babygalago.view.pages.*;
+import tech.tresearchgroup.dao.model.LockType;
 import tech.tresearchgroup.palila.controller.GenericController;
 import tech.tresearchgroup.palila.model.entities.*;
+import tech.tresearchgroup.palila.model.enums.PermissionGroupEnum;
+import tech.tresearchgroup.palila.model.enums.PlaybackQualityEnum;
 import tech.tresearchgroup.schemas.galago.entities.*;
+import tech.tresearchgroup.schemas.galago.enums.*;
 
+import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
 
+/**
+ * This class is used for dependency injection. It sets up controllers to be used elsewhere
+ */
 public class ControllerModule extends AbstractModule {
     @Provides
     TaskController scheduleController() throws SchedulerException {
@@ -38,16 +48,18 @@ public class ControllerModule extends AbstractModule {
 
     @Provides
     CRUDEndpointsController endpointsController(Map<String, GenericController> controllers,
-                                                UserEntityController userEntityController,
+                                                ExtendedUserEntityController extendedUserEntityController,
                                                 SettingsController settingsController,
-                                                NotificationEntityController notificationEntityController,
-                                                ViewPage viewPage) {
+                                                ViewPage viewPage,
+                                                EntityPage entityPage,
+                                                NotificationEntityController notificationEntityController) {
         return new CRUDEndpointsController(
             controllers,
-            userEntityController,
+            extendedUserEntityController,
             settingsController,
-            notificationEntityController,
-            viewPage
+            viewPage,
+            entityPage,
+            notificationEntityController
         );
     }
 
@@ -60,8 +72,9 @@ public class ControllerModule extends AbstractModule {
                                                     NotificationEntityController notificationEntityController,
                                                     NewsArticleEntityController newsArticleEntityController,
                                                     QueueEntityController queueEntityController,
-                                                    UserEntityController userEntityController,
+                                                    ExtendedUserEntityController extendedUserEntityController,
                                                     SettingsController settingsController,
+                                                    LoginEndpointsController loginEndpointsController,
                                                     AboutPage aboutPage,
                                                     IndexPage indexPage,
                                                     LoginPage loginPage,
@@ -76,7 +89,11 @@ public class ControllerModule extends AbstractModule {
                                                     SettingsPage settingsPage,
                                                     UploadPage uploadPage,
                                                     DeniedPage deniedPage,
-                                                    DisabledPage disabledPage) {
+                                                    DisabledPage disabledPage,
+                                                    ErrorPage errorPage,
+                                                    NotFoundPage notFoundPage,
+                                                    UnderConstructionPage underConstructionPage,
+                                                    Map<String, GenericController> controllers) {
         return new MainEndpointsController(
             movieEntityController,
             tvShowEntityController,
@@ -86,8 +103,9 @@ public class ControllerModule extends AbstractModule {
             notificationEntityController,
             newsArticleEntityController,
             queueEntityController,
-            userEntityController,
+            extendedUserEntityController,
             settingsController,
+            loginEndpointsController,
             aboutPage,
             indexPage,
             loginPage,
@@ -98,68 +116,83 @@ public class ControllerModule extends AbstractModule {
             notificationsPage,
             profilePage,
             queuePage,
-            searchPage,
             settingsPage,
             uploadPage,
             deniedPage,
-            disabledPage);
-    }
-
-    @Provides
-    PlayEndpointsController playEndpointsController(Map<String, GenericController> controllers,
-                                                    UserEntityController userEntityController,
-                                                    SettingsController settingsController,
-                                                    VideoFileEntityController videoFileEntityController,
-                                                    UserSettingsEntityController userSettingsEntityController,
-                                                    PlayPage playPage) {
-        return new PlayEndpointsController(
-            controllers,
-            userEntityController,
-            settingsController,
-            videoFileEntityController,
-            userSettingsEntityController,
-            playPage
+            disabledPage,
+            errorPage,
+            notFoundPage,
+            underConstructionPage,
+            controllers
         );
     }
 
     @Provides
-    UserEntityController userController(HikariDataSource hikariDataSource,
-                                        Gson gson,
-                                        Client client) throws Exception {
-        return new UserEntityController(
+    PlayEndpointsController playEndpointsController(Map<String, GenericController> controllers,
+                                                    ExtendedUserEntityController extendedUserEntityController,
+                                                    SettingsController settingsController,
+                                                    VideoFileEntityController videoFileEntityController,
+                                                    UserSettingsEntityController userSettingsEntityController,
+                                                    PlayPage playPage,
+                                                    NotificationEntityController notificationEntityController) {
+        return new PlayEndpointsController(
+            controllers,
+            extendedUserEntityController,
+            settingsController,
+            videoFileEntityController,
+            userSettingsEntityController,
+            playPage,
+            notificationEntityController
+        );
+    }
+
+    @Provides
+    ExtendedUserEntityController extendedUserEntityController(HikariDataSource hikariDataSource,
+                                                              Gson gson,
+                                                              Client client) throws Exception {
+        return new ExtendedUserEntityController(
             hikariDataSource,
             gson,
             client,
             SerializerBuilder.create().build(ExtendedUserEntity.class),
             20,
-            new ExtendedUserEntity()
+            new ExtendedUserEntity(
+                new Date(),
+                new Date(),
+                1L,
+                null,
+                PermissionGroupEnum.USER,
+                "username",
+                "user@email.com",
+                "password",
+                "yourapikey",
+                new UserSettingsEntity()
+            )
         );
     }
 
     @Provides
-    TaskEndpointsController taskEndpointsController(TaskController scheduleController,
-                                                    UserEntityController userEntityController) {
+    TaskEndpointsController taskEndpointsController(TaskController scheduleController) {
         return new TaskEndpointsController(
-            scheduleController,
-            userEntityController
+            scheduleController
         );
     }
 
     @Provides
-    SettingsEndpointsController settingsEndpointsController(UserEntityController userEntityController,
+    SettingsEndpointsController settingsEndpointsController(ExtendedUserEntityController extendedUserEntityController,
                                                             UserSettingsEntityController userSettingsEntityController) {
         return new SettingsEndpointsController(
-            userEntityController,
+            extendedUserEntityController,
             userSettingsEntityController
         );
     }
 
     @Provides
     QueueEndpointsController queueEndpointsController(QueueEntityController queueEntityController,
-                                                      UserEntityController userEntityController) {
+                                                      Gson gson) {
         return new QueueEndpointsController(
             queueEntityController,
-            userEntityController
+            gson
         );
     }
 
@@ -167,15 +200,45 @@ public class ControllerModule extends AbstractModule {
     MovieEntityController movieController(HikariDataSource hikariDataSource,
                                           Gson gson,
                                           Client client,
-                                          UserEntityController userEntityController) throws Exception {
+                                          ExtendedUserEntityController extendedUserEntityController) throws Exception {
         return new MovieEntityController(
             hikariDataSource,
             gson,
             client,
             SerializerBuilder.create().build(MovieEntity.class),
             20,
-            new MovieEntity(),
-            userEntityController
+            new MovieEntity(
+                new Date(),
+                new Date(),
+                1L,
+                LockType.BAN,
+                "The title",
+                new LinkedList<>(),
+                new ImageEntity(),
+                new LinkedList<>(),
+                new VideoFileEntity(),
+                new LinkedList<>(),
+                new LinkedList<>(),
+                "2022-10-31",
+                3600,
+                MPAARatingEnum.G,
+                3,
+                MovieGenreEnum.ADVENTURE,
+                new LinkedList<>(),
+                new LinkedList<>(),
+                new LinkedList<>(),
+                new LinkedList<>(),
+                "This is the story of billy joe and bobby sue",
+                "EN",
+                10000000L,
+                99999999999L,
+                999999999991L,
+                1L,
+                "16:9",
+                CountryEnum.CANADA,
+                1000L
+            ),
+            extendedUserEntityController
         );
     }
 
@@ -183,15 +246,23 @@ public class ControllerModule extends AbstractModule {
     SubtitleEntityController subtitleController(HikariDataSource hikariDataSource,
                                                 Gson gson,
                                                 Client client,
-                                                UserEntityController userEntityController) throws Exception {
+                                                ExtendedUserEntityController extendedUserEntityController) throws Exception {
         return new SubtitleEntityController(
             hikariDataSource,
             gson,
             client,
             SerializerBuilder.create().build(SubtitleEntity.class),
             20,
-            new SubtitleEntity(),
-            userEntityController
+            new SubtitleEntity(
+                new Date(),
+                new Date(),
+                1L,
+                null,
+                "EN",
+                "These are subtitles",
+                1L
+            ),
+            extendedUserEntityController
         );
     }
 
@@ -199,15 +270,23 @@ public class ControllerModule extends AbstractModule {
     GamePlatformReleaseEntityController gamePlatformReleaseController(HikariDataSource hikariDataSource,
                                                                       Gson gson,
                                                                       Client client,
-                                                                      UserEntityController userEntityController) throws Exception {
+                                                                      ExtendedUserEntityController extendedUserEntityController) throws Exception {
         return new GamePlatformReleaseEntityController(
             hikariDataSource,
             gson,
             client,
             SerializerBuilder.create().build(GamePlatformReleaseEntity.class),
             20,
-            new GamePlatformReleaseEntity(),
-            userEntityController
+            new GamePlatformReleaseEntity(
+                new Date(),
+                new Date(),
+                1L,
+                null,
+                GamePlatformEnum.PC,
+                "2022-10-31",
+                100L
+            ),
+            extendedUserEntityController
         );
     }
 
@@ -215,15 +294,26 @@ public class ControllerModule extends AbstractModule {
     SongEntityController songController(HikariDataSource hikariDataSource,
                                         Gson gson,
                                         Client client,
-                                        UserEntityController userEntityController) throws Exception {
+                                        ExtendedUserEntityController extendedUserEntityController) throws Exception {
         return new SongEntityController(
             hikariDataSource,
             gson,
             client,
             SerializerBuilder.create().build(SongEntity.class),
             20,
-            new SongEntity(),
-            userEntityController
+            new SongEntity(
+                new Date(),
+                new Date(),
+                2L,
+                null,
+                "The title of the song",
+                new LinkedList<>(),
+                new LinkedList<>(),
+                "2022-10-31",
+                new LinkedList<>(),
+                1L
+            ),
+            extendedUserEntityController
         );
     }
 
@@ -231,15 +321,25 @@ public class ControllerModule extends AbstractModule {
     RatingEntityController ratingController(HikariDataSource hikariDataSource,
                                             Gson gson,
                                             Client client,
-                                            UserEntityController userEntityController) throws Exception {
+                                            ExtendedUserEntityController extendedUserEntityController) throws Exception {
         return new RatingEntityController(
             hikariDataSource,
             gson,
             client,
             SerializerBuilder.create().build(RatingEntity.class),
             20,
-            new RatingEntity(),
-            userEntityController
+            new RatingEntity(
+                new Date(),
+                new Date(),
+                1L,
+                null,
+                1L,
+                MediaTypeEnum.MOVIE,
+                1L,
+                3,
+                100L
+            ),
+            extendedUserEntityController
         );
     }
 
@@ -247,15 +347,28 @@ public class ControllerModule extends AbstractModule {
     BookEntityController bookController(HikariDataSource hikariDataSource,
                                         Gson gson,
                                         Client client,
-                                        UserEntityController userEntityController) throws Exception {
+                                        ExtendedUserEntityController extendedUserEntityController) throws Exception {
         return new BookEntityController(
             hikariDataSource,
             gson,
             client,
             SerializerBuilder.create().build(BookEntity.class),
             20,
-            new BookEntity(),
-            userEntityController
+            new BookEntity(
+                new Date(),
+                new Date(),
+                1L,
+                null,
+                new ImageEntity(),
+                new LinkedList<>(),
+                "Book title",
+                "This is the description of the most awesome book in the world",
+                new LinkedList<>(),
+                100,
+                new LinkedList<>(),
+                1L
+            ),
+            extendedUserEntityController
         );
     }
 
@@ -263,15 +376,22 @@ public class ControllerModule extends AbstractModule {
     GameSeriesEntityController gameSeriesController(HikariDataSource hikariDataSource,
                                                     Gson gson,
                                                     Client client,
-                                                    UserEntityController userEntityController) throws Exception {
+                                                    ExtendedUserEntityController extendedUserEntityController) throws Exception {
         return new GameSeriesEntityController(
             hikariDataSource,
             gson,
             client,
             SerializerBuilder.create().build(GameSeriesEntity.class),
             20,
-            new GameSeriesEntity(),
-            userEntityController
+            new GameSeriesEntity(
+                new Date(),
+                new Date(),
+                1L,
+                null,
+                "Game series",
+                1L
+            ),
+            extendedUserEntityController
         );
     }
 
@@ -279,15 +399,22 @@ public class ControllerModule extends AbstractModule {
     GameEngineEntityController gameEngineController(HikariDataSource hikariDataSource,
                                                     Gson gson,
                                                     Client client,
-                                                    UserEntityController userEntityController) throws Exception {
+                                                    ExtendedUserEntityController extendedUserEntityController) throws Exception {
         return new GameEngineEntityController(
             hikariDataSource,
             gson,
             client,
             SerializerBuilder.create().build(GameEngineEntity.class),
             20,
-            new GameEngineEntity(),
-            userEntityController
+            new GameEngineEntity(
+                new Date(),
+                new Date(),
+                1L,
+                null,
+                "Game engine name",
+                1L
+            ),
+            extendedUserEntityController
         );
     }
 
@@ -295,15 +422,27 @@ public class ControllerModule extends AbstractModule {
     AlbumEntityController albumController(HikariDataSource hikariDataSource,
                                           Gson gson,
                                           Client client,
-                                          UserEntityController userEntityController) throws Exception {
+                                          ExtendedUserEntityController extendedUserEntityController) throws Exception {
         return new AlbumEntityController(
             hikariDataSource,
             gson,
             client,
             SerializerBuilder.create().build(AlbumEntity.class),
             20,
-            new AlbumEntity(),
-            userEntityController
+            new AlbumEntity(
+                new Date(),
+                new Date(),
+                1L,
+                null,
+                "Album",
+                new ImageEntity(),
+                new LinkedList<>(),
+                "2022-10-31",
+                new LinkedList<>(),
+                new LinkedList<>(),
+                1L
+            ),
+            extendedUserEntityController
         );
     }
 
@@ -311,15 +450,36 @@ public class ControllerModule extends AbstractModule {
     TvShowEntityController tvShowController(HikariDataSource hikariDataSource,
                                             Gson gson,
                                             Client client,
-                                            UserEntityController userEntityController) throws Exception {
+                                            ExtendedUserEntityController extendedUserEntityController) throws Exception {
         return new TvShowEntityController(
             hikariDataSource,
             gson,
             client,
             SerializerBuilder.create().build(TvShowEntity.class),
             20,
-            new TvShowEntity(),
-            userEntityController
+            new TvShowEntity(
+                new Date(),
+                new Date(),
+                1L,
+                null,
+                "Tv Show title",
+                "It's a show about nothing.",
+                new LinkedList<>(),
+                ShowStatusEnum.FINISHED,
+                "2022-10-31",
+                "Thursday 9:00PM EST",
+                3600,
+                new LinkedList<>(),
+                new LinkedList<>(),
+                "EN",
+                new LinkedList<>(),
+                new VideoFileEntity(),
+                new LinkedList<>(),
+                new ImageEntity(),
+                new LinkedList<>(),
+                1L
+            ),
+            extendedUserEntityController
         );
     }
 
@@ -327,15 +487,29 @@ public class ControllerModule extends AbstractModule {
     PersonEntityController personController(HikariDataSource hikariDataSource,
                                             Gson gson,
                                             Client client,
-                                            UserEntityController userEntityController) throws Exception {
+                                            ExtendedUserEntityController extendedUserEntityController) throws Exception {
         return new PersonEntityController(
             hikariDataSource,
             gson,
             client,
             SerializerBuilder.create().build(PersonEntity.class),
             20,
-            new PersonEntity(),
-            userEntityController
+            new PersonEntity(
+                new Date(),
+                new Date(),
+                1L,
+                null,
+                new ImageEntity(),
+                "Person entity",
+                "first",
+                "middle(s)",
+                "last",
+                "2022-10-31",
+                new LocationEntity(),
+                "betty lou",
+                1L
+            ),
+            extendedUserEntityController
         );
     }
 
@@ -343,15 +517,24 @@ public class ControllerModule extends AbstractModule {
     SeasonEntityController seasonController(HikariDataSource hikariDataSource,
                                             Gson gson,
                                             Client client,
-                                            UserEntityController userEntityController) throws Exception {
+                                            ExtendedUserEntityController extendedUserEntityController) throws Exception {
         return new SeasonEntityController(
             hikariDataSource,
             gson,
             client,
             SerializerBuilder.create().build(SeasonEntity.class),
             20,
-            new SeasonEntity(),
-            userEntityController
+            new SeasonEntity(
+                new Date(),
+                new Date(),
+                1L,
+                null,
+                "Season 1",
+                new ImageEntity(),
+                100,
+                1L
+            ),
+            extendedUserEntityController
         );
     }
 
@@ -359,15 +542,42 @@ public class ControllerModule extends AbstractModule {
     GameEntityController gameController(HikariDataSource hikariDataSource,
                                         Gson gson,
                                         Client client,
-                                        UserEntityController userEntityController) throws Exception {
+                                        ExtendedUserEntityController extendedUserEntityController) throws Exception {
         return new GameEntityController(
             hikariDataSource,
             gson,
             client,
             SerializerBuilder.create().build(GameEntity.class),
             20,
-            new GameEntity(),
-            userEntityController
+            new GameEntity(
+                new Date(),
+                new Date(),
+                1L,
+                null,
+                "Awesome game",
+                "Wicked description",
+                new LinkedList<>(),
+                new ImageEntity(),
+                new LinkedList<>(),
+                new VideoFileEntity(),
+                new LinkedList<>(),
+                new LinkedList<>(),
+                ESRBRatingEnum.EVERYONE,
+                new LinkedList<>(),
+                new LinkedList<>(),
+                new LinkedList<>(),
+                new LinkedList<>(),
+                new LinkedList<>(),
+                new GameSeriesEntity(),
+                new GameEngineEntity(),
+                new LinkedList<>(),
+                1,
+                true,
+                true,
+                28800,
+                1L
+            ),
+            extendedUserEntityController
         );
     }
 
@@ -375,15 +585,26 @@ public class ControllerModule extends AbstractModule {
     ArtistEntityController artistController(HikariDataSource hikariDataSource,
                                             Gson gson,
                                             Client client,
-                                            UserEntityController userEntityController) throws Exception {
+                                            ExtendedUserEntityController extendedUserEntityController) throws Exception {
         return new ArtistEntityController(
             hikariDataSource,
             gson,
             client,
             SerializerBuilder.create().build(ArtistEntity.class),
             20,
-            new ArtistEntity(),
-            userEntityController
+            new ArtistEntity(
+                new Date(),
+                new Date(),
+                1L,
+                null,
+                "The Bee Gees",
+                new ImageEntity(),
+                new LinkedList<>(),
+                new LinkedList<>(),
+                new LinkedList<>(),
+                1L
+            ),
+            extendedUserEntityController
         );
     }
 
@@ -391,15 +612,24 @@ public class ControllerModule extends AbstractModule {
     ImageEntityController imageController(HikariDataSource hikariDataSource,
                                           Gson gson,
                                           Client client,
-                                          UserEntityController userEntityController) throws Exception {
+                                          ExtendedUserEntityController extendedUserEntityController) throws Exception {
         return new ImageEntityController(
             hikariDataSource,
             gson,
             client,
             SerializerBuilder.create().build(ImageEntity.class),
             20,
-            new ImageEntity(),
-            userEntityController
+            new ImageEntity(
+                new Date(),
+                new Date(),
+                1L,
+                null,
+                "A movie poster",
+                new ImageFileEntity(),
+                "This is a poster that would have been posted at movie theaters",
+                1L
+            ),
+            extendedUserEntityController
         );
     }
 
@@ -407,15 +637,25 @@ public class ControllerModule extends AbstractModule {
     NotificationEntityController notificationController(HikariDataSource hikariDataSource,
                                                         Gson gson,
                                                         Client client,
-                                                        UserEntityController userEntityController) throws Exception {
+                                                        ExtendedUserEntityController extendedUserEntityController) throws Exception {
         return new NotificationEntityController(
             hikariDataSource,
             gson,
             client,
             SerializerBuilder.create().build(NotificationEntity.class),
             20,
-            new NotificationEntity(),
-            userEntityController
+            new NotificationEntity(
+                new Date(),
+                new Date(),
+                1L,
+                null,
+                1L,
+                NotificationErrorTypeEnum.ERROR,
+                true,
+                "File not found",
+                "Someone is trying to play: The Princess Bride (1987) but the file is no longer on disk!"
+            ),
+            extendedUserEntityController
         );
     }
 
@@ -423,15 +663,23 @@ public class ControllerModule extends AbstractModule {
     LyricsEntityController lyricsController(HikariDataSource hikariDataSource,
                                             Gson gson,
                                             Client client,
-                                            UserEntityController userEntityController) throws Exception {
+                                            ExtendedUserEntityController extendedUserEntityController) throws Exception {
         return new LyricsEntityController(
             hikariDataSource,
             gson,
             client,
             SerializerBuilder.create().build(LyricsEntity.class),
             20,
-            new LyricsEntity(),
-            userEntityController
+            new LyricsEntity(
+                new Date(),
+                new Date(),
+                1L,
+                null,
+                "Tragedy, when you lose control and you got no soul.",
+                1L,
+                LanguagesEnum.ENGLISH
+            ),
+            extendedUserEntityController
         );
     }
 
@@ -439,23 +687,33 @@ public class ControllerModule extends AbstractModule {
     CompanyEntityController companyController(HikariDataSource hikariDataSource,
                                               Gson gson,
                                               Client client,
-                                              UserEntityController userEntityController) throws Exception {
+                                              ExtendedUserEntityController extendedUserEntityController) throws Exception {
         return new CompanyEntityController(
             hikariDataSource,
             gson,
             client,
             SerializerBuilder.create().build(CompanyEntity.class),
             20,
-            new CompanyEntity(),
-            userEntityController
+            new CompanyEntity(
+                new Date(),
+                new Date(),
+                1L,
+                null,
+                new ImageEntity(),
+                "TRG",
+                1L
+            ),
+            extendedUserEntityController
         );
     }
 
     @Provides
-    LoginEndpointsController loginEndpointsController(UserEntityController userEntityController,
+    LoginEndpointsController loginEndpointsController(ExtendedUserEntityController extendedUserEntityController,
+                                                      SettingsController settingsController,
                                                       Gson gson) {
         return new LoginEndpointsController(
-            userEntityController,
+            extendedUserEntityController,
+            settingsController,
             gson
         );
     }
@@ -464,15 +722,24 @@ public class ControllerModule extends AbstractModule {
     NewsArticleEntityController newsArticleController(HikariDataSource hikariDataSource,
                                                       Gson gson,
                                                       Client client,
-                                                      UserEntityController userEntityController) throws Exception {
+                                                      ExtendedUserEntityController extendedUserEntityController) throws Exception {
         return new NewsArticleEntityController(
             hikariDataSource,
             gson,
             client,
             SerializerBuilder.create().build(NewsArticleEntity.class),
             20,
-            new NewsArticleEntity(),
-            userEntityController
+            new NewsArticleEntity(
+                new Date(),
+                new Date(),
+                1L,
+                null,
+                true,
+                "New release",
+                "Update X.X.X was released. It includes the following...",
+                "Update X.X.X was released. It includes performance the following updates, feature additions and bug fixes:"
+            ),
+            extendedUserEntityController
         );
     }
 
@@ -480,15 +747,24 @@ public class ControllerModule extends AbstractModule {
     LocationEntityController locationController(HikariDataSource hikariDataSource,
                                                 Gson gson,
                                                 Client client,
-                                                UserEntityController userEntityController) throws Exception {
+                                                ExtendedUserEntityController extendedUserEntityController) throws Exception {
         return new LocationEntityController(
             hikariDataSource,
             gson,
             client,
             SerializerBuilder.create().build(LocationEntity.class),
             20,
-            new LocationEntity(),
-            userEntityController
+            new LocationEntity(
+                new Date(),
+                new Date(),
+                1L,
+                null,
+                "Stratford",
+                43.372122,
+                -80.985744,
+                1L
+            ),
+            extendedUserEntityController
         );
     }
 
@@ -496,30 +772,39 @@ public class ControllerModule extends AbstractModule {
     CharacterEntityController characterController(HikariDataSource hikariDataSource,
                                                   Gson gson,
                                                   Client client,
-                                                  UserEntityController userEntityController) throws Exception {
+                                                  ExtendedUserEntityController extendedUserEntityController) throws Exception {
         return new CharacterEntityController(
             hikariDataSource,
             gson,
             client,
             SerializerBuilder.create().build(CharacterEntity.class),
             20,
-            new CharacterEntity(),
-            userEntityController
+            new CharacterEntity(
+                new Date(),
+                new Date(),
+                1L,
+                null,
+                "Mr",
+                "Ronald",
+                "Ulysses",
+                "Swanson",
+                "1967-05-20",
+                "Ron",
+                new PersonEntity(),
+                1L
+            ),
+            extendedUserEntityController
         );
     }
 
     @Provides
     GeneralEndpointsController generalEndpointsController(ImageEntityController imageEntityController,
                                                           FileEntityController fileEntityController,
-                                                          UserEntityController userEntityController,
-                                                          SettingsController settingsController,
-                                                          Map<String, GenericController> controllers,
-                                                          Gson gson) {
+                                                          ExtendedUserEntityController extendedUserEntityController,
+                                                          SettingsController settingsController) {
         return new GeneralEndpointsController(
-            userEntityController,
-            settingsController,
-            controllers,
-            gson
+            extendedUserEntityController,
+            settingsController
         );
     }
 
@@ -528,7 +813,7 @@ public class ControllerModule extends AbstractModule {
                                           Gson gson,
                                           Client client,
                                           SettingsController settingsController,
-                                          UserEntityController userEntityController) throws Exception {
+                                          ExtendedUserEntityController extendedUserEntityController) throws Exception {
         return new QueueEntityController(
             hikariDataSource,
             gson,
@@ -536,7 +821,7 @@ public class ControllerModule extends AbstractModule {
             SerializerBuilder.create().build(QueueEntity.class),
             20,
             settingsController,
-            userEntityController
+            extendedUserEntityController
         );
     }
 
@@ -544,15 +829,29 @@ public class ControllerModule extends AbstractModule {
     EpisodeEntityController episodeController(HikariDataSource hikariDataSource,
                                               Gson gson,
                                               Client client,
-                                              UserEntityController userEntityController) throws Exception {
+                                              ExtendedUserEntityController extendedUserEntityController) throws Exception {
         return new EpisodeEntityController(
             hikariDataSource,
             gson,
             client,
             SerializerBuilder.create().build(EpisodeEntity.class),
             20,
-            new EpisodeEntity(),
-            userEntityController
+            new EpisodeEntity(
+                new Date(),
+                new Date(),
+                1L,
+                null,
+                "That episode where",
+                "Things happened",
+                new ImageEntity(),
+                "2022-10-31",
+                3600L,
+                new LinkedList<>(),
+                "EN",
+                new LinkedList<>(),
+                new LinkedList<>()
+            ),
+            extendedUserEntityController
         );
     }
 
@@ -560,15 +859,22 @@ public class ControllerModule extends AbstractModule {
     FileEntityController fileController(HikariDataSource hikariDataSource,
                                         Gson gson,
                                         Client client,
-                                        UserEntityController userEntityController) throws Exception {
+                                        ExtendedUserEntityController extendedUserEntityController) throws Exception {
         return new FileEntityController(
             hikariDataSource,
             gson,
             client,
             SerializerBuilder.create().build(FileEntity.class),
             20,
-            new FileEntity(),
-            userEntityController
+            new FileEntity(
+                new Date(),
+                new Date(),
+                1L,
+                null,
+                1L,
+                "/home/c3hYVj8lTv0/yt"
+            ),
+            extendedUserEntityController
         );
     }
 
@@ -576,15 +882,22 @@ public class ControllerModule extends AbstractModule {
     AudioFileEntityController audioFileEntityController(HikariDataSource hikariDataSource,
                                                         Gson gson,
                                                         Client client,
-                                                        UserEntityController userEntityController) throws Exception {
+                                                        ExtendedUserEntityController extendedUserEntityController) throws Exception {
         return new AudioFileEntityController(
             hikariDataSource,
             gson,
             client,
             SerializerBuilder.create().build(AudioFileEntity.class),
             20,
-            new AudioFileEntity(),
-            userEntityController
+            new AudioFileEntity(
+                new Date(),
+                new Date(),
+                1L,
+                null,
+                1L,
+                "/home/hD8LgbJVNGQ/yt"
+            ),
+            extendedUserEntityController
         );
     }
 
@@ -592,15 +905,22 @@ public class ControllerModule extends AbstractModule {
     BookFileEntityController bookFileEntityController(HikariDataSource hikariDataSource,
                                                       Gson gson,
                                                       Client client,
-                                                      UserEntityController userEntityController) throws Exception {
+                                                      ExtendedUserEntityController extendedUserEntityController) throws Exception {
         return new BookFileEntityController(
             hikariDataSource,
             gson,
             client,
             SerializerBuilder.create().build(BookFileEntity.class),
             20,
-            new BookFileEntity(),
-            userEntityController
+            new BookFileEntity(
+                new Date(),
+                new Date(),
+                1L,
+                null,
+                1L,
+                "/home/zIE-5hg7FoA/yt"
+            ),
+            extendedUserEntityController
         );
     }
 
@@ -608,15 +928,22 @@ public class ControllerModule extends AbstractModule {
     GameFileEntityController gameFileEntityController(HikariDataSource hikariDataSource,
                                                       Gson gson,
                                                       Client client,
-                                                      UserEntityController userEntityController) throws Exception {
+                                                      ExtendedUserEntityController extendedUserEntityController) throws Exception {
         return new GameFileEntityController(
             hikariDataSource,
             gson,
             client,
             SerializerBuilder.create().build(GameFileEntity.class),
             20,
-            new GameFileEntity(),
-            userEntityController
+            new GameFileEntity(
+                new Date(),
+                new Date(),
+                1L,
+                null,
+                1L,
+                "/home/rmpo0csiIMs/yt"
+            ),
+            extendedUserEntityController
         );
     }
 
@@ -624,15 +951,22 @@ public class ControllerModule extends AbstractModule {
     ImageFileEntityController imageFileEntityController(HikariDataSource hikariDataSource,
                                                         Gson gson,
                                                         Client client,
-                                                        UserEntityController userEntityController) throws Exception {
+                                                        ExtendedUserEntityController extendedUserEntityController) throws Exception {
         return new ImageFileEntityController(
             hikariDataSource,
             gson,
             client,
             SerializerBuilder.create().build(ImageFileEntity.class),
             20,
-            new ImageFileEntity(),
-            userEntityController
+            new ImageFileEntity(
+                new Date(),
+                new Date(),
+                1L,
+                null,
+                1L,
+                "/home/78emGJzXo7Q/yt"
+            ),
+            extendedUserEntityController
         );
     }
 
@@ -641,15 +975,23 @@ public class ControllerModule extends AbstractModule {
                                                         HikariDataSource hikariDataSource,
                                                         Gson gson,
                                                         Client client,
-                                                        UserEntityController userEntityController) throws Exception {
+                                                        ExtendedUserEntityController extendedUserEntityController) throws Exception {
         return new VideoFileEntityController(
             hikariDataSource,
             gson,
             client,
             SerializerBuilder.create().build(VideoFileEntity.class),
             20,
-            new VideoFileEntity(),
-            userEntityController
+            new VideoFileEntity(
+                new Date(),
+                new Date(),
+                1L,
+                null,
+                1L,
+                "/home/efmiutIr97c/yt",
+                PlaybackQualityEnum.ORIGINAL
+            ),
+            extendedUserEntityController
         );
     }
 
@@ -657,15 +999,52 @@ public class ControllerModule extends AbstractModule {
     UserSettingsEntityController userSettingsController(HikariDataSource hikariDataSource,
                                                         Gson gson,
                                                         Client client,
-                                                        UserEntityController userEntityController) throws Exception {
+                                                        ExtendedUserEntityController extendedUserEntityController,
+                                                        NotificationEntityController notificationEntityController,
+                                                        SettingsController settingsController,
+                                                        UserSettingsPage userSettingsPage) throws Exception {
         return new UserSettingsEntityController(
             hikariDataSource,
             gson,
             client,
             SerializerBuilder.create().build(UserSettingsEntity.class),
             20,
-            new UserSettingsEntity(),
-            userEntityController);
+            new UserSettingsEntity(
+                new Date(),
+                new Date(),
+                1L,
+                null,
+                InterfaceMethodEnum.MODAL,
+                PlaybackQualityEnum.ORIGINAL,
+                DisplayModeEnum.POSTER,
+                true,
+                true,
+                true,
+                true,
+                true,
+                true,
+                true,
+                true,
+                true,
+                true,
+                true,
+                true,
+                true,
+                true,
+                true,
+                true,
+                true,
+                true,
+                true,
+                20,
+                20,
+                240,
+                true
+            ),
+            extendedUserEntityController,
+            notificationEntityController,
+            settingsController,
+            userSettingsPage);
     }
 
     @Provides
@@ -698,7 +1077,8 @@ public class ControllerModule extends AbstractModule {
                                                SongEntityController songEntityController,
                                                SubtitleEntityController subtitleEntityController,
                                                TvShowEntityController tvShowEntityController,
-                                               UserSettingsEntityController userSettingsEntityController) {
+                                               UserSettingsEntityController userSettingsEntityController,
+                                               ExtendedUserEntityController extendedUserEntityController) {
         Map<String, GenericController> list = new HashMap<>();
         list.put(albumEntityController.getClass().getSimpleName().toLowerCase(), albumEntityController);
         list.put(artistEntityController.getClass().getSimpleName().toLowerCase(), artistEntityController);
@@ -735,17 +1115,19 @@ public class ControllerModule extends AbstractModule {
 
     @Provides
     MediaTypeEndpointsController mediaTypeEndpointsController(Map<String, GenericController> controllers,
-                                                              SettingsController settingsController) {
+                                                              SettingsController settingsController,
+                                                              ExtendedUserEntityController extendedUserEntityController) {
         return new MediaTypeEndpointsController(
             controllers,
-            settingsController
+            settingsController,
+            extendedUserEntityController
         );
     }
 
     @Provides
-    UserEndpointsController userEndpointsController(UserEntityController userEntityController,
+    UserEndpointsController userEndpointsController(ExtendedUserEntityController extendedUserEntityController,
                                                     SettingsController settingsController) {
-        return new UserEndpointsController(userEntityController, settingsController);
+        return new UserEndpointsController(extendedUserEntityController, settingsController);
     }
 
     @Provides
@@ -761,5 +1143,24 @@ public class ControllerModule extends AbstractModule {
     @Provides
     NotificationsEndpointsController notificationsEndpointsController(NotificationEntityController notificationEntityController) {
         return new NotificationsEndpointsController(notificationEntityController);
+    }
+
+    @Provides
+    SearchEndpointsController searchEndpointsController(ExtendedUserEntityController extendedUserEntityController,
+                                                        SettingsController settingsController,
+                                                        Map<String, GenericController> controllers,
+                                                        Gson gson,
+                                                        SearchPage searchPage,
+                                                        EmptySearchPage emptySearchPage,
+                                                        NotificationEntityController notificationEntityController) {
+        return new SearchEndpointsController(
+            extendedUserEntityController,
+            settingsController,
+            controllers,
+            gson,
+            searchPage,
+            emptySearchPage,
+            notificationEntityController
+        );
     }
 }

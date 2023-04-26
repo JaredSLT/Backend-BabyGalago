@@ -5,9 +5,13 @@ import com.meilisearch.sdk.Client;
 import com.zaxxer.hikari.HikariDataSource;
 import io.activej.serializer.BinarySerializer;
 import tech.tresearchgroup.palila.controller.GenericController;
+import tech.tresearchgroup.palila.model.Card;
 import tech.tresearchgroup.palila.model.enums.PermissionGroupEnum;
 import tech.tresearchgroup.schemas.galago.entities.CompanyEntity;
 
+/**
+ * Sets up the company entity controller. To understand this class better, have a look at the class it extends (GenericController)
+ */
 public class CompanyEntityController extends GenericController {
     public CompanyEntityController(HikariDataSource hikariDataSource,
                                    Gson gson,
@@ -15,7 +19,7 @@ public class CompanyEntityController extends GenericController {
                                    BinarySerializer<CompanyEntity> serializer,
                                    int reindexSize,
                                    Object sample,
-                                   UserEntityController userEntityController) throws Exception {
+                                   ExtendedUserEntityController extendedUserEntityController) throws Exception {
         super(
             hikariDataSource,
             gson,
@@ -30,7 +34,8 @@ public class CompanyEntityController extends GenericController {
             PermissionGroupEnum.USER,
             PermissionGroupEnum.USER,
             PermissionGroupEnum.USER,
-            userEntityController
+            extendedUserEntityController,
+            new Card()
         );
     }
 }

@@ -2,17 +2,17 @@ package tech.tresearchgroup.babygalago.view.components;
 
 import j2html.tags.DomContent;
 import org.jetbrains.annotations.NotNull;
-import tech.tresearchgroup.palila.controller.cache.StaticDomContentCAO;
 
 import static j2html.TagCreator.*;
 
 public class FilterByComponent {
+    /**
+     * Renders the filter by component
+     *
+     * @return the component
+     */
     public static @NotNull DomContent render() {
-        DomContent cached = StaticDomContentCAO.read("filterByComponent");
-        if (cached != null) {
-            return cached;
-        }
-        DomContent data = form(
+        return form(
             ul(
                 li(
                     label("Filter by:").withClass("subLabel"),
@@ -209,7 +209,5 @@ public class FilterByComponent {
                 )
             ).withClass("multidropdown")
         ).withId("filterByForm");
-        StaticDomContentCAO.create("filterByComponent", data);
-        return data;
     }
 }

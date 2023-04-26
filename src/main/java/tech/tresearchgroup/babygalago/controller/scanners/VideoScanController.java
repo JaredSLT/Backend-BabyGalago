@@ -1,5 +1,8 @@
 package tech.tresearchgroup.babygalago.controller.scanners;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import tech.tresearchgroup.palila.model.BaseSettings;
 import tech.tresearchgroup.schemas.fpcalc.FPCalcOutput;
 import tech.tresearchgroup.schemas.galago.enums.VideoContainerEnum;
 import tech.tresearchgroup.schemas.mediainfo.Media;
@@ -15,6 +18,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class VideoScanController {
+    private static final Logger logger = LoggerFactory.getLogger(VideoScanController.class);
+
     public static boolean isVideoFile(String fileExtension) {
         for (VideoContainerEnum container : VideoContainerEnum.values()) {
             if (container.name().equals(fileExtension.toUpperCase())) {
@@ -49,7 +54,9 @@ public class VideoScanController {
         List<List<String>> subtitles = new LinkedList<>();
         int subsCount = getSubtitleCount(mediaInfoOutput);
         for (int i = 0; i < subsCount; i++) {
-            System.out.println("Getting subtitle: " + i);
+            if(BaseSettings.debug) {
+                logger.info("Getting subtitle: " + i);
+            }
             Path subsPath = Path.of("subs-" + i + ".srt");
             if (Files.exists(subsPath)) {
                 Files.delete(subsPath);

@@ -1,91 +1,44 @@
 package tech.tresearchgroup.babygalago.view.endpoints.api;
 
-import io.activej.http.*;
+import io.activej.http.HttpMethod;
+import io.activej.http.RoutingServlet;
 import io.activej.inject.annotation.Provides;
-import io.activej.promise.Promisable;
-import lombok.AllArgsConstructor;
-import org.jetbrains.annotations.NotNull;
-import tech.tresearchgroup.babygalago.controller.SettingsController;
+import io.activej.inject.module.AbstractModule;
 import tech.tresearchgroup.babygalago.controller.endpoints.api.NotificationsEndpointsController;
-import tech.tresearchgroup.palila.controller.HttpResponses;
+import tech.tresearchgroup.palila.controller.EndpointsRouter;
+import tech.tresearchgroup.palila.controller.RoutingServletBuilder;
+import tech.tresearchgroup.palila.model.endpoints.Endpoint;
 
-@AllArgsConstructor
-public class NotificationsEndpoints extends HttpResponses {
-    private final NotificationsEndpointsController notificationsEndpointsController;
-    private final SettingsController settingsController;
+public class NotificationsEndpoints extends AbstractModule implements EndpointsRouter {
+    private NotificationsEndpointsController notificationsEndpointsController;
 
+    public NotificationsEndpoints() {
+    }
+
+    public NotificationsEndpoints(NotificationsEndpointsController notificationsEndpointsController) {
+        this.notificationsEndpointsController = notificationsEndpointsController;
+    }
+
+    /**
+     * Creates the endpoints and maps them to their respective methods
+     *
+     * @return the routing servlet
+     */
     @Provides
     public RoutingServlet servlet() {
-        return RoutingServlet.create()
-            .map(HttpMethod.PUT, "/v1/notifications", this::putNotification)
-            .map(HttpMethod.POST, "/v1/notifications", this::postNotification)
-            .map(HttpMethod.GET, "/v1/notifications", this::getNotifications)
-            .map(HttpMethod.OPTIONS, "/v1/notifications", this::optionsNotifications)
-            .map(HttpMethod.DELETE, "/v1/notifications/:notificationId", this::deleteNotificationById)
-            .map(HttpMethod.GET, "/v1/notifications/:notificationId", this::getNotificationById)
-            .map(HttpMethod.OPTIONS, "/v1/notifications/:notificationId", this::optionsNotificationsById);
+        return RoutingServletBuilder.build(getEndpoints());
     }
 
-    private @NotNull Promisable<HttpResponse> putNotification(@NotNull HttpRequest httpRequest) {
-        try {
-            return notificationsEndpointsController.putNotification(httpRequest);
-        } catch (Exception e) {
-            if (settingsController.isDebug()) {
-                e.printStackTrace();
-            }
-        }
-        return error();
-    }
-
-    private @NotNull Promisable<HttpResponse> postNotification(@NotNull HttpRequest httpRequest) {
-        try {
-            return notificationsEndpointsController.postNotification(httpRequest);
-        } catch (Exception e) {
-            if (settingsController.isDebug()) {
-                e.printStackTrace();
-            }
-        }
-        return error();
-    }
-
-    private @NotNull Promisable<HttpResponse> getNotifications(@NotNull HttpRequest httpRequest) {
-        try {
-            return notificationsEndpointsController.getNotifications(httpRequest);
-        } catch (Exception e) {
-            if (settingsController.isDebug()) {
-                e.printStackTrace();
-            }
-        }
-        return error();
-    }
-
-    private @NotNull Promisable<HttpResponse> optionsNotifications(@NotNull HttpRequest httpRequest) {
-        return HttpResponse.ok200().withHeader(HttpHeaders.ALLOW, HttpHeaderValue.of("PUT, POST, DELETE"));
-    }
-
-    private @NotNull Promisable<HttpResponse> deleteNotificationById(@NotNull HttpRequest httpRequest) {
-        try {
-            return notificationsEndpointsController.deleteNotificationById(httpRequest);
-        } catch (Exception e) {
-            if (settingsController.isDebug()) {
-                e.printStackTrace();
-            }
-        }
-        return error();
-    }
-
-    private @NotNull Promisable<HttpResponse> getNotificationById(@NotNull HttpRequest httpRequest) {
-        try {
-            return notificationsEndpointsController.getNotificationById(httpRequest);
-        } catch (Exception e) {
-            if (settingsController.isDebug()) {
-                e.printStackTrace();
-            }
-        }
-        return error();
-    }
-
-    private @NotNull Promisable<HttpResponse> optionsNotificationsById(@NotNull HttpRequest httpRequest) {
-        return HttpResponse.ok200().withHeader(HttpHeaders.ALLOW, HttpHeaderValue.of("DELETE, GET"));
+    @Override
+    public Endpoint[] getEndpoints() {
+        return new Endpoint[]{
+            new Endpoint(HttpMethod.PUT, "/v1/notifications", notificationsEndpointsController::putNotification),
+            new Endpoint(HttpMethod.POST, "/v1/notifications", notificationsEndpointsController::postNotification),
+            new Endpoint(HttpMethod.GET, "/v1/notifications", notificationsEndpointsController::getNotifications),
+            new Endpoint(HttpMethod.OPTIONS, "/v1/notifications", notificationsEndpointsController::optionsNotifications),
+            new Endpoint(HttpMethod.DELETE, "/v1/notifications/:notificationId", notificationsEndpointsController::deleteNotificationById),
+            new Endpoint(HttpMethod.GET, "/v1/notifications/:notificationId", notificationsEndpointsController::getNotificationById),
+            new Endpoint(HttpMethod.OPTIONS, "/v1/notifications/:notificationId", notificationsEndpointsController::optionsNotificationsById)
+        };
     }
 }

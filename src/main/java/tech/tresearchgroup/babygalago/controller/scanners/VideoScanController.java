@@ -54,7 +54,7 @@ public class VideoScanController {
         List<List<String>> subtitles = new LinkedList<>();
         int subsCount = getSubtitleCount(mediaInfoOutput);
         for (int i = 0; i < subsCount; i++) {
-            if(BaseSettings.debug) {
+            if (BaseSettings.debug) {
                 logger.info("Getting subtitle: " + i);
             }
             Path subsPath = Path.of("subs-" + i + ".srt");

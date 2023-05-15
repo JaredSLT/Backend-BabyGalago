@@ -101,7 +101,7 @@ public class LoginEndpointsController extends BasicController {
                     ExtendedUserEntity userEntity = getUser(jsonUser.getUsername(), jsonUser.getPassword(), httpRequest);
                     if (userEntity != null) {
                         if (settingsController.isDebug()) {
-                            if(BaseSettings.debug) {
+                            if (BaseSettings.debug) {
                                 logger.info("Successfully logged in: " + userEntity.getUsername());
                             }
                         }

@@ -1,6 +1,5 @@
 package tech.tresearchgroup.babygalago.controller.endpoints.ui;
 
-import io.activej.bytebuf.ByteBuf;
 import io.activej.http.HttpCookie;
 import io.activej.http.HttpRequest;
 import io.activej.http.HttpResponse;
@@ -140,7 +139,7 @@ public class MainEndpointsController extends BasicController {
         boolean loggedIn = verifyApiKey(httpRequest);
         ExtendedUserEntity userEntity = (ExtendedUserEntity) getUser(httpRequest, extendedUserEntityController);
         PermissionGroupEnum permissionGroupEnum = PermissionGroupEnum.ALL;
-        if(userEntity != null) {
+        if (userEntity != null) {
             permissionGroupEnum = userEntity.getPermissionGroup();
         }
         return ok(
@@ -320,21 +319,12 @@ public class MainEndpointsController extends BasicController {
      */
     public Promisable<HttpResponse> loginUI(HttpRequest httpRequest) {
         try {
-            ByteBuf data = httpRequest.loadBody().getResult();
-            if (data != null) {
-                if (data.canRead()) {
-                    String username = httpRequest.getPostParameter("username");
-                    String password = httpRequest.getPostParameter("password");
-                    ExtendedUserEntity userEntity = loginEndpointsController.getUser(username, password, httpRequest);
-                    if (userEntity != null) {
-                        return HttpResponse.redirect301("/").withCookie(HttpCookie.of("authorization", userEntity.getApiKey()));
-                    }
-                }
-            } else {
-                if (settingsController.isDebug()) {
-                    logger.info("No data submitted during ui login. Redirecting to logout...");
-                }
-                redirect("/logout");
+            httpRequest.loadBody();
+            String username = httpRequest.getPostParameter("username");
+            String password = httpRequest.getPostParameter("password");
+            ExtendedUserEntity userEntity = loginEndpointsController.getUser(username, password, httpRequest);
+            if (userEntity != null) {
+                return HttpResponse.redirect301("/").withCookie(HttpCookie.of("authorization", userEntity.getApiKey()));
             }
         } catch (Exception e) {
             if (settingsController.isDebug()) {
@@ -486,7 +476,7 @@ public class MainEndpointsController extends BasicController {
                 RegistrationErrorsEnum.valueOf(error),
                 loggedIn,
                 notificationEntityController.getNumberOfUnread(userEntity),
-                userEntity.getPermissionGroup(),
+                permissionGroupEnum,
                 settingsController.getServerName(),
                 settingsController.isEnableUpload(),
                 settingsController.isMovieLibraryEnable(),
@@ -511,6 +501,7 @@ public class MainEndpointsController extends BasicController {
      * @throws IOException               if it fails
      */
     public @NotNull Promisable<HttpResponse> postRegister(@NotNull HttpRequest httpRequest) throws SQLException, InvocationTargetException, NoSuchMethodException, IllegalAccessException, InstantiationException, IOException {
+        httpRequest.loadBody();
         String username = httpRequest.getPostParameter("username");
         String email = httpRequest.getPostParameter("email");
         String emailConfirm = httpRequest.getPostParameter("emailConfirm");
@@ -570,7 +561,7 @@ public class MainEndpointsController extends BasicController {
         boolean loggedIn = verifyApiKey(httpRequest);
         ExtendedUserEntity userEntity = (ExtendedUserEntity) getUser(httpRequest, extendedUserEntityController);
         PermissionGroupEnum permissionGroupEnum = PermissionGroupEnum.ALL;
-        if(userEntity != null) {
+        if (userEntity != null) {
             permissionGroupEnum = userEntity.getPermissionGroup();
         }
         return ok(
@@ -604,8 +595,10 @@ public class MainEndpointsController extends BasicController {
     public Promisable<HttpResponse> news(HttpRequest httpRequest) throws IOException, SQLException, InvocationTargetException, NoSuchMethodException, IllegalAccessException, InstantiationException {
         UserSettingsEntity userSettingsEntity = null;
         ExtendedUserEntity userEntity = (ExtendedUserEntity) getUser(httpRequest, extendedUserEntityController);
+        PermissionGroupEnum permissionGroupEnum = PermissionGroupEnum.ALL;
         if (userEntity != null) {
             userSettingsEntity = userEntity.getUserSettings();
+            permissionGroupEnum = userEntity.getPermissionGroup();
         }
         int maxResults = settingsController.getMaxBrowseResults(userSettingsEntity);
         int page = httpRequest.getQueryParameter("page") != null ? Integer.parseInt(Objects.requireNonNull(httpRequest.getQueryParameter("page"))) : 0;
@@ -617,7 +610,7 @@ public class MainEndpointsController extends BasicController {
                 page,
                 maxPage,
                 notificationEntityController.getNumberOfUnread(userEntity),
-                userEntity.getPermissionGroup(),
+                permissionGroupEnum,
                 settingsController.getServerName(),
                 settingsController.isEnableUpload(),
                 settingsController.isMovieLibraryEnable(),
@@ -685,7 +678,7 @@ public class MainEndpointsController extends BasicController {
         boolean loggedIn = verifyApiKey(httpRequest);
         ExtendedUserEntity userEntity = (ExtendedUserEntity) getUser(httpRequest, extendedUserEntityController);
         PermissionGroupEnum permissionGroupEnum = PermissionGroupEnum.ALL;
-        if(userEntity != null) {
+        if (userEntity != null) {
             permissionGroupEnum = userEntity.getPermissionGroup();
         }
         return ok(
@@ -1342,11 +1335,15 @@ public class MainEndpointsController extends BasicController {
         try {
             boolean loggedIn = verifyApiKey(httpRequest);
             ExtendedUserEntity userEntity = (ExtendedUserEntity) getUser(httpRequest, extendedUserEntityController);
+            PermissionGroupEnum permissionGroupEnum = PermissionGroupEnum.ALL;
+            if(userEntity != null) {
+                permissionGroupEnum = userEntity.getPermissionGroup();
+            }
             return ok(
                 errorPage.render(
                     loggedIn,
                     notificationEntityController.getNumberOfUnread(userEntity),
-                    userEntity.getPermissionGroup(),
+                    permissionGroupEnum,
                     settingsController.getServerName(),
                     settingsController.isEnableUpload(),
                     settingsController.isMovieLibraryEnable(),

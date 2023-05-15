@@ -28,18 +28,18 @@ import tech.tresearchgroup.babygalago.view.endpoints.ui.MainEndpoints;
 import tech.tresearchgroup.babygalago.view.endpoints.ui.PlayEndpoints;
 import tech.tresearchgroup.babygalago.view.endpoints.ui.UIUserEndpoints;
 import tech.tresearchgroup.colobus.controller.modules.ForumControllersModule;
+import tech.tresearchgroup.palila.controller.MultiThreadedHttpsServerLauncher;
 
 import java.util.Arrays;
 
 public class Main extends MultiThreadedHttpsServerLauncher {
-    private static final Logger logger = LoggerFactory.getLogger(Main.class);
     public static final String VERSION = "V1.0.0";
-
     /**
      * This is used to combine all servlets together
      */
     public static final Multibinder<RoutingServlet> SERVLET_MULTIBINDER =
         Multibinders.ofBinaryOperator((servlet1, servlet2) -> servlet1.merge(servlet2));
+    private static final Logger logger = LoggerFactory.getLogger(Main.class);
 
     /**
      * This is the beginning of the program

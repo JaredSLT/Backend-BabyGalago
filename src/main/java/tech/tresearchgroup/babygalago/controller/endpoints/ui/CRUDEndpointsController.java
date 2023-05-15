@@ -93,7 +93,7 @@ public class CRUDEndpointsController extends BasicController {
                 }
                 boolean loggedIn = verifyApiKey(httpRequest);
                 PermissionGroupEnum permission = PermissionGroupEnum.ALL;
-                if(userEntity != null) {
+                if (userEntity != null) {
                     permission = userEntity.getPermissionGroup();
                 }
                 byte[] data = viewPage.render(

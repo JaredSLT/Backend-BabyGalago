@@ -17,7 +17,7 @@ public class ConverterWorker implements Job {
             try {
                 //Todo accept incoming requests
                 for (int i = 0; i < QueueEntityController.jobs.size(); i++) {
-                    if(BaseSettings.debug) {
+                    if (BaseSettings.debug) {
                         logger.info(QueueEntityController.jobs.get(i).toString());
                     }
                     QueueEntityController.jobs.remove(i);

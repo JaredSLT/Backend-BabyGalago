@@ -12,7 +12,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class MusicLibraryScanTask implements Job {
     private static final Logger logger = LoggerFactory.getLogger(MusicLibraryScanTask.class);
@@ -21,7 +20,7 @@ public class MusicLibraryScanTask implements Job {
         List<Path> files = Files.list(libraryPath).toList();
         List<String> submissions = new LinkedList<>();
         for (Path filePath : files) {
-            if(BaseSettings.debug) {
+            if (BaseSettings.debug) {
                 logger.info(String.valueOf(filePath.toAbsolutePath()));
             }
         }
@@ -30,7 +29,7 @@ public class MusicLibraryScanTask implements Job {
     @Override
     public void execute(JobExecutionContext context) {
         try {
-            if(BaseSettings.debug) {
+            if (BaseSettings.debug) {
                 logger.info("Scanning: " + SettingsEntity.musicLibraryPath);
             }
             processMusic(Path.of(SettingsEntity.musicLibraryPath));

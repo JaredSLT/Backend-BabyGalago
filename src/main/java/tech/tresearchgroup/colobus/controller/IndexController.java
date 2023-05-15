@@ -34,7 +34,7 @@ public class IndexController extends BasicController {
     public Promisable<HttpResponse> index(HttpRequest httpRequest) throws IOException, SQLException, InvocationTargetException, IllegalAccessException, InstantiationException {
         ExtendedUserEntity userEntity = (ExtendedUserEntity) getUser(httpRequest, extendedUserEntityController);
         PermissionGroupEnum permissionGroupEnum = PermissionGroupEnum.ALL;
-        if(userEntity != null) {
+        if (userEntity != null) {
             permissionGroupEnum = userEntity.getPermissionGroup();
         }
         boolean loggedIn = verifyApiKey(httpRequest);

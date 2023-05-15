@@ -61,14 +61,14 @@ public class MediaTypeEndpointsController extends BasicController {
         String mediaType = httpRequest.getPathParameter("mediaType");
         Class className = ReflectionMethods.findClass(mediaType, settingsController.getEntityPackages());
         if (className == null) {
-            if(BaseSettings.debug) {
+            if (BaseSettings.debug) {
                 logger.info("Class null");
             }
             return error();
         }
         GenericController genericController = getController(className, controllers);
         if (genericController == null) {
-            if(BaseSettings.debug) {
+            if (BaseSettings.debug) {
                 logger.info("Controller null");
             }
             return error();
@@ -297,7 +297,7 @@ public class MediaTypeEndpointsController extends BasicController {
                 logger.info("IMAGE");
             } else if (VideoFileEntity.class.equals(theClass)) {
                 VideoFileEntity videoFileEntity = (VideoFileEntity) controller.readSecureResponse(mediaId, ReturnType.OBJECT, httpRequest);
-                if(BaseSettings.debug) {
+                if (BaseSettings.debug) {
                     logger.info(videoFileEntity.getPath());
                 }
                 return handle206(Path.of(videoFileEntity.getPath()), settingsController.getChunk(), httpRequest);

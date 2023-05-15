@@ -79,15 +79,21 @@ public class UserSettingsEntityController extends GenericController {
      */
     public Promisable<HttpResponse> read(HttpRequest httpRequest) throws SQLException, InvocationTargetException, InstantiationException, IllegalAccessException, IOException {
         ExtendedUserEntity user = (ExtendedUserEntity) getUser(httpRequest, extendedUserEntityController);
-        UserSettingsEntity userSettingsEntity = user.getUserSettings();
-        if (userSettingsEntity == null) {
-            userSettingsEntity = new UserSettingsEntity();
+        UserSettingsEntity userSettingsEntity = new UserSettingsEntity();
+        PermissionGroupEnum permissionGroupEnum = PermissionGroupEnum.ALL;
+        if(user != null) {
+            if(user.getUserSettings() != null) {
+                userSettingsEntity = user.getUserSettings();
+            }
+            if(user.getPermissionGroup() != null) {
+                permissionGroupEnum = user.getPermissionGroup();
+            }
         }
         return ok(
             userSettingsPage.render(
                 true,
                 notificationEntityController.getNumberOfUnread(user),
-                user.getPermissionGroup(),
+                permissionGroupEnum,
                 settingsController.getServerName(),
                 settingsController.isEnableUpload(),
                 settingsController.isMovieLibraryEnable(),

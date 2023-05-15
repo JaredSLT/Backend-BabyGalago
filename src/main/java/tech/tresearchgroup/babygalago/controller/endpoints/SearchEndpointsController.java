@@ -118,7 +118,7 @@ public class SearchEndpointsController extends BasicController {
     public Promisable<HttpResponse> searchUIResponse(HttpRequest httpRequest) throws Exception {
         try {
             long start = System.currentTimeMillis();
-            httpRequest.loadBody().getResult();
+            System.out.println(httpRequest.loadBody().getResult());
             String query = httpRequest.getPostParameter("query");
             if (query != null) {
                 if (query.length() > 0) {
@@ -161,8 +161,8 @@ public class SearchEndpointsController extends BasicController {
                     return redirect("/search?errorType=length");
                 }
             }
-        } catch (Exception e){
-            if(BaseSettings.debug) {
+        } catch (Exception e) {
+            if (BaseSettings.debug) {
                 e.printStackTrace();
             }
         }
@@ -181,7 +181,7 @@ public class SearchEndpointsController extends BasicController {
         boolean loggedIn = verifyApiKey(httpRequest);
         ExtendedUserEntity extendedUserEntity = (ExtendedUserEntity) getUser(httpRequest, extendedUserEntityController);
         PermissionGroupEnum permissionGroupEnum = PermissionGroupEnum.ALL;
-        if(extendedUserEntity != null) {
+        if (extendedUserEntity != null) {
             permissionGroupEnum = extendedUserEntity.getPermissionGroup();
         }
         long timeTaken = (System.currentTimeMillis() - start);

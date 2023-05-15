@@ -13,7 +13,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class MovieLibraryScanTask implements Job {
     private static final Logger logger = LoggerFactory.getLogger(MovieLibraryScanTask.class);

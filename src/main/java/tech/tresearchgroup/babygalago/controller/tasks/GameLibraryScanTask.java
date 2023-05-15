@@ -12,7 +12,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class GameLibraryScanTask implements Job {
     private static final Logger logger = LoggerFactory.getLogger(GameLibraryScanTask.class);
@@ -21,7 +20,7 @@ public class GameLibraryScanTask implements Job {
         List<Path> files = Files.list(libraryPath).toList();
         List<String> submissions = new LinkedList<>();
         for (Path filePath : files) {
-            if(BaseSettings.debug) {
+            if (BaseSettings.debug) {
                 logger.info(String.valueOf(filePath.toAbsolutePath()));
             }
         }

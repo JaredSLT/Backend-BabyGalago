@@ -71,7 +71,7 @@ public class TaskController {
     private Trigger setupTrigger(BaseMediaTypeEnum mediaType) {
         int time = calculateTime(mediaType);
         if (time == -1) {
-            if(BaseSettings.debug) {
+            if (BaseSettings.debug) {
                 logger.error("Failed to calculate time for: " + mediaType);
             }
             return null;
